@@ -1,0 +1,24 @@
+@import '../../marketplace.css';
+
+.buttonGroup {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.button {
+  display: inline-block;
+  width: 30%;
+  margin-top: 20px;
+  margin: 10px;
+  float: right;
+}
+
+.select {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.textArea {
+
+}

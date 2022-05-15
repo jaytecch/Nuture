@@ -1,0 +1,7 @@
+@import '../../../marketplace.css';
+
+.root,
+.pencil {
+  stroke: var(--nuPink);
+  enable-background:new 0 0 469.336 469.336;
+}

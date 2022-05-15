@@ -1,0 +1,159 @@
+@import '../../marketplace.css';
+
+.root {
+
+}
+
+.cardContainer{
+  background-image: url("../../assets/wavy-background/wavy-background.jpg");
+  background-size: contain;
+  min-height: 100%;
+
+}
+
+.card {
+     margin-bottom: 25px;
+     margin-right: 30px;
+     width: 360px;
+     height: 240px;
+     padding: 20px 15px;
+     text-align: center;
+     display: flex;
+     background-color: white;
+     flex-direction: column;
+
+  @media (max-width: 800px) {
+    padding: 15px!important;
+    width: 259px;
+    height: 175px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+.card:last-child {
+  margin-right: 0px;
+}
+.blank:last-child {
+  margin-right: 0px;
+}
+
+.blank {
+  background-color: transparent;
+  box-shadow: none;
+  color:white;
+  border: 0;
+  margin-bottom: 25px;
+  margin-right: 18px;
+  width: 360px;
+  height: 240px;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 768px) {
+    display: none;
+    }
+}
+
+
+.centered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cardContent {
+
+}
+
+.row {
+  display: flex;
+  color: var(--nuPink);
+  font-weight: 600;
+  font-size: 20px;
+  justify-content: center;
+
+  @media(max-width: 780px) {
+     display: grid;
+
+   }
+}
+
+.text {
+  font-size: 14px;
+  letter-spacing: 0px;
+  width: 90%;
+  margin: 10px auto 0 auto;
+  line-height: 1.5;
+  text-align: center;
+  color: black;
+  overflow: hidden;
+}
+.specialistText {
+  color: var(--nuPink);
+}
+
+.missionText {
+  color: var(--nuPink);
+  text-align: center;
+  font-size: 42px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.mission {
+  display:flex;
+  flex-direction: row;
+}
+
+.logo {
+  margin: 0 auto;
+  width: 374px;
+  height: 374px;
+}
+
+.iconCard{
+  align-content: center;
+  margin: 7% auto 2% auto;
+}
+
+.headerText {
+  color: #e36253;
+  margin-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.ourServicesText, .headerText {
+  margin-top: 5% !important;
+  color: #e36253;
+  text-align: center;
+
+    @media (--viewportMobileMedium) {
+       font-size: 20px;
+      font-weight: 600;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.5;
+      letter-spacing: normal;
+      text-align: center;
+   }
+}
+
+.subtitleText{
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+
+  @media(--viewportMobileMedium){
+    width:80%;
+  }
+
+}
+
+.ulMargin{
+  margin-right: auto;
+  margin-left:auto;
+
+
+}

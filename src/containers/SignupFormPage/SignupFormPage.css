@@ -1,0 +1,324 @@
+@import '../../marketplace.css';
+
+.error {
+  margin-top: 5px;
+
+  @media (--viewportMedium) {
+    margin-top: 4px;
+  }
+  @media (--viewportLarge) {
+    margin-top: 3px;
+  }
+}
+
+.error {
+  color: var(--failColor);
+}
+
+.aside {
+  box-shadow: none;
+}
+
+.sectionHeading {
+  @apply --marketplaceH2FontStyles;
+  color: var(--nuPink);
+}
+
+.asideContent {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid var(--matterColorNegative);
+
+  @media (--viewportLarge) {
+    flex-direction: column;
+    border-bottom: none;
+  }
+}
+
+.avatar {
+  margin: 30px 26px 29px 0;
+  flex-shrink: 0;
+
+  @media (--viewportLarge) {
+    margin: 0 96px 44px 0;
+    width: 320px;
+    height: 320px;
+  }
+}
+
+.heroContainer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+
+  top: 0px;
+  left: 0px;
+
+  width: 410px;
+  height: 100%;
+}
+
+.heroContent {
+  background-size: cover !important;
+  background-repeat: no-repeat;
+  background: var(--nuBackground) url('../../assets/crib/crib.png') 0 0;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  @media (--viewportLarge) {
+    background-position: center center;
+  }
+}
+
+.mobileHeading {
+  flex-shrink: 0;
+  margin: 47px 0 0 0;
+
+  @media (--viewportMedium) {
+    margin: 49px 0 0 0;
+  }
+  @media (--viewportLarge) {
+    display: none;
+  }
+}
+
+.editLinkMobile {
+  margin-top: 17px;
+
+  /* Pull the link to the end of the container */
+  margin-left: auto;
+
+  @media (--viewportMedium) {
+    margin-top: 20px;
+  }
+  @media (--viewportLarge) {
+    display: none;
+  }
+}
+
+.editLinkDesktop {
+  display: none;
+
+  @media (--viewportLarge) {
+    display: inline;
+  }
+}
+
+.desktopHeading {
+  display: none;
+
+  @media (--viewportLarge) {
+    display: block;
+    padding-right: 100px;
+    margin: 2px 0 24px 0;
+  }
+}
+
+.bio {
+  /* Preserve newlines, but collapse other whitespace */
+  white-space: pre-line;
+  margin: 5px 0 24px 0;
+
+  @media (--viewportMedium) {
+    margin: 4px 0 51px 0;
+  }
+  @media (--viewportLarge) {
+    margin: 0 0 56px 0;
+    max-width: 600px;
+  }
+}
+
+.listingsContainer {
+  @apply --clearfix;
+  border-top: 1px solid var(--matterColorNegative);
+  border-bottom: 1px solid var(--matterColorNegative);
+  padding-bottom: 23px;
+
+  @media (--viewportMedium) {
+    padding-bottom: 22px;
+  }
+}
+
+.listingsTitle {
+  @apply --marketplaceH3FontStyles;
+  color: var(--matterColorAnti);
+  margin-bottom: 0;
+
+  @media (--viewportMedium) {
+    margin-top: 48px;
+    margin-bottom: 8px;
+  }
+  @media (--viewportLarge) {
+    margin-top: 58px;
+    margin-bottom: 8px;
+  }
+}
+
+.withBioMissingAbove {
+  /* Avoid extra borders in mobile when bio is missing */
+  border-top: none;
+
+  @media (--viewportLarge) {
+    border-top: 1px solid var(--matterColorNegative);
+  }
+}
+
+.listings {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.listing {
+  width: 100%;
+
+  /* Single column in mobile */
+  margin-top: 34px;
+  &:first-of-type {
+    margin-top: 18px;
+  }
+
+  @media (--viewportMedium) {
+    /* Two columns in desktop */
+    width: calc(50% - 12px);
+    margin-bottom: 36px;
+
+    /* Horizontal space */
+    &:nth-of-type(odd) {
+      margin-right: 12px;
+    }
+    &:nth-of-type(even) {
+      margin-left: 12px;
+    }
+
+    /* Vertical space */
+    margin-top: 0;
+    &:nth-of-type(1),
+    &:nth-of-type(2) {
+      margin-top: 20px;
+    }
+  }
+}
+
+.mobileReviewsTitle {
+  @apply --marketplaceH3FontStyles;
+  color: var(--matterColorAnti);
+  margin: 24px 0 26px 0;
+}
+
+.mobileReviews {
+  margin-bottom: 36px;
+}
+
+.desktopReviews {
+  margin-top: 28px;
+
+  @media (--viewportMedium) {
+    margin-bottom: 48px;
+  }
+
+  @media (--viewportLarge) {
+    max-width: 600px;
+    margin-bottom: 0;
+  }
+}
+
+.desktopReviewsTitle {
+  @apply --marketplaceH3FontStyles;
+  margin-bottom: 0;
+}
+
+.desktopReviewsTabNav {
+  margin-bottom: 32px;
+}
+
+.contentContainer {
+  @media (--viewportMedium) {
+    max-width: 1056px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    position: relative;
+  }
+
+  @media (--viewportLarge) {
+    max-width: 1128px;
+    padding: 0 36px;
+    margin: 10% auto 117px 15%;
+  }
+
+  @media (--viewportXLarge) {
+    max-width: 1056px;
+    padding: 0;
+  }
+}
+
+.mainContent {
+  flex-basis: 100%;
+  margin-bottom: 23px;
+  display: flex;
+
+
+  @media (--viewportMedium) {
+    margin-top: 50px;
+    margin-bottom: 51px;
+    flex-shrink: 0;
+  }
+
+  @media (--viewportLarge) {
+    margin-top: 50px;
+    margin-bottom: 0px;
+    flex-basis: calc(100% - 433px);
+    flex-shrink: 0;
+    flex-grow: 1;
+  }
+}
+
+.headingAndButtons {
+  display: flex;
+  flex-direction: row;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.messageModalContent {
+  flex-grow: 1;
+  display: flex;
+}
+
+.messageForm {
+  flex-grow: 1;
+  margin: 70px 0 100px 0;
+
+  @media (--viewportMedium) {
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+    margin: 0;
+  }
+}
+.messageSubmitButtonWrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  background-color: var(--matterColorLight);
+
+  @media (--viewportMedium) {
+    position: static;
+    padding: 0;
+    margin-top: auto;
+  }
+}

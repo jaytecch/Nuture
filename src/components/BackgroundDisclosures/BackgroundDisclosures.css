@@ -1,0 +1,595 @@
+@import '../../marketplace.css';
+
+.root {
+  & p {
+    @apply --marketplaceH4FontStyles;
+
+    @media (--viewportMobileMedium) {
+      font-size: 12px;
+    }
+  }
+
+  & h2 {
+    /* Adjust heading margins to work with the reduced body font size */
+    margin: 23px 0 19px 0;
+
+    @media (--viewportMedium) {
+      margin: 24px 0 24px 0;
+    }
+  }
+
+  & .lastUpdated {
+    @apply --marketplaceBodyFontStyles;
+    margin-top: 0;
+    margin-bottom: 55px;
+
+    @media (--viewportMedium) {
+      margin-top: 0;
+      margin-bottom: 54px;
+    }
+    @media (max-width: 768px) {
+      margin-top: 100px;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 100%;
+
+    }
+  }
+}
+
+.acknowledgeReceipt {
+  justify-content: space-between;
+  margin-top: 15px;
+  margin-left: 33%;
+  font-weight: bold;
+
+  @media (--viewportMobileMedium) {
+    margin-top: 15px;
+  }
+}
+
+.nextButton {
+  /* This container uses flexbox layout */
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+
+  margin-left: 70%;
+
+
+  /* parent aka root is flexbox, this container takes all available space */
+  /*flex-grow: 1;*/
+  /*flex-shrink: 0;*/
+  /*flex-wrap: wrap;*/
+
+  @media (--viewportSmall) {
+    flex-wrap: nowrap;
+  }
+  @media (max-width: 780px) {
+    margin-left: 50%;
+    width: 50%;
+  }
+}
+
+.acknowledgeReceiptText {
+  @apply --marketplaceH5FontStyles;
+  color: var(--matterColor);
+  /*margin-top: 15px;*/
+  margin-bottom: 0px;
+  cursor: pointer;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: bold;
+
+  @media (--viewportMobileMedium) {
+    /*margin-top: 15px;*/
+  }
+}
+
+.ackAndAuthCheckText {
+  @apply --marketplaceH5FontStyles;
+  color: var(--matterColor);
+  /*margin-top: 15px;*/
+  margin-bottom: 0px;
+  cursor: pointer;
+  font-size: 15px;
+  cursor: pointer;
+
+  @media (--viewportMobileMedium) {
+    /*margin-top: 15px;*/
+
+  }
+}
+
+
+.scrolling {
+  background-color: #FFFFFF;
+  margin: 4px 4px;
+  padding: 4px;
+
+  max-height: 500px;
+
+  overflow-y: auto;
+  text-align: justify;
+
+  @media (--viewportMobileMedium) {
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+
+  }
+}
+
+
+.fullName {
+  padding-top: 24px;
+}
+
+.noMiddleName {
+  justify-content: space-between;
+  margin-top: 5px;
+  margin-left: 33%;
+
+
+  @media (--viewportMedium) {
+    margin-top: 10px;
+  }
+
+  @media (--viewportMobileMedium) {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 40px;
+
+  }
+
+
+}
+
+.noMiddleNameText {
+  @apply --marketplaceH5FontStyles;
+  color: var(--matterColor);
+  margin-top: 3px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+
+.name {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+
+  @media (--viewportMedium) {
+    margin-top: 24px;
+  }
+
+  @media (--viewportMobileMedium) {
+    display: block;
+
+  }
+}
+
+.firstNameRoot {
+  width: calc(34% - 9px);
+  @media (--viewportMobileMedium) {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 40px;
+
+  }
+}
+
+.lastNameRoot {
+  width: calc(66% - 9px);
+  @media (--viewportMobileMedium) {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 80px;
+
+  }
+}
+
+.firstNameBackground {
+  width: calc(33% - 9px);
+  @media (--viewportMobileMedium) {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 80px;
+    text-align: center;
+
+  }
+}
+
+.middleNameBackground {
+  width: calc(33% - 9px);
+  @media (--viewportMobileMedium) {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 80px;
+    text-align: center;
+
+  }
+}
+
+.lastNameBackground {
+  width: calc(33% - 9px);
+  @media (--viewportMobileMedium) {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 80px;
+    text-align: center;
+
+  }
+}
+
+.birthDateContainer {
+  dislpay: flex;
+  margin-right: 10px;
+}
+
+.dobRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+
+  @media (--viewportMedium) {
+    margin-top: 24px;
+  }
+
+  @media (--viewportMobileMedium) {
+    display: block;
+    text-align: center;
+    width: 100%;
+
+  }
+}
+
+
+.dobBackground {
+  width: 100%;
+
+  &:after {
+    content: "";
+    float: left;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+
+    transition: background var(--transitionStyle);
+  }
+
+  &:hover,
+  &:focus {
+    &:after {
+      background: var(--nuYellow);
+    }
+  }
+
+  @media (--viewportMobileMedium) {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 150px;
+    text-align: center;
+    margin-bottom: 40px;
+
+  }
+}
+
+.ssnBackground {
+  width: calc(40% - 9px);
+  @media (--viewportMobileMedium) {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 80px;
+    text-align: center;
+    margin-top: 80px;
+
+  }
+}
+
+.zipBackground {
+  width: calc(35% - 9px);
+  @media (--viewportMobileMedium) {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 80px;
+    text-align: center;
+
+  }
+}
+
+.licenseNumberBackground {
+  width: calc(45% - 9px);
+  @media (--viewportMobileMedium) {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 80px;
+    text-align: center;
+
+  }
+}
+
+.licenseStateBackground {
+  width: calc(20% - 9px);
+  @media (--viewportMobileMedium) {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 80px;
+    text-align: center;
+
+  }
+}
+
+.welcomeHeaderText {
+  text-align: center;
+
+  @media (--viewportMedium) {
+    margin-top: 24px;
+  }
+
+  @media (max-width: 780px) {
+    font-size: 30px;
+  }
+}
+
+.welcomeMessageText {
+
+  margin-top: 20px;
+  color: var(--nuPink);
+  align-text: center;
+  justify-content: center;
+  display: flex;
+
+}
+
+.backgroundNotice {
+  /* width: 100%; */
+  font-size: 20px;
+  height: 100px;
+  color: var(--nuPink);
+  word-wrap: break-word;
+  display: block;
+  text-align: center;
+
+}
+
+.welcomeMsgContent {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+
+}
+
+.signupButton {
+
+
+  /* Dimensions */
+  display: block;
+  width: 350px;
+  margin: 0 25px 0 0;
+
+
+  font-size: 20px;
+  font-weight: bold;
+
+  /* Padding is only for <a> elements where button styles are applied,
+  buttons elements should have zero padding */
+  padding: 5px 5px;
+
+  /* Borders */
+  border: none;
+  border-radius: var(--nuButtonRadius);
+
+  /* Colors */
+  background: var(--nuPink);
+//background-size: 100% 200%; color: white;
+
+  /* Text */
+  text-align: center;
+  text-decoration: none;
+
+  /* Effects */
+  transition: all var(--transitionStyleButton);
+  cursor: pointer;
+
+  &:hover {
+    /*outline: none;*/
+    /*background: var(--nuYellow);*/
+    text-decoration: none;
+    box-shadow: var(--boxShadowButton);
+    background: var(--nuPink);
+  }
+
+  &:disabled {
+    background: var(--matterColor);
+
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+
+  margin-top: 24px !important;
+  margin-bottom: auto;
+  margin-right: auto;
+  margin-left: auto;
+
+  &:active {
+    box-shadow: none;
+  }
+
+  @media (--viewportMobileMedium) {
+    /*width:40%;*/
+    /*display: inline-block;*/
+    width: 80%;
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px !important;
+
+  }
+}
+
+
+.error {
+  @apply --marketplaceModalErrorStyles;
+  font-weight: bold;
+}
+
+.link {
+
+  /* Font */
+  @apply --marketplaceH4FontStyles;
+  line-height: 20px;
+  color: white;
+  transition: var(--transitionStyleButton);
+
+  margin-top: 0;
+  margin-bottom: 12px;
+
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  @media (--viewportMedium) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  stroke: var(--nuYellow);
+  stroke-width: 3px;
+  margin: auto;
+}
+
+.backgroundSubmitted {
+  @apply --marketplaceH4FontStyles;
+  line-height: 40px;
+  font-size: 30px;
+  color: var(--nuPink);
+
+  @media (--viewportMobileMedium) {
+    display: block;
+    margin-top: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80vw;
+    text-align: center;
+  }
+}
+
+.skipText {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 25px !important;
+  font-weight: bold;
+  text-align: center !important;
+  margin-top: 40px;
+}
+
+.downloadLink {
+  color: var(--nuPink);
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  @media (--viewportMobileMedium) {
+    margin-top: 24px !important;
+  }
+
+}
+
+.downloadLinkContainer {
+  margin-bottom: 40px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+
+  @media (--viewportMobileMedium) {
+    margin-top: 24px !important;
+  }
+}
+
+.SingleDatePicker {
+  .SingleDatePickerInput__withBorder {
+    width: 80vw;
+
+  }
+
+  .SingleDatePickerInput_calendarIcon {
+    position: absolute;
+    right: 0;
+    padding: 0 10px;
+    line-height: 50px;
+  }
+}
+
+.customDatePickerWidth,
+.customDatePickerWidth > div.react-datepicker-wrapper,
+.customDatePickerWidth > div > div.react-datepicker__input-container
+.customDatePickerWidth > div > div.react-datepicker__input-container input {
+  width: 100%;
+}
+
+.datepicker {
+  width: 100%;
+
+  .DateInput {
+    width: 200px;
+  }
+}
+
+.backgroundHeaderSubText {
+  justify-content: space-between;
+  margin-top: 5px;
+  color: #666666;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 20px;
+  line-height: 20px;
+  letter-spacing: 0px;
+
+  @media (max-width: 768px) {
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+}
+
+.checkbox {
+  margin-top: 15px;
+}

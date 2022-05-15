@@ -1,0 +1,105 @@
+@import '../../marketplace.css';
+
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.listingCards {
+  padding: 0 24px;
+
+  @media (--viewportMobileLarge) {
+    padding: 0;
+  }
+
+  @media (--viewportLarge) {
+    //padding: 0 36px 96px 36px;
+  }
+}
+
+.listingCard {
+  margin-bottom: 36px;
+  flex-basis: 100%;
+
+  @media (--viewportMobileLarge) {
+    margin-bottom: 0px;
+    width: 100vw;
+  }
+
+  @media (--viewportXLarge) {
+    flex-basis: calc(33.33% - 16px);
+    margin-right: 24px;
+  }
+}
+
+/**
+ * Remove margin-right from listingCards on the last column
+ * This is a special case in the world of breakpoints. Nth-of-type effects every nth item.
+ * Here we take margin-right away, but we don't want it affect the next column breakpoint.
+ */
+
+.listingCard:nth-of-type(2n) {
+  @media screen and (min-width: 1024px) and (max-width: 1920px) {
+    margin-right: 0;
+  }
+}
+
+.listingCard:nth-of-type(3n) {
+  @media (--viewportXLarge) {
+    margin-right: 0;
+  }
+}
+
+.pagination {
+  padding: 0 24px;
+  justify-content: flex-end;
+  height: 0;
+  margin-bottom: 4vh;
+
+  @media (--viewportLarge) {
+    padding: 0 36px;
+  }
+
+  @media (--viewportMobileLarge) {
+    margin-top: 2vh;
+  }
+}
+
+.messageForm {
+  flex-grow: 1;
+  margin: 70px 0 100px 0;
+
+  @media (--viewportMedium) {
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+    margin: 0;
+  }
+}
+
+.messageSubmitButtonWrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  background-color: var(--matterColorLight);
+
+  @media (--viewportMedium) {
+    position: static;
+    padding: 0;
+    margin-top: auto;
+  }
+}
+
+.modalContainer {
+  width: 100%;
+  padding: 94px 0;
+  margin: 0 24px;
+}
+
+.messageModalContent {
+  flex-grow: 1;
+  display: flex;
+}

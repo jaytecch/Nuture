@@ -1,0 +1,36 @@
+@import '../../marketplace.css';
+
+.root {
+}
+
+.select {
+  color: var(--matterColorAnti);
+  border-bottom-color: var(--attentionColor);
+  border-width: 4px;
+  padding-right: 20px;
+
+  & > option {
+    color: var(--matterColor);
+  }
+  & > option:disabled {
+    color: var(--matterColorAnti);
+  }
+
+  &:disabled {
+    border-bottom-color: var(--matterColorNegative);
+    color: var(--matterColorNegative);
+    cursor: default;
+  }
+}
+
+.selectSuccess {
+  color: var(--matterColor);
+  /*border-bottom-color: var(--successColor);*/
+  border-bottom-color: var(--nuPink);
+  border-width: 4px;
+}
+
+.selectError {
+  border-bottom-color: var(--failColor);
+  border-width: 4px;
+}

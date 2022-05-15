@@ -1,0 +1,27 @@
+@import '../../marketplace.css';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: inherit;
+}
+
+.loading {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+.error {
+  margin-left: 24px;
+  margin-right: 24px;
+  color: var(--failColor);
+}
+
+.tabContent {
+  display: none;
+}
+
+.tabContentVisible {
+  display: block;
+}

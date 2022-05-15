@@ -1,0 +1,130 @@
+@import '../../marketplace.css';
+
+
+.buttonsAndPaging {
+  display: flex;
+  justify-content: center;
+
+}
+
+.buttonPrev {
+  padding-right: 20%;
+}
+.paging {
+
+}
+
+.pageStyle {
+
+  width:100%;
+  @media (max-width: 400px) {
+    width: 350px;
+  }
+
+@media (max-width: 768px) {
+  width: 700px;
+}
+
+
+}
+
+.buttonNext {
+  padding-left: 20%
+}
+
+.linkToButton {
+  @apply --marketplaceButtonStylesPrimary;
+  width: 150px;
+  height: 30px;
+  color: white;
+  margin-top: 20px;
+  margin-bottom: 20 px;
+}
+.downloadDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.navButtonRight {
+
+  /*display:flex;*/
+  /*justify-content:right;*/
+  justify-content: flex-end;
+  height: 100%;
+  padding-right: 30px;
+  /*min-height: 59px;*/
+
+
+  /* Padding is only for <a> elements where button styles are applied,
+  buttons elements should have zero padding */
+  /*padding: 20px 0 0 0;*/
+
+  /* Borders */
+  border: none;
+  border-radius: var(--borderRadius);
+  background: url('../../assets/icons/right-arrow32.png') no-repeat;
+}
+
+.navButtonLeft {
+
+  /* Dimensions */
+  /*display: block;*/
+  /*width: 30%;*/
+  /*min-height: 59px;*/
+  padding: 20px;
+
+  border: none;
+  border-radius: var(--borderRadius);
+  background: url('../../assets/icons/left-arrow32.png') no-repeat;
+
+  /* Padding is only for <a> elements where button styles are applied,
+  buttons elements should have zero padding */
+  /*padding: 20px 0 0 0;*/
+
+/*  !* Borders *!*/
+/*  border: none;*/
+/*  border-radius: var(--borderRadius);*/
+
+/*  !* Colors *!*/
+/*  background-color: var(--nuPink);*/
+/*  color: var(--matterColorLight);*/
+
+/*  !* Text *!*/
+/*  text-align: center;*/
+/*  text-decoration: none;*/
+
+/*  !* Effects *!*/
+/*  transition: all var(--transitionStyleButton);*/
+/*  cursor: pointer;*/
+
+/*&:hover,*/
+/*&:focus {*/
+/*   !*outline: none;*!*/
+/*   !*background-color: var(--marketplaceColorDark);*!*/
+/*   !*text-decoration: none;*!*/
+/*   !*box-shadow: var(--boxShadowButton);*!*/
+/* }*/
+/*&:disabled {*/
+/*   !*background-color: var(--matterColorNegative);*!*/
+/*   !*color: var(--matterColorLight);*!*/
+/*   !*cursor: not-allowed;*!*/
+/*   !*box-shadow: none;*!*/
+/* }*/
+
+/*@media (--viewportMedium) {*/
+/*  !*min-height: 65px;*!*/
+/*}*/
+
+
+}
+.react-pdf__Page__canvas{
+
+  display: block;
+  user-select: none;
+  width: 90%;
+  margin-left: auto;
+  /* height: 792px; */
+  /* width: 100%; */
+  margin-right: auto;
+
+}

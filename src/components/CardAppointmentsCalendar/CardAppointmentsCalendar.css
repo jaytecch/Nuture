@@ -1,0 +1,90 @@
+@import '../../marketplace.css';
+
+.root {
+  margin: auto;
+
+  & :global(.CalendarMonth_caption) {
+    @apply --marketplaceH3FontStyles;
+    font-weight: var(--fontWeightMedium);
+    text-align: left;
+    padding-top: 18px;
+    padding-bottom: 55px;
+
+    margin-top: 0;
+    margin-bottom: 0;
+
+    & strong {
+      font-weight: bold;
+      font-size: 18px;
+      letter-spacing: normal;
+      color: var(--nuPink);
+    }
+  }
+
+  & :global(.DayPicker) {
+    margin: 0 auto;
+    box-shadow: none;
+  }
+
+  & :global(.DayPicker__horizontal) {
+    background-color: transparent;
+    margin-left: -18px;
+  }
+
+  & :global(.DayPicker_weekHeader) {
+    top: 65px;
+    color: #e36253;
+
+    & small {
+      @apply --marketplaceH5FontStyles;
+    }
+  }
+
+  & :global(.DayPicker_weekHeader_li) {
+    text-align: left;
+  }
+
+  & :global(.CalendarMonthGrid) {
+    background-color: transparent;
+  }
+
+  & :global(.CalendarMonth) {
+    background-color: transparent;
+  }
+
+  & :global(.CalendarMonth_table) {
+    border: 1px solid var(--ManageAvailabilityCalendar_gridColor);
+  }
+
+  & :global(.CalendarDay__default) {
+    border: 0;
+  }
+
+  & :global(.CalendarDay__selected) {
+    color: var(--matterColor);
+  }
+
+  & :global(.DayPickerKeyboardShortcuts_show__bottomRight) {
+    right: 19px;
+    bottom: -24px;
+  }
+
+  & :global(.CalendarDay__highlighted_calendar) {
+    background: var(--nuPink);
+    color: var(--nuBackground);
+    border-radius: 40px;
+  }
+}
+
+.calendarContent {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.removeNav {
+  display: none;
+}
+
+.selectSection {
+ width: 45%;
+}

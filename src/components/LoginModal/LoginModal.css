@@ -1,0 +1,13 @@
+@import '../../marketplace.css';
+
+.root {
+
+}
+
+css.form {
+
+}
+
+css.error {
+  @apply --marketplaceModalErrorStyles;
+}

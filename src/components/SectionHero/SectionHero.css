@@ -1,0 +1,253 @@
+@import '../../marketplace.css';
+
+:root {
+  /*
+    These variables are available in global scope through ":root"
+    element (<html> tag). Variables with the same names are going to
+    overwrite each other if CSS Properties' (PostCSS plugin)
+    configuration "preserve: true" is used - meaning that variables
+    are left to CSS bundle. We are planning to enable it in the future
+    since browsers support CSS Properties already.
+ */
+
+  --SectionHero_desktopTitleMaxWidth: 625px;
+
+  --SectionHero_animation: {
+    animation-name: animationTitle;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    -webkit-animation-fill-mode: forwards;
+
+    visibility: hidden;
+    opacity: 1;
+    position: relative;
+  }
+}
+
+.contents {
+  z-index: 0;
+  place-self: flex-end;
+  margin-bottom: 2vh;
+  position: absolute;
+  left: 5vw;
+
+  @media (--viewportMobileLarge) {
+    left: unset;
+  }
+}
+
+/* Animation for the hero elements */
+
+@keyframes animationTitle {
+  0% {
+    visibility: hidden;
+    opacity: 0;
+    top: -20px;
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+    top: 0;
+  }
+}
+
+.root {
+  @apply --backgroundImage;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: 100%;
+
+  /* Text positioning is done with paddings */
+}
+
+.searchButton {
+  color: var(--nuPink);
+
+  top: 448px;
+  left: 1016px;
+  width: 292px;
+  height: 186px;
+
+  border: 3px solid var(--nuPink);
+  box-shadow: 4px 4px 6px #00000029;
+  border-radius: 10px;
+  opacity: 1;
+  flex-direction: column;
+}
+
+.h2text {
+  width: 70vw;
+  height: 151px;
+  margin: 0 0 34px;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  font-size: 4vw;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.29;
+  letter-spacing: normal;
+  color: #ffffff;
+
+  @media (--viewportMobileLarge) {
+    margin: auto;
+    font-size: 6vw;
+    padding-top: 5vh;
+    text-align: center;
+  }
+}
+
+svg {
+  display: block;
+}
+
+.buttons {
+  color: var(--nuPink);
+}
+
+.searchButtonGroup {
+  display: flex;
+
+  @media (--viewportMobileLarge) {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+.buttonPadding {
+  padding-right: 30px;
+  display: flex;
+  flex-direction: row;
+
+  @media (--viewportMobileLarge) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.buttonPadding a:last-child {
+  margin-left: 5%;
+
+  @media (--viewportMobileLarge) {
+    margin-left: auto;
+  }
+}
+
+
+.toSearchPageButton {
+  @apply --marketplaceButtonStylesPrimary;
+  width: 370px;
+  height: 82px;
+  border-radius: 100px;
+  display: flex;
+  flex-direction: row;
+  padding: 2% 5%;
+
+  @media (--viewportMobileLarge) {
+    width: 200px;
+    height: 45px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 0;
+  }
+}
+
+.PageButtonText {
+  /*margin: auto;*/
+  margin-top: 10px;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  white-space: nowrap;
+  margin-left: 5px;
+  text-align: left;
+
+
+  @media (--viewportMobileLarge) {
+    font-size: 20px;
+
+
+  }
+}
+
+
+.signup {
+  @apply --marketplaceH2FontStyles;
+
+}
+
+.proParentLink {
+  @apply --nuButtonStyles;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+
+  /* Effects */
+  transition: all var(--transitionStyleButton);
+  cursor: pointer;
+
+  &:active {
+    box-shadow: none;
+  }
+
+
+  @media (max-width: 780px) {
+    font-size: 11px;
+  }
+}
+
+.linkSpan {
+  text-decoration: none;
+}
+
+svg {
+  height: 50px;
+  margin: auto 0;
+  stroke: white;
+  stroke-width: 0px;
+  display: flex;
+}
+
+.icon {
+  height: 50px;
+  width: 50px;
+  fill: white;
+
+}
+
+.parentButtonText {
+
+  margin: 9px 0 10px 5px;
+  font-size: 22px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #ffffff;
+
+  @media (--viewportMobileLarge) {
+    font-size: 14px;
+    margin: auto;
+  }
+}
+
+.proButtonText {
+  width: 370px;
+  margin: 9px 0 10px 20px;
+  font-size: 22px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #ffffff;
+
+  @media (--viewportMobileLarge) {
+    font-size: 14px;
+    margin: auto;
+  }
+}

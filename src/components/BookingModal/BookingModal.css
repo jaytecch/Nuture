@@ -1,0 +1,221 @@
+@import '../../marketplace.css';
+
+.root {
+
+}
+
+.pageTitle {
+  text-align: center;
+  margin-bottom: 25px;
+
+  @media (--viewportMobileMedium) {
+    margin-top: 25px !important;
+  }
+}
+
+.serviceButtonsGroup {
+  display: flex;
+
+  @media (--viewportMobileMedium) {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+.serviceButton {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: var(--nuPink);
+
+  top: 502px;
+  left: 734px;
+  width: 144px;
+  height: 139px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+
+  border: 0;
+  box-shadow: 0px 4px 6px #00000029;
+  border-radius: 10px;
+
+  &:hover {
+    text-decoration: none;
+    color: white;
+    background: var(--nuPink);
+  }
+
+  @media (--viewportMobileMedium) {
+    padding: 10px;
+    width: 100%;
+    margin: 20px auto 0 auto;
+  }
+
+}
+
+.serviceIcon {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.serviceText {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.buttonIcon {
+  &:hover {
+    fill: white;
+  }
+}
+
+.buttonSpacing {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.serviceButtonContent {
+  margin: auto
+}
+
+.calendarWrapper {
+  flex-grow: 1;
+  position: relative;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.buttonGroup {
+  display: flex;
+
+  @media (--viewportMobileMedium) {
+    width: 90vw;
+  }
+}
+
+.actionButton {
+  margin-top: auto;
+  margin-bottom: 24px;
+}
+
+.dateSelection {
+
+}
+
+.timeSelection {
+
+  @media (--viewportMobileMedium) {
+    width: 90vw;
+    margin-top: 100px;
+  }
+
+}
+
+.acknowledgeReceiptText {
+  @apply --marketplaceH5FontStyles;
+  color: var(--matterColor);
+  margin-top: 3px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+
+.contractCheck {
+  display: flex;
+  width: 100px;
+  margin-top: 10px;
+  border-radius: 3px;
+  border: 2px solid var(--nuPink);
+  color: var(--nuPink);
+
+}
+
+.contractDiv {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+
+/*Special Checkbox CSS*/
+.checkbox {
+  width: 100px;
+  margin: 15px auto;
+  position: relative;
+  display: block;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 100px;
+  opacity: 0.00000001;
+  position: absolute;
+  left: 0;
+  margin-left: -20px;
+}
+
+.checkbox label {
+  position: relative;
+}
+
+.checkbox label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 4px;
+  width: 22px;
+  height: 22px;
+  transition: transform 0.28s ease;
+  border-radius: 3px;
+  border: 2px solid var(--nuPink);
+}
+
+.checkbox label:after {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 5px;
+  border-bottom: 2px solid var(--nuPink);
+  border-left: 2px solid var(--nuPink);
+  -webkit-transform: rotate(-45deg) scale(0);
+  transform: rotate(-45deg) scale(0);
+  transition: transform ease 0.25s;
+  will-change: transform;
+  position: absolute;
+  top: 12px;
+  left: 10px;
+}
+
+.checkbox input[type="checkbox"]:checked ~ label::before {
+  color: var(--nuPink);
+}
+
+.checkbox input[type="checkbox"]:checked ~ label::after {
+  -webkit-transform: rotate(-45deg) scale(1);
+  transform: rotate(-45deg) scale(1);
+}
+
+.checkbox label {
+  min-height: 34px;
+  display: block;
+  padding-left: 40px;
+  margin-bottom: 0;
+  font-weight: normal;
+  cursor: pointer;
+  vertical-align: sub;
+}
+
+.checkbox label span {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.checkbox input[type="checkbox"]:focus + label::before {
+  outline: 0;
+}
+

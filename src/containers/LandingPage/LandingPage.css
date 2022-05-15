@@ -1,0 +1,322 @@
+@import '../../marketplace.css';
+
+:root {
+  /*
+    These variables are available in global scope through ":root"
+    element (<html> tag). Variables with the same names are going to
+    overwrite each other if CSS Properties' (PostCSS plugin)
+    configuration "preserve: true" is used - meaning that variables
+    are left to CSS bundle. We are planning to enable it in the future
+    since browsers support CSS Properties already.
+ */
+
+  --LandingPage_sectionMarginTop: 40px;
+  --LandingPage_sectionMarginTopMedium: 60px;
+  --LandingPage_sectionMarginTopLarge: 94px;
+}
+
+.root {
+}
+
+/* heroContainer gives the height for SectionHero */
+/* Safari has a bug with vw padding inside flexbox. Therefore we need an extra div (container) */
+/* If you've lot of content for the hero, multiple lines of text, make sure to adjust min-heights for each media breakpoint accordingly */
+.heroRootClass {
+  height: 50vh !important;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin: 0;
+  padding-top: 1px;
+
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+}
+
+/* Square corners for the last section if it's even */
+.section:nth-of-type(2n):last-of-type {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  @media (--viewportMedium) {
+    border-radius: 4px 4px 0 0;
+  }
+
+}
+
+/* Every other section has a light background */
+.section:nth-of-type(2n) {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: var(--matterColorLight);
+  @media (--viewportMedium) {
+    border-radius: 4px;
+  }
+
+}
+
+.sectionContent {
+  margin: var(--LandingPage_sectionMarginTop) 24px 51px 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  @media (--viewportMedium) {
+
+    max-width: 100%;
+    margin: var(--LandingPage_sectionMarginTopMedium) 24px 60px 24px;
+  }
+
+  @media (--viewportLarge) {
+    max-width: 1128px;
+    padding: 0 36px 0 36px;
+    margin: var(--LandingPage_sectionMarginTopLarge) auto 93px auto;
+  }
+
+
+}
+
+
+.sectionContentFirstChild {
+  composes: sectionContent;
+  margin-top: 3vh;
+
+}
+
+/* A bar on top of light sections */
+.section:nth-of-type(2n) .sectionContent::before {
+  background: var(--nuPink);
+  content: '';
+  display: flex;
+  flex-direction: column;
+  width: 109px;
+  height: 6px;
+
+  /* Place the bar on top of .sectionContent top margin */
+  position: relative;
+  top: calc(-1 * var(--LandingPage_sectionMarginTop));
+
+  @media (--viewportMedium) {
+    width: 192px;
+    height: 8px;
+    top: calc(-1 * var(--LandingPage_sectionMarginTopMedium));
+  }
+
+  @media (--viewportLarge) {
+    top: calc(-1 * var(--LandingPage_sectionMarginTopLarge));
+  }
+}
+
+
+.flexcontainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  background: #fff !important;
+
+  @media (--viewportMedium) {
+    width: calc(100%);
+    margin: 5px auto;
+  }
+}
+
+.headerText {
+  color: #D77A66;
+  text-align: center;
+  font-weight: bold;
+  font-size: 30px;
+  margin-right: auto;
+  margin-left: auto;
+
+  @media (--viewportMobileMedium) {
+    font-size: 20px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+
+
+  }
+
+}
+
+.subscribeForm {
+  background: #FFFFFF;
+  border-radius: 25px;
+  display: inline-block;
+
+  justify-content: center;
+  margin-top: 200px;
+  margin-bottom: 200px;
+}
+
+.centerDiv {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+}
+
+.emailInput {
+  margin-left: -70px;
+  display: inline;
+  width: 400px;
+  margin-left: 20px;
+
+  @media (max-width: 768px) {
+    width: 70%;
+    display: inline-flex;
+    font-size: 14px;
+  }
+}
+
+.submitButton {
+  padding: 5px;
+  display: inline;
+  margin-left: -70px;
+}
+
+.subscribeBox {
+  background-color: #FFFFFF;
+  border-radius: 50px;
+  border: 2px solid rgba(112, 112, 112, 0.69);
+  padding: 5px;
+  display: inline-block;
+  justify-content: center;
+  margin: 20px auto;
+  width: max-content;
+  display: flex;
+
+
+  @media (--viewportMobileMedium) {
+    width: 333px;
+    height: 43px;
+    display: inline-flex;
+    margin-right:auto;
+    margin-left:auto;
+  }
+}
+
+.subscribeButton {
+  width: 200px;
+  height: 55px;
+
+
+  @media (--viewportMobileMedium) {
+
+    width: 100px;
+    min-height: 25px;
+    height: 33px !important;
+    font-size: 12px;
+
+  }
+}
+
+.sendingMsg {
+  color: var(--nuYellow);
+}
+
+.successMsg {
+  color: var(--nuPink);
+
+  /*width: 80%;*/
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  align-text: center;
+  word-wrap: break-word;
+
+  @media (--viewportMobileMedium) {
+    margin-top: 10px;
+    width: 70%;
+    font-size: 14px;
+  }
+}
+
+.errorMsg {
+  color: red;
+  /*width: 80%;*/
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  align-text: center;
+  word-wrap: break-word;
+
+  @media (--viewportMobileMedium) {
+    margin-top: 10px;
+    width: 70%;
+    font-size: 14px;
+  }
+}
+
+.centeredText {
+  text-align: center;
+  word-wrap: break-word;
+  margin-right: auto;
+  margin-left: auto;
+  color: #505050;
+  @media (--viewportMobileMedium) {
+    font-size: 12px;
+    width: 60%;
+    font-weight: 500;
+  }
+}
+
+.carousel {
+  display: flex;
+  justify-content: space-between;
+  max-width: calc(90%);
+  margin: 0 auto;
+}
+
+.sectionWhite {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+  color: #FFFFFF;
+  background-color: #FFFFFF;
+
+}
+
+.menuIcon {
+  stroke-width: 0px;
+}
+
+.ourservices {
+  margin-top: 100px !important;
+}
+
+.subscribeStatus {
+  /*width: 50%;*/
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+.customFormDiv {
+  width: 100%;
+}

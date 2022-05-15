@@ -1,0 +1,55 @@
+@import '../../marketplace.css';
+
+.root {
+  /* Layout */
+  display: flex;
+  padding: 0 0 82px 36px;
+  flex-direction: column;
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+
+  @media (--viewportLargeWithPaddings) {
+    padding: 0 0 82px calc((100% - 1056px) / 2);
+  }
+
+  @media (--viewportMobileLarge) {
+    padding: 0 24px;
+    border-top-width: 1px;
+    border-top-color: var(--matterColorNegative);
+    border-top-style: solid;
+    background-color: var(--matterColorLight);
+    box-shadow: var(--boxShadow);
+  }
+}
+
+.tabs {
+  display: flex;
+  min-height: auto;
+  flex-direction: column;
+  margin-top: 24px;
+  padding-top: 0;
+
+  @media (--viewportMobileLarge) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-height: 48px;
+    padding-top: 2px;
+    margin: -2vh 0px 2vh;
+  }
+}
+
+.tab {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  margin-left: 16px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  @media (--viewportLarge) {
+    margin-left: 0;
+  }
+}

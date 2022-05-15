@@ -1,0 +1,229 @@
+@import '../../marketplace.css';
+
+.root {
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+
+  /* Remove link's hover effect */
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.threeToTwoWrapper {
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+
+  padding-left: 5%;
+
+
+}
+
+/* Firefox doesn't support image aspect ratio inside flexbox */
+.box {
+
+}
+
+.rootForImage {
+  /* Layout - image will take space defined by aspect ratio wrapper */
+  position: relative;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 22%;
+  height: auto;
+  min-width: 90px;
+  max-width: 100px;
+  @media (--viewportMobileLarge) {
+    width: 20%;
+    height: auto;
+  }
+}
+
+.info {
+  padding-left: 5%;
+  padding-right: 5%;
+  width: 100%;
+  margin: auto;
+}
+
+.contents {
+  /* Layout */
+  display: flex;
+  flex-direction: row;
+  padding-left: 2%;
+  background: white; /* Loading BG color */
+
+  width: 50vw;
+  height: 125px;
+  border-radius: 60px;
+  border: solid 1px #cccaca;
+
+  transition: var(--transitionStyleButton);
+
+  &:hover {
+    box-shadow: var(--boxShadowListingCard);
+  }
+
+  @media (--viewportMobileLarge) {
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+    padding-left: 2%;
+    padding-right: 2%;
+    border: none;
+    border-bottom: solid 1px #cccaca;
+  }
+}
+
+.ownerInfo {
+  display: flex;
+  flex-direction: row;
+
+  @media (--viewportMobileLarge) {
+    margin-top: 20px;
+    flex-direction: column;
+  }
+}
+
+.ownerName {
+  color: black;
+  margin: 0;
+
+  @media (--viewportMobileLarge) {
+    font-size: 14px;
+  }
+}
+
+.ratingGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.reviewStars {
+  display: flex;
+  flex-direction: row;
+  margin: auto 0 auto 1vw;
+
+  @media (--viewportMobileLarge) {
+    margin: 0 1vw 0 0;
+  }
+}
+
+.reviewStar {
+  width: 16px;
+  height: 15px;
+  margin: 0 2px;
+}
+
+.reviewCount {
+  color: black;
+  font-size: 12px;
+  margin: auto 0 0;
+}
+
+.listingInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @media (--viewportMobileLarge) {
+    margin-bottom: 1vh;
+  }
+}
+
+.title {
+  /* Font */
+  @apply --marketplaceH3FontStyles;
+  font-size: 15px;
+  color: #666666;
+
+  /* Remove default margins from font */
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.textGroup {
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 1200px) {
+    margin-right: 1vw;
+  }
+}
+
+.text {
+  color: var(--nuPink);
+  font-size: 16px;
+
+  @media (--viewportMobileLarge) {
+    font-size: 12px;
+    width: min-content;
+    margin: auto;
+  }
+}
+
+.vertLine {
+  border-left: 1px solid gray;
+  height: 25px;
+  margin: auto 1vw;
+}
+
+.messageButton {
+  width: 135px;
+  height: 90px;
+  border-radius: 45px;
+  margin: auto 1% auto auto;
+
+  @media (--viewportMobileLarge) {
+    width: 80px;
+    height: 80px;
+    border-radius: 9px;
+    min-height: 0;
+    margin: 10px 0;
+  }
+}
+
+.msgIcon {
+  width: 40px;
+  margin: auto;
+
+  @media (--viewportMobileLarge) {
+    width: 25px;
+    height: auto;
+  }
+}
+
+.certificateInfo {
+  /* Font */
+  @apply --marketplaceTinyFontStyles;
+  color: var(--matterColor);
+
+  /* Remove default margins from font */
+  margin-top: 0;
+  margin-bottom: 0;
+
+  @media (--viewportMedium) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.longWord {
+  /* fallback option */
+  word-break: break-all;
+  /* use break-word if available */
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.spacing {
+  margin-left: 10%;
+}
+
+
+

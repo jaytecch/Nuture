@@ -1,0 +1,210 @@
+@import '../../marketplace.css';
+
+.root {
+  display: flex;
+  flex-direction: row;
+}
+
+.slide {
+  margin-top: 3vh;
+  position: relative;
+  width: 100vw;
+  height: 540px;
+
+  text-align: center;
+  background-size: cover !important;
+  background-repeat: no-repeat;
+
+  @media (--viewportMobileLarge)  {
+    height: 200px;
+
+  }
+
+  @media (--viewportMobileLarge) {
+    margin-left: 7vw;
+  }
+}
+
+.slideContentsBase {
+  position: absolute;
+  height: 90%;
+  right: 0;
+  width: 100%;
+  transition: all 1s ease-out;
+  opacity: 1;
+  background-color: white;
+  z-index: 9;
+
+  @media (--viewportMobileLarge)  {
+    height: 200px;
+
+  }
+}
+
+.hidden {
+  left: 0;
+  width: 75%;
+  opacity: 0;
+  transition: all 1s ease-in;
+  z-index: 8;
+}
+
+.nuBackground {
+  background-color: var(--nuBackground);
+}
+
+.carouselTextAndButtonGroup {
+  width: 40%;
+  margin-left: 25%;
+
+  @media (--viewportMobileLarge) {
+    width: 40%;
+    margin-left: 0%;
+  }
+}
+
+.carouselHeaderText {
+  font-size: 28px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #e36253;
+  margin-top: 20px;
+  opacity: 1;
+  transition: all 1s ease;
+
+  @media (--viewportMobileLarge) {
+    font-size: 14px;
+  }
+}
+
+.carouselText {
+
+}
+
+.carouselHeaderSubText {
+  font-size: 47px;
+  white-space: pre-wrap;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: left;
+  color: #666;
+  opacity: 1;
+  transition: all 1s ease;
+
+  @media (--viewportMobileLarge) {
+    font-size: 20px;
+  }
+}
+
+.hiddenText {
+  opacity: 0;
+  transition: all 1s ease;
+}
+
+.proSignupButton {
+  @apply --marketplaceButtonStylesPrimary;
+  width: 370px;
+  height: 82px;
+  border-radius: 100px;
+  display: flex;
+  flex-direction: row;
+  opacity: 1;
+  padding: 0;
+
+  @media (--viewportMobileLarge) {
+    width: 180px;
+    height: 10px !important;
+    margin-top: 10px;
+  }
+}
+
+.proButtonText {
+  margin: auto !important;
+  color: white;
+  font-size: 22px;
+  white-space: nowrap;
+
+  @media (--viewportMobileLarge) {
+    font-size: 10px;
+    text-align: center;
+  }
+}
+
+.hiddenButton {
+  opacity: 0;
+  transition: all 1s ease-out;
+}
+
+.ellipseGroup {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ellipseBase {
+  height: 1vh;
+  width: 1vh;
+  border-radius: 1vh;
+  margin: 1vh;
+  background-color: white;
+  transition: all 1s ease;
+  border-style: solid;
+  border-width: 1px;
+  border-color: gray;
+
+  &:hover{
+    background-color: var(--nuYellow);
+    transition: all 0.1s ease;
+    border: none
+  }
+}
+
+.selectedEllipse {
+  background-color: var(--nuPink);
+  border: none
+}
+
+.carouselImageContainer {
+  width: 50%;
+  position: absolute;
+  right: 2vw;
+  z-index: 2;
+  top: -5vh;
+
+
+  @media (--viewportMobileLarge) {
+     top:0;
+    //top: 10vh;
+    right: 0;
+  }
+}
+
+.carouselImageParent {
+  width: 545px;
+  height: 590px;
+  content: url('../../assets/homepage/mother_and_baby.png');
+
+  @media (--viewportMobileLarge) {
+    height: 206px;
+    width: 184px;
+  }
+}
+.carouselImageProvider {
+  width: 413px;
+  height: 590px;
+  content: url('../../assets/homepage/servicepro-home.png');
+
+  @media (--viewportMobileLarge) {
+    height: 206px;
+    width: 184px;
+  }
+}

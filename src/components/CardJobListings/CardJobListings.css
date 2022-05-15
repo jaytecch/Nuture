@@ -1,0 +1,108 @@
+@import "../../marketplace.css";
+
+.root {
+
+}
+
+.noListingHeader {
+  color: black;
+}
+
+.list {
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.listing {
+
+}
+
+.listingPadding {
+  padding-bottom: 15px;
+}
+
+.shadow {
+
+  /*border-radius: 10px;*/
+  border-bottom: solid 1px var(--nuPink);
+
+  &:hover {
+    box-shadow: 7px 7px 6px #00000029;
+  }
+
+}
+
+.headingBar {
+  display: flex;
+  flex-direction: row;
+}
+
+.title {
+  color: #e36253;
+  font-size: 14px;
+}
+
+.applicantCount {
+  font-size: 10px;
+  color: var(--nuPink);
+  margin-top: 12px;
+  /*padding-left: 320px;*/
+}
+
+.description {
+  color: black;
+  margin-top: 0;
+  font-size: 10px;
+  margin-top: 0px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.column {
+  float: left;
+  padding: 10px;
+  width: 500px;
+  /*height: 300px; !* Should be removed. Only for demonstration *!*/
+}
+
+.columnLeft {
+  float: left;
+  width: 80%;
+  /*padding: 10px;*/
+  /*column-fill: auto;*/
+  /*margin-left: 5.5%;*/
+  /*margin-top: 40px;*/
+
+  @media (max-width: 736px) {
+    width: calc(90%);
+    float: none;
+  }
+
+}
+
+.columnRight {
+  float: right;
+  width: 20%;
+  /*padding: 10px;*/
+  /*margin-top: 5%;*/
+
+  @media screen and (max-width: 736px) {
+    display: none;
+
+  }
+}
+
+.namedLinkButton {
+  @apply --marketplaceButtonStylesPrimary;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    height: 20px;
+    width: 90%;
+  }
+}

@@ -1,0 +1,90 @@
+@import '../../marketplace.css';
+
+.container {
+  /*width: 600px;*/
+  /*margin: 100px auto;*/
+  /*border-radius: 20px;*/
+  /*background-color: #f9f2da;*/
+  margin: 0 auto;
+  width: 508px;
+  height: 152px;
+
+  /*padding: 16px 168px 12px 154px;*/
+  align-content: center;
+  justify-content: center;
+  opacity: 0.72;
+  border-radius: 90px;
+  background-color: #f9f2da;
+
+  @media (--viewportMobileMedium) {
+    width:auto;
+
+  }
+}
+.progressbar {
+  counter-reset: step;
+  /*margin-left: auto;*/
+  /*margin-right:auto;*/
+  /*justify-content: center;*/
+  /*align-content: center;*/
+
+  margin-top: 40px;
+
+}
+
+.progressbar li {
+
+  margin-top: 5%;
+  list-style-type: none;
+  width: 50%;
+  float: left;
+  font-size: 16px;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  color: #7d7d7d;
+  /*background: url('./IconSearchCareGiver/hands-and-gestures.svg') no-repeat;*/
+  /*background-image: url('./IconSearchCareGiver/hands-and-gestures.svg');*/
+  /*background-position: center;*/
+
+  /*padding: 3px 0px 3px 30px;*/
+/*z-index: 1;*/
+}
+.progressbar li:before {
+  width: 50px;
+  height: 50px;
+  content: url('./card.svg');
+  align-content: center;
+  counter-increment: step;
+  line-height: 30px;
+  border: 2px solid #efeee8;
+  display: block;
+  text-align: center;
+  margin: 0 auto 10px auto;
+  border-radius: 50%;
+  background-color: #efeee8;
+}
+.progressbar li:after {
+  width: 100%;
+  height: 2px;
+  content: '';
+  position: absolute;
+  background-color: #efeee8;
+  top: 15px;
+  left: -50%;
+  z-index: -1;
+  margin-left: 15px;
+}
+.progressbar li:first-child:after {
+  content: none;
+}
+.progressbar li.active {
+  color: var(--nuPink);
+  /*background-image: url('./IconSearchCareGiver/hands-and-gestures.svg');*/
+}
+.progressbar li.active:before {
+  border-color: var(--nuPink);
+}
+.progressbar li.active + li:after {
+  background-color: var(--nuPink);
+}

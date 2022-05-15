@@ -1,0 +1,139 @@
+@import '../../marketplace.css';
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.labelSpacing {
+  top: 130%;
+  width: max-content;
+  position: absolute;
+  left: -8px;
+}
+
+.label {
+    width: 64px;
+    height: 29px;
+    font-size: 11px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.18;
+    letter-spacing: normal;
+    text-align: center;
+}
+
+.root {
+  height: 160px;
+  width: 35vw;
+
+  background-color: var(--nuBackgroundDark);
+  border-radius: 60px;
+
+  margin: 2% auto 0;
+
+  @media (--viewportMobileMedium) {
+    border-radius: 0;
+    height: 20vh;
+    margin: 10% auto 0;
+    width: 100vw;
+  }
+
+}
+
+.spacing {
+  margin: 5% 15%;
+
+  @media (--viewportMobileMedium) {
+    margin-top: 10%;
+  }
+}
+
+.progressBar {
+  height: 10px;
+  line-height: 1;
+  border-radius: 10px;
+  position: relative;
+  background-color: rgba(211, 211, 211, 0.6);
+  display: flex;
+  align-items: center;
+  z-index: 0;
+  width: 20vw;
+  margin: auto;
+
+  @media (--viewportMobileMedium) {
+    width: 65vw;
+  }
+}
+
+.progression {
+  position: absolute;
+  transition: width 0.3s ease;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 10px;
+  background: var(--nuPink);
+  z-index: -1;
+}
+
+.step {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+  position: absolute;
+  transform: translateX(-50%);
+  transition-property: all;
+  transition-timing-function: ease;
+}
+
+.stepAccomplished {
+  background-color: var(--nuPink);
+  border-radius: 50px;
+  height: 50px;
+  width: 50px;
+}
+
+.stepNotAccomplished {
+  background-color: rgba(211, 211, 211, 0.6);
+  border-radius: 50px;
+  height: 50px;
+  width: 50px;
+}
+
+.progressBarText {
+  color: white;
+  font-size: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.iconRoot {
+  width: 30px;
+  margin: auto;
+}
+
+.iconNotAccomplished {
+  fill: gray;
+}
+
+.iconAccomplished {
+  fill: var(--nuBackground);
+  padding: 12px;
+}
+
+.progressHeader {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 1vh !important;
+}
+

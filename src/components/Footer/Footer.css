@@ -1,0 +1,452 @@
+@import '../../marketplace.css';
+
+.root {
+  position: relative;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: var(--matterColorNegative);
+
+  width: 100%;
+  padding: 24px 24px 42px 24px;
+  background-color: var(--nuPink);
+
+  @media (--viewportMedium) {
+    padding: 0 24px 33px 24px;
+  }
+
+  @media (--viewportLarge) {
+    padding: 0 0 81px 0;
+    border-top: none;
+  }
+}
+
+h2{
+  font-size: 24px;
+  color: var(--nuPink);
+  white-space: nowrap;
+}
+h3 {
+  font-size: 24px;
+  color: white;
+  white-space: nowrap;
+}
+
+/* Wrapper to limit the top border in desktop
+ * view from the outermost paddings*/
+.topBorderWrapper {
+
+  @media (--viewportMedium) {
+    padding-top: 41px;
+  }
+
+  @media (--viewportLarge) {
+    padding-top: 73px;
+
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color: var(--matterColorNegative);
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: left;
+  @media (--viewportMedium) {
+    margin: 0 auto;
+  }
+
+  @media (--viewportLarge) {
+    max-width: 1280px;
+    padding: 0 36px;
+  }
+
+  @media (--viewportXLarge) {
+    max-width: 1200px;
+    padding: 0;
+  }
+}
+
+/* Mobile only social media links */
+.someLiksMobile {
+  margin-bottom: 24px;
+
+  @media (--viewportMedium) {
+    display: none;
+  }
+}
+
+.icon {
+  display: inline-block;
+  text-align: center;
+  padding-right: 10px;
+}
+
+/* Footer links */
+.links {
+  /* Layout */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 18px;
+
+
+
+  @media (--viewportMedium) {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-bottom: 0;
+  }
+
+@media (max-width: 760px) {
+  display: inline-block;
+
+
+}
+}
+
+/* Desktop and Mobile: links to more information */
+.infoLinks {
+  order: 2;
+  flex-basis: 165px;
+  margin-right: 24px;
+  margin-bottom: 24px;
+
+
+  @media (--viewportMedium) {
+    padding-top: 2px;
+    margin-right: 12px;
+  }
+@media (--viewportSmall) {
+  display: inline-block;
+}
+}
+
+.list {
+  /*display: inline-block;*/
+  /*margin-left: auto;*/
+  /*margin-right: auto;*/
+display: grid;
+
+}
+
+.anchorlink {
+  color: white;
+}
+.listItem {
+  min-height: 24px;
+  margin-bottom: 6px;
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  @media (--viewportMedium) {
+    margin-bottom: 0;
+  }
+}
+
+.link {
+
+  /* Font */
+  @apply --marketplaceH4FontStyles;
+  line-height: 20px;
+  color: white;
+  transition: var(--transitionStyleButton);
+
+  margin-top: 0;
+  margin-bottom: 12px;
+
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  @media (--viewportMedium) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* Desktop and Mobile: searches - first column */
+.searches {
+  order: 3;
+  flex-basis: 165px;
+  margin-right: 24px;
+  margin-bottom: 24px;
+
+  @media (--viewportMedium) {
+    padding-top: 2px;
+    margin-right: 12px;
+  }
+}
+
+/* Desktop and Mobile: searches - second column */
+/* This is not always visible */
+.searchesExtra {
+  order: 4;
+  flex-basis: 165px;
+  margin-right: 24px;
+  margin-bottom: 24px;
+
+  @media (--viewportMedium) {
+    padding-top: 2px;
+    margin-right: 12px;
+  }
+}
+
+.socialMedia {
+  order: 5;
+}
+
+/* Desktop: extra links (social media links) */
+.extraLinks {
+  flex-shrink: 0;
+  display: none;
+  flex-basis: 109px;
+  margin-right: 24px;
+  margin-bottom: 24px;
+
+  @media (--viewportMedium) {
+    display: flex;
+    flex-direction: row;
+    margin-right: 12px;
+  }
+  @media (--viewportLarge) {
+    margin-right: 0;
+  }
+}
+
+
+
+.legalMatters {
+  /* Get extra space from parent element (which is using flexbox) */
+  flex-grow: 1;
+
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.tosAndPrivacy {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.legalLink,
+.privacy,
+.terms {
+  /* Font */
+  @apply --marketplaceTinyFontStyles;
+  color: var(--matterColorAnti);
+  transition: var(--transitionStyleButton);
+
+  margin-top: 0;
+  margin-bottom: 0;
+
+  &:hover {
+    color: var(--marketplaceColor);
+    text-decoration: none;
+  }
+
+  @media (--viewportMedium) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* Mobile: copyright mark and legal links for mobile */
+.copyrightAndTermsMobile {
+  /* Positioning */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  /* Dimensions */
+  height: 60px;
+  padding: 0 24px 18px 24px;
+
+  /* Layout */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  background-color: var(--matterColorLight);
+
+  @media (--viewportMedium) {
+    display: none;
+  }
+}
+
+.organizationCopyrightMobile {
+  /* Font */
+  @apply --marketplaceTinyFontStyles;
+  color: var(--matterColorAnti);
+  transition: var(--transitionStyleButton);
+
+  /* Tell parent component how much space this one prefers */
+  flex-basis: 172px;
+
+  margin-top: 0;
+  margin-bottom: 0;
+
+  &:hover {
+    color: var(--marketplaceColor);
+    text-decoration: none;
+  }
+}
+
+.tosAndPrivacyMobile {
+  flex-basis: 172px;
+}
+
+.privacy {
+  margin-right: 24px;
+}
+
+.subscribeButton {
+  /*@apply --nuButtonStyles;*/
+
+  width: fit-content;
+  /*margin: 0;*/
+  font-size: 12px;
+  display: inherit;
+  /* Borders */
+  border: none;
+  border-radius: 50px;
+  /* Colors */
+  background-color: #e36253;
+  color: var(--matterColorLight);
+
+  /* Text */
+  text-align: center;
+  text-decoration: none;
+
+  /* Effects */
+  transition: all var(--transitionStyleButton);
+  cursor: pointer;
+
+  /*margin-left:60px;*/
+  /*flex-shrink: 0;*/
+  /*margin-top: auto;*/
+  /*margin-bottom: auto;*/
+  /*margin-left: auto;*/
+}
+
+.subscribe {
+  @apply --marketplaceH2FontStyles;
+
+}
+
+.whitelogo{
+  width:174px;
+  height:37px;
+}
+
+
+.headerText{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.subscribeForm{
+  background: #FFFFFF;
+  border-radius: 25px;
+  padding: 10;
+  display: inline-block;
+
+  justify-content: center;
+  /*margin-top: 200px;*/
+  /*margin-bottom: 200px;*/
+}
+
+.subscribeBox{
+  background-color: #FFFFFF;
+  border-radius: 50px;
+  border: 2px solid rgba(112, 112, 112, 0.69);
+  padding: 5px;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 100px;
+  /*width: 313px;*/
+  height: 40px;
+  width: max-content;
+  display: flex;
+
+
+@media (max-width: 768px) {
+  width: 100%;
+  display: inline-flex;
+}
+}
+
+/*.subscribeButton{*/
+/*  width: 200px;*/
+/*  height: 55px;*/
+/*  display: inherit;*/
+
+/*@media (max-width: 768px) {*/
+/*  width: 30%;*/
+/*  display:block;*/
+
+/*}*/
+/*}*/
+
+.sendingMsg{
+  color: var(--nuYellow);
+}
+.successMsg {
+  color: #e36253;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  align-text: center;
+  margin-top: 20px;
+}
+.errorMsg{
+  color:red;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  align-text: center;
+  margin-top: 20px;
+@media (max-width: 760px) {
+  width: 90%;
+}
+}
+
+.emailInput{
+  display: flex;
+  width: 200px;
+  margin-left: 0;
+  font-size: 12px;
+
+@media (max-width: 768px) {
+  width: 90%;
+  display: inline-flex;
+}
+}
+
+
+.subscribeStatus {
+  /*width: 50%;*/
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+.customFormDiv{
+  width: 100%;
+}

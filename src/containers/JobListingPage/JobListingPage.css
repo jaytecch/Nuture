@@ -1,0 +1,194 @@
+@import '../../marketplace.css';
+
+.headerGroup {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  margin-top: 3%;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (--viewportMobileLarge) {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+.titleH2 {
+  font-size: 42px;
+  text-align: center;
+
+  @media (--viewportMobileLarge) {
+    font-size: 32px;
+    width: 50%;
+    overflow-wrap: break-word;
+    padding: 5px;
+  }
+}
+
+.buttonGroup {
+  display: inherit;
+  padding-left: 20px;
+  margin-bottom: auto;
+  margin-top: auto;
+
+  @media (--viewportMobileLarge) {
+    display: flex;
+    width: 100%;
+  }
+}
+
+.button {
+  padding: 10px;
+  height: 20px;
+  width: 150px;
+}
+
+.spacing {
+  padding-right: 10px;
+}
+
+.bullet {
+  width: 35px;
+  height: 35px;
+}
+
+.applicantsSection {
+  margin: 5% auto;
+}
+
+.applicant {
+  display: flex;
+  flex-direction: row;
+}
+
+.noApplicants {
+  color: black;
+}
+
+.applicantLink {
+  padding-right: 20px;
+}
+
+.applicantName {
+  color: black;
+}
+
+.applicantBtnGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.applicantButton {
+  width: fit-content;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.listingContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 1% auto;
+  width: 60vw;
+  justify-content: space-between;
+
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: var(--boxShadow);
+
+  @media (--viewportMobileLarge) {
+    width: auto;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 2% 5%;
+  }
+}
+
+.sectionHeader {
+  font-size: 24px;
+  @media (--viewportMobileLarge) {
+    font-size: 18px;
+    text-align: center;
+  }
+}
+
+.cellSection {
+  margin-bottom: 20px;
+}
+
+.overflow {
+  overflow-y: auto;
+  height: 10vh;
+}
+
+.descriptionSection {
+  margin: 3% auto;
+
+  @media (--viewportMobileLarge) {
+    width: 100%;
+    margin: 0
+  }
+}
+
+.table {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 100%;
+
+  @media (--viewportMobileLarge) {
+    flex-direction: column;
+    margin: 0;
+  }
+}
+
+.service {
+  overflow-wrap: break-word;
+  padding-right: 30px;
+}
+
+.iconRootClass {
+  margin: 0 auto;
+
+  @media (--viewportMobileLarge) {
+    height: 5vh;
+  }
+}
+
+.serviceLabel {
+  color: #e36253;
+  font-size: 16px;
+  line-height: 20px;
+
+  @media (--viewportMobileLarge) {
+    text-align: center;
+  }
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  margin: 3% auto 0;
+  justify-content: space-between;
+
+  @media (--viewportMobileLarge) {
+    width: 100%;
+    margin: 0
+  }
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  margin: 3% auto 0;
+  justify-content: space-between;
+
+  @media (--viewportMobileLarge) {
+    width: 100%;
+  }
+}
+
+
+
+

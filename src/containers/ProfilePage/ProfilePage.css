@@ -1,0 +1,456 @@
+@import '../../marketplace.css';
+
+.error {
+  margin-top: 5px;
+
+  @media (--viewportMedium) {
+    margin-top: 3px;
+  }
+}
+
+.error {
+  color: var(--failColor);
+}
+
+.aside {
+  box-shadow: none;
+}
+
+.sectionHeading {
+  @apply --marketplaceH2FontStyles;
+  color: var(--nuPink);
+  font-size: 24px;
+
+  @media (--viewportMobileLarge) {
+    text-align: center;
+  }
+}
+
+.asideContent {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid var(--matterColorNegative);
+
+  @media (--viewportLarge) {
+    flex-direction: column;
+    border-bottom: none;
+  }
+}
+
+.avatar {
+  margin: 30px 26px 29px 0;
+  flex-shrink: 0;
+
+  @media (--viewportMobileLarge) {
+
+    margin: 2vh auto;
+  }
+
+  @media (--viewportMedium) {
+    margin: 0 96px 44px 0;
+    width: 320px;
+    height: 320px;
+  }
+}
+
+.heroRootClass {
+  @media (--viewportMobileLarge) {
+    flex-direction: column;
+  }
+}
+
+.heroHeaderRootClass {
+  @media (--viewportMobileLarge) {
+    margin: 7vh auto 0 !important;
+  }
+}
+
+.mobileHeading {
+  flex-shrink: 0;
+  margin: 47px 0 0 0;
+
+  @media (--viewportMedium) {
+    margin: 0;
+  }
+}
+
+.editLinkMobile {
+  margin-top: 17px;
+
+  /* Pull the link to the end of the container */
+  margin-left: auto;
+
+  @media (--viewportMedium) {
+    margin-top: 20px;
+  }
+  @media (--viewportLarge) {
+    display: none;
+  }
+}
+
+.editLinkDesktop {
+  display: none;
+
+  @media (--viewportLarge) {
+    display: inline;
+  }
+}
+
+.headingGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5%;
+
+  @media (--viewportMobileLarge) {
+    display: none;
+  }
+}
+
+.reviewStars {
+  display: flex;
+  flex-direction: row;
+
+  @media (--viewportMobileLarge) {
+    justify-content: center;
+    margin: 2vh auto 0;
+    z-index: 1;
+  }
+
+  @media (--viewportMedium) {
+    margin: 5px 0;
+  }
+}
+
+.reviewStar {
+  width: 24px;
+  height: 23px;
+  margin-right: 2px;
+  font-styles: initial;
+}
+
+.desktopHeading {
+  display: none;
+  white-space: nowrap;
+
+  @media (--viewportMobileSmall) {
+    display: block;
+    width: 100%;
+  }
+
+  @media (--viewportMedium) {
+    display: flex;
+    padding-right: 20%;
+    margin: 0;
+    width: 70%;
+  }
+}
+
+
+.bio {
+  /* Preserve newlines, but collapse other whitespace */
+  white-space: pre-line;
+  margin: 5px 0 24px 0;
+
+  @media (--viewportMobileMedium) {
+    padding-left: 9vw;
+    padding-right: 9vw;
+  }
+}
+
+.listingsContainer {
+  @apply --clearfix;
+  border-top: 1px solid var(--matterColorNegative);
+  border-bottom: 1px solid var(--matterColorNegative);
+  padding-bottom: 23px;
+
+  @media (--viewportMedium) {
+    padding-bottom: 22px;
+  }
+}
+
+.listingsTitle {
+  @apply --marketplaceH3FontStyles;
+  color: var(--matterColorAnti);
+  margin-bottom: 0;
+
+  @media (--viewportMedium) {
+    margin-top: 58px;
+    margin-bottom: 8px;
+  }
+}
+
+.withBioMissingAbove {
+  /* Avoid extra borders in mobile when bio is missing */
+  border-top: none;
+
+  @media (--viewportMedium) {
+    border-top: 1px solid var(--matterColorNegative);
+  }
+}
+
+.listings {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.listing {
+  width: 100%;
+
+  /* Single column in mobile */
+  margin-top: 34px;
+
+  &:first-of-type {
+    margin-top: 18px;
+  }
+
+  @media (--viewportMedium) {
+    /* Two columns in desktop */
+    width: calc(50% - 12px);
+    margin-bottom: 36px;
+
+    /* Horizontal space */
+    &:nth-of-type(odd) {
+      margin-right: 12px;
+    }
+
+    &:nth-of-type(even) {
+      margin-left: 12px;
+    }
+
+    /* Vertical space */
+    margin-top: 0;
+    &:nth-of-type(1),
+    &:nth-of-type(2) {
+      margin-top: 20px;
+    }
+  }
+}
+
+.mobileReviewsTitle {
+  @apply --marketplaceH3FontStyles;
+  color: var(--matterColorAnti);
+  margin: 24px 0 26px 0;
+}
+
+.mobileReviews {
+  margin-bottom: 36px;
+}
+
+.desktopReviews {
+  margin-top: 28px;
+
+  @media (--viewportMedium) {
+    max-width: 600px;
+    margin-bottom: 0;
+  }
+}
+
+.desktopReviewsTitle {
+  @apply --marketplaceH3FontStyles;
+  color: black;
+  margin-bottom: 0;
+}
+
+.desktopReviewsTabNav {
+  margin-bottom: 32px;
+}
+
+.contentContainer {
+  margin: 2vh auto;
+
+  @media (--viewportMedium) {
+    max-width: 1056px;
+    padding: 0 24px;
+    display: flex;
+    position: relative;
+  }
+
+  @media (--viewportLarge) {
+    max-width: 1128px;
+    padding: 0 36px;
+  }
+
+  @media (--viewportXLarge) {
+    max-width: 1056px;
+    padding: 0;
+  }
+}
+
+.outerMainContentDiv {
+  @media (--viewportMobileMedium) {
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+.mainContent {
+  flex-basis: 100%;
+  margin-bottom: 23px;
+  display: flex;
+}
+
+.headingAndButtons {
+  display: flex;
+  flex-direction: row;
+
+  @media (--viewportMobileMedium) {
+    display: block;
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+
+  @media (--viewportMobileLarge) {
+    margin: 0 8vw;
+    justify-content: space-between;
+  }
+}
+
+.button {
+  padding: 10px;
+  width: 200px;
+  cursor: pointer;
+
+  @media (--viewportMobileMedium) {
+    width: 40vw;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+.buttonPadding {
+  padding-right: 20px;
+
+  @media (--viewportMobileMedium) {
+    padding-right: 0px;
+    margin-bottom: 15px;
+  }
+}
+
+.messageModalContent {
+  flex-grow: 1;
+  display: flex;
+}
+
+.noDefaultPaymentModalContent {
+  flex-grow: 1;
+  display: inline-grid;
+  margin: 0 auto;
+
+  @media (--viewportMobileMedium) {
+    margin-top: 50%;
+    margin-bottom: 50%;
+  }
+}
+
+.section {
+  margin-bottom: 3vh;
+
+  @media (--viewportMobileLarge) {
+    margin: 0 3vw 3vh;
+  }
+}
+
+.noDefaultPaymentText {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+
+  font-size: 24px;
+  color: var(--marketplaceColor);
+}
+
+.noDefaultPaymentLink {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+
+  font-size: 24px;
+  color: var(--subTextColor);
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.messageForm {
+  flex-grow: 1;
+  margin: 70px 0 100px 0;
+
+  @media (--viewportMedium) {
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+    margin: 0;
+  }
+}
+
+.messageSubmitButtonWrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  background-color: var(--matterColorLight);
+
+  @media (--viewportMedium) {
+    position: static;
+    padding: 0;
+    margin-top: auto;
+  }
+}
+
+.appointmentModalContent {
+  flex-grow: 1;
+  display: flex;
+  margin: 0 auto;
+
+  @media (--viewportMobileMedium) {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}
+
+.servicesGroup {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+
+  @media (--viewportMobileMedium) {
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    padding-left: 9vw;
+    padding-right: 9vw;
+  }
+}
+
+.service {
+  overflow-wrap: break-word;
+  text-align: center;
+}
+
+
+.serviceLabel {
+  color: #e36253;
+  font-size: 16px;
+  line-height: 20px;
+  width: 10vw;
+  overflow-wrap: normal;
+
+  @media (--viewportMobileMedium) {
+    width: 25vw;
+  }
+}
+
+.iconCenter {
+  margin: 0 auto;
+}

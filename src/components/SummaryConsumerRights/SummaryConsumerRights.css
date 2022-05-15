@@ -1,0 +1,107 @@
+@import '../../marketplace.css';
+
+.root {
+  & p {
+    @apply --marketplaceH4FontStyles;
+  }
+  & h2 {
+    /* Adjust heading margins to work with the reduced body font size */
+    margin: 23px 0 19px 0;
+
+    @media (--viewportMedium) {
+      margin: 24px 0 24px 0;
+    }
+  }
+
+  & .lastUpdated {
+    @apply --marketplaceBodyFontStyles;
+    margin-top: 0;
+    margin-bottom: 55px;
+
+    @media (--viewportMedium) {
+      margin-top: 0;
+      margin-bottom: 54px;
+    }
+  }
+}
+
+.acknowledgeReceipt {
+  justify-content: space-between;
+  margin-top: 5px;
+  margin-left: 33%;
+
+
+  @media (--viewportMedium) {
+    margin-top: 20px;
+  }
+}
+
+.nextButton {
+  /* This container uses flexbox layout */
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+  width: 50%;
+
+  /* parent aka root is flexbox, this container takes all available space */
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+
+  @media (--viewportSmall) {
+    flex-wrap: no-wrap;
+  }
+}
+
+.acknowledgeReceiptText {
+  @apply --marketplaceH5FontStyles;
+  color: var(--matterColor);
+  margin-top: 3px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+
+.s1 { color: black; font-family:"Times New Roman", serif; font-style: italic; font-weight: normal; text-decoration: none; font-size: 11pt; }
+.s2 { color: #1154CC; font-family:"Times New Roman", serif; font-style: italic; font-weight: normal; text-decoration: underline; font-size: 11pt; }
+h1 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 14pt; }
+.s4 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 11pt; }
+h3 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 11pt; }
+.s5 { color: #1154CC; font-family:"Times New Roman", serif; font-style: normal; font-weight: bold; text-decoration: underline; font-size: 11pt; }
+.s7 { color: #1154CC; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal; text-decoration: underline; font-size: 11pt; }
+.s8 { color: #1154CC; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 11pt; }
+.s9 { color: #1154CC; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 11pt; }
+.h4 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 7.5pt; }
+.s10 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 14pt; }
+.s11 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 11pt; }
+.s12 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 10pt; }
+.s14 { color: black; font-family:"Times New Roman", serif; font-style: italic; font-weight: normal; text-decoration: none; font-size: 12pt; }
+.p, p { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 12pt; margin:0pt; }
+h2 { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 12pt; }
+.s15 { color: #0065CC; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal; text-decoration: underline; font-size: 12pt; }
+.a, a { color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 12pt; }
+li {display: block; }
+#l1 {padding-left: 0pt; }
+#l1> li>*:first-child:before {content: "● "; color: black; font-style: normal; font-weight: normal; text-decoration: none; }
+#l2 {padding-left: 0pt; }
+#l2> li>*:first-child:before {content: "○ "; color: black; font-style: normal; font-weight: normal; text-decoration: none; }
+#l3 {padding-left: 0pt; }
+#l3> li>*:first-child:before {content: "○ "; color: black; font-style: normal; font-weight: normal; text-decoration: none; }
+li {display: block; }
+#l4 {padding-left: 0pt;counter-reset: d1 2; }
+#l4> li>*:first-child:before {counter-increment: d1; content: counter(d1, decimal)". "; color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 10pt; }
+#l4> li:first-child>*:first-child:before {counter-increment: d1 0;  }
+#l5 {padding-left: 0pt;counter-reset: d2 1; }
+#l5> li>*:first-child:before {counter-increment: d2; content: counter(d2, lower-latin)". "; color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 10pt; }
+#l5> li:first-child>*:first-child:before {counter-increment: d2 0;  }
+li {display: block; }
+#l6 {padding-left: 0pt;counter-reset: e1 1; }
+#l6> li>*:first-child:before {counter-increment: e1; content: counter(e1, lower-latin)". "; color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 10pt; }
+#l6> li:first-child>*:first-child:before {counter-increment: e1 0;  }
+li {display: block; }
+#l7 {padding-left: 0pt;counter-reset: f1 3; }
+#l7> li>*:first-child:before {counter-increment: f1; content: counter(f1, lower-latin)". "; color: black; font-family:"Times New Roman", serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 10pt; }
+#l7> li:first-child>*:first-child:before {counter-increment: f1 0;  }
+table, tbody {vertical-align: top; overflow: visible; }

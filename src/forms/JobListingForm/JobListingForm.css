@@ -1,0 +1,87 @@
+@import '../../marketplace.css';
+
+.root {
+
+}
+
+.error {
+  @apply --marketplaceH4FontStyles;
+  color: var(--failColor);
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+  margin: 24px 0;
+
+  @media (--viewportMedium) {
+    margin: 24px 0;
+  }
+}
+
+.bottomWrapper {
+  display: flex;
+  flex-direction: row;
+  margin-top: 46px;
+
+  @media (--viewportMedium) {
+    margin-top: 96px;
+  }
+}
+
+.cancelButton {
+  margin-right: 5%;
+}
+
+.buttonSpacing {
+  margin: 0 5%
+}
+
+.calendarWrapper {
+  flex-grow: 1;
+  position: relative;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.buttonGroup {
+  display: flex;
+}
+
+.actionButton {
+  margin-top: auto;
+  margin-bottom: 24px;
+  width: 200px;
+  @media (--viewportMobileMedium) {
+    width: auto;
+
+  }
+}
+
+.dateSelection {
+
+}
+
+.timeSelection {
+
+  @media (--viewportMobileMedium) {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+}
+
+.preferences {
+  min-width: max-content;
+}
+
+.h2Title {
+  text-align: center;
+
+  @media (--viewportMobileMedium) {
+    font-size: 24px;
+  }
+}
+
+.selectedTimes{
+  margin-top: 40px;
+}

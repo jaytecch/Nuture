@@ -1,0 +1,624 @@
+@import '../../marketplace.css';
+
+:root {
+  --ManageAvailabilityCalendar_gridColor: #ffffff;
+  --ManageAvailabilityCalendar_availableColor: #ffffff;
+  --ManageAvailabilityCalendar_sameDayColor: #5cff68;
+  --ManageAvailabilityCalendar_availableColorHover: #fafafa;
+  --ManageAvailabilityCalendar_blockedColor: #ebebeb;
+  --ManageAvailabilityCalendar_blockedColorHover: #e6e6e6;
+  --ManageAvailabilityCalendar_reservedColor: #fde6ff;
+  --ManageAvailabilityCalendar_reservedColorHover: #fae1f9;
+  --ManageAvailabilityCalendar_failedColor: #fff2f2;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.avatar {
+  position: absolute;
+  z-index: 9;
+  margin-top: 271px;
+  margin-right: 70%;
+
+  @media (max-width: 768px) {
+    margin-right: 0;
+
+
+  }
+}
+
+.row {
+  display: flex;
+  padding-bottom: 70px;
+  @media (max-width: 768px) {
+    display: block;
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-bottom: 0;
+
+  }
+}
+
+.cards {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3vh;
+
+  @media (max-width: 768px) {
+    display: block;
+    width: 100%;
+    margin: 0;
+  }
+}
+
+.cardHeader {
+  /*color: var(--nuPink);*/
+  color: black;
+  margin-top: 5% !important;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
+}
+
+.card {
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  margin-right: 45px;
+  padding: 0px 32px 10px 32px;
+
+
+  @media (--viewportMobileMedium) {
+    display: block;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 20px;
+
+  }
+  @media (max-width: 380px) {
+    display: block;
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+.msgsCard {
+  width: 400px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.headerPrimaryButton {
+  display: inline-block;
+
+  margin-left: 10px;
+  width: 30%;
+
+  @media (max-width: 768px) {
+    display: block;
+    width: 90%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.nameWrapperLeft {
+  background-color: #FFFBEE;
+  display: flex;
+  flex-direction: column;
+  /* width: 40%; */
+  margin-left: 20%;
+  margin-right: 10px;
+  float: left;
+}
+
+.reviewStars {
+  display: flex;
+  flex-direction: row;
+
+  @media (--viewportMobileMedium) {
+    margin: 0 auto;
+    width:50%;
+
+  }
+
+  @media (--viewportMedium) {
+    margin-left: 100px;
+  }
+}
+
+.reviewStar {
+  width: 24px;
+  height: 23px;
+  margin-right: 2px;
+  font-styles: initial;
+
+  @media (--viewportMobileMedium) {
+    margin: 0 auto;
+
+
+  }
+
+}
+
+.buttonWrapperRight {
+  background-color: #FFFBEE;
+  display: flex;
+  width: 50%;
+  /* margin-left: 50%; */
+  float: right;
+  margin-top: 5px;
+
+  @media (max-width: 768px) {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+
+  }
+}
+
+.topBar {
+  background-color: #FFFBEE;
+
+}
+
+.mobileNameText {
+
+  font-weight: 600;
+  font-size: 42px;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+
+  margin-bottom: 20px;
+  margin-right: auto;
+  margin-left: auto;
+  color: #e36253;
+  display: block;
+  width: 100%;
+  font-size: 30px;
+  margin-top: 150px;
+  text-align: center;
+
+}
+
+.nameText {
+
+  font-weight: 600;
+  font-size: 42px;
+  line-height: 30px;
+  letter-spacing: -0.3px;
+  margin-top: 20px !important;
+  margin-bottom: 20px;
+  margin-left: 100px;
+  color: #e36253;
+
+  @media (--viewportMobileMedium) {
+    display: block;
+    width: 100%;
+    font-size: 30px;
+    margin-top: 150px;
+  }
+
+}
+
+.myDashboardText {
+  font-size: 72px;
+
+  @media (--viewportMobileMedium) {
+    font-size: 30px;
+    margin-top: 80px;
+
+  }
+}
+
+.namedLinkButton {
+  @apply --marketplaceButtonStylesPrimary;
+  margin-top: 30px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    height: 20px;
+    width: 90%;
+  }
+}
+
+.quickActionButton {
+  @apply --marketplaceButtonStylesPrimary;
+
+  display: inline-block;
+
+  margin-left: 10px;
+  width: 30%;
+
+  @media (max-width: 768px) {
+    display: block;
+    width: 90%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+
+  }
+
+}
+
+.reactCalendar {
+  width: 350px;
+  max-width: 100%;
+  background: white;
+  /*border: 1px solid #a0a096;*/
+  /*font-family: var(--fontFamily);*/
+  /*line-height: 1.500em;*/
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  font-size: 16px;
+  color: white;
+  border: none;
+}
+
+.react-calendar__tile {
+  height: 70px;
+  color: white;
+  border: none;
+}
+
+/*.react-calendar__month-view__days__day {*/
+/*  border:none;*/
+/*}*/
+/*.react-calendar__month-view__days__day--neighboringMonth {*/
+/*  border:none;*/
+/*}*/
+
+.dayWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.day {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 8px;
+  border: none;
+
+  &:hover {
+    background-color: var(--ManageAvailabilityCalendar_availableColorHover);
+  }
+}
+
+.dayNumber {
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.default {
+  composes: day;
+  background-color: var(--ManageAvailabilityCalendar_availableColor);
+}
+
+.outsideRange {
+  background-color: var(--ManageAvailabilityCalendar_blockedColor);
+
+  &:hover {
+    background-color: var(--ManageAvailabilityCalendar_blockedColorHover);
+  }
+
+  & .dayNumber {
+    text-decoration: line-through;
+    /*color: lightgrey;*/
+    color: white;
+  }
+}
+
+.today {
+  background-color: var(--ManageAvailabilityCalendar_sameDayColor);
+
+  & .dayNumber {
+    position: relative;
+    text-decoration: none;
+
+    /* underline */
+
+    &:after {
+      position: absolute;
+      content: '';
+      height: 2px;
+      width: 100%;
+      right: 0;
+      bottom: -4px;
+      left: 0;
+      margin: 0 auto;
+
+    }
+  }
+}
+
+.blocked {
+  background-color: var(--ManageAvailabilityCalendar_blockedColor);
+
+  &:hover {
+    background-color: var(--ManageAvailabilityCalendar_blockedColorHover);
+  }
+}
+
+.reserved {
+  background-color: var(--ManageAvailabilityCalendar_reservedColor);
+
+  &:hover {
+    background-color: var(--ManageAvailabilityCalendar_reservedColorHover);
+  }
+}
+
+.inProgress {
+  width: 12px;
+  height: 12px;
+  stroke: var(--matterColor);
+  stroke-width: 3px;
+}
+
+.exceptionError {
+  opacity: 1;
+
+  /* Animation */
+  animation-name: errored;
+  animation-duration: 800ms;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
+}
+
+@keyframes errored {
+  30%,
+  70% {
+    background-color: var(--ManageAvailabilityCalendar_failedColor);
+  }
+}
+
+.monthElement {
+  display: flex;
+  position: relative;
+  top: 3px;
+}
+
+.monthString {
+  font-weight: var(--fontWeightSemiBold);
+
+  &:first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.monthInProgress {
+  width: 12px;
+  height: 12px;
+  margin-top: 7px;
+  margin-left: 8px;
+
+  stroke: var(--marketplaceColor);
+  stroke-width: 4px;
+}
+
+.error {
+  @apply --marketplaceH4FontStyles;
+  color: var(--failColor);
+  margin: 6px 0 24px 0;
+}
+
+.rootNextMonthIcon,
+.rootPreviousMonthIcon {
+  stroke: var(--matterColor);
+  fill: var(--matterColor);
+}
+
+.legend {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+}
+
+.legendRow {
+  display: flex;
+  flex-grow: row;
+  line-height: 24px;
+  margin-right: 18px;
+  margin-bottom: 6px;
+}
+
+.legendColor {
+  width: 20px;
+  height: 20px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border-radius: 4px;
+  margin-top: 2px;
+  margin-right: 8px;
+}
+
+.legendAvailableColor {
+  composes: legendColor;
+  background-color: var(--matterColorLight);
+  border: solid 2px var(--matterColorNegative);
+}
+
+.legendReservedColor {
+  composes: legendColor;
+  background-color: var(--ManageAvailabilityCalendar_reservedColor);
+}
+
+.legendBlockedColor {
+  composes: legendColor;
+  background-color: var(--ManageAvailabilityCalendar_blockedColorHover);
+}
+
+.legendText {
+  @apply --marketplaceH4FontStyles;
+  white-space: nowrap;
+  margin: 0;
+}
+
+@media (--viewportSmall) {
+  /* day aka table cell content should have bigger paddings when there's more space */
+  .day {
+    padding: 16px;
+  }
+
+  .dayNumber {
+    font-size: 16px;
+    line-height: 16px;
+  }
+}
+
+/* Standard break points */
+@media (--viewportMedium) {
+  .root {
+    margin-top: 0;
+    margin-bottom: 0;
+
+    & :global(.CalendarMonth_caption) {
+      font-size: 24px;
+      padding-bottom: 62px;
+    }
+
+    & :global(.DayPicker_weekHeader) {
+      top: 67px;
+    }
+
+    & :global(.DayPickerNavigation__horizontal) {
+      & :last-child {
+        /* The navigation arrows have 9px padding. Add -9px margin to
+        align the arrows with the calendar */
+        left: 39px;
+      }
+    }
+
+    & :global(.DayPickerNavigation_button__horizontal) {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .inProgress {
+    width: 16px;
+    height: 16px;
+  }
+
+  .monthInProgress {
+    width: 16px;
+    height: 16px;
+    margin-top: 5px;
+  }
+
+  .error {
+    margin: 8px 0 24px 0;
+  }
+
+  .legendRow {
+    margin-right: 24px;
+    margin-bottom: 8px;
+  }
+
+  .legendText {
+    margin: 0;
+  }
+}
+
+@media (--viewportLarge) {
+  .root {
+    & :global(.DayPickerNavigation_button__horizontal) {
+      background-color: var(--matterColorLight);
+    }
+  }
+
+  .legend {
+    margin: 0;
+  }
+}
+
+@media (--viewportXLarge) {
+  .root {
+    & :global(.CalendarMonth_caption) {
+      margin-left: 108px;
+    }
+  }
+}
+
+
+.appointmentCalendar {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.DayPicker__horizontal {
+  margin-left: -40px;
+}
+
+.textArea {
+  height: 200px;
+  border: 2px solid var(--nuPink);
+
+  @media (max-width: 768px) {
+    display: block;
+    width: 90%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+
+  }
+}
+
+.disputeButton {
+  display: inline-block;
+  width: 30%;
+  margin-top: 20px;
+  margin: 10px;
+  float: right;
+}
+.disputeSelect {
+margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+select:active, select:hover {
+  outline: none;
+}
+
+/* make it red instead (with with same width and style) */
+select:active, select:hover {
+  outline-color: var(--nuPink);
+}
+
+.modalh2 {
+  @media (--viewportMobileMedium) {
+    margin-top: 80px;
+  }
+}
+
+.messagesListItem {
+
+  color: black;
+  border-bottom: solid 1px var(--nuPink);
+  margin-bottom: 5px;
+
+}
+
+.profileHeader{
+
+  @media (--viewportMobileLarge) {
+    height: 40vh !important;
+  }
+}

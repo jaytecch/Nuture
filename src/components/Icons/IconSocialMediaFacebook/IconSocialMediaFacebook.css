@@ -1,0 +1,11 @@
+@import '../../../marketplace.css';
+
+.root {
+  fill: var(--matterColor);
+  transition: var(--transitionStyleButton);
+  margin-left: 20px;
+
+  &:hover {
+    filter: url('#icon-instagram_color');
+  }
+}

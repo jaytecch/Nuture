@@ -1,0 +1,49 @@
+@import "../../marketplace.css";
+
+.root {
+
+}
+
+.header {
+  color: var(--nuPink);
+}
+
+.actions {
+
+}
+
+.button {
+  @apply --nuButtonStyles;
+
+  background: linear-gradient(200deg, var(--nuPink), #ffffff);
+  background-size: 100% 200%;
+  border-radius: 10px;
+  color: var(--nuBackground);
+  padding: 0px 30px;
+  width: 100%;
+
+  font-size: 20px;
+
+  flex-shrink: 0;
+  margin-top: auto;
+  margin-bottom: 15px;
+  margin-left: auto;
+
+  &:last-of-type {
+    margin-bottom: auto;
+  }
+
+  &:hover {
+    background: linear-gradient(200deg, var(--nuPink), var(--nuPink));
+  }
+
+  &:disabled {
+    background: linear-gradient(200deg, var(--nuPink), var(--nuPink));
+  }
+
+  &:active {
+    box-shadow: none;
+  }
+}
+
+

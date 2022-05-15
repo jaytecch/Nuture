@@ -1,0 +1,37 @@
+@import '../../marketplace.css';
+
+.input {
+  &:after {
+    content: "";
+    float: left;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+
+    transition: background var(--transitionStyle);
+    background: var(--nuPink);
+  }
+
+  &:hover,
+  &:focus {
+    &:after {
+      background: var(--nuYellow);
+    }
+  }
+}
+
+.inputSuccess {
+  &:after {
+    background: var(--nuPink);
+  }
+}
+
+.inputError {
+  &:after {
+    background: var(--failColor);
+  }
+}
+
+.textBottomBorder {
+
+}

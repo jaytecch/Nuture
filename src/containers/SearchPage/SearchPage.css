@@ -1,0 +1,492 @@
+@import '../../marketplace.css';
+
+:root {
+  /*
+    These variables are available in global scope through ":root"
+    element (<html> tag). Variables with the same names are going to
+    overwrite each other if CSS Properties' (PostCSS plugin)
+    configuration "preserve: true" is used - meaning that variables
+    are left to CSS bundle. We are planning to enable it in the future
+    since browsers support CSS Properties already.
+ */
+
+  --SearchPage_containerHeight: calc(100vh - var(--topbarHeightDesktop));
+}
+
+/* heroContainer gives the height for SectionHero */
+/* Safari has a bug with vw padding inside flexbox. Therefore we need an extra div (container) */
+/* If you've lot of content for the hero, multiple lines of text, make sure to adjust min-heights for each media breakpoint accordingly */
+.desktopTopbar,
+.mobileTopbar {
+  box-shadow: none;
+}
+
+.sections {
+//margin: 0; //padding-top: 1px; width: 100%;
+  height: 100%;
+
+}
+
+.section {
+//overflow: auto; width: 100%;
+  height: 100%;
+
+}
+
+.sectionContent {
+//margin: var(--LandingPage_sectionMarginTop) 24px 51px 24px;
+
+
+  @media (--viewportMedium) {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    align-content: center;
+    margin: var(--LandingPage_sectionMarginTopMedium) 24px 60px 24px;
+  }
+
+  @media (--viewportLarge) {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    align-content: center;
+    padding: 0 36px 0 36px;
+    margin: var(--LandingPage_sectionMarginTopLarge) auto 93px auto;
+  }
+
+  @media (--viewportXLarge) {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    align-content: center;
+    padding: 0;
+  }
+}
+
+.sectionContentFirstChild {
+  composes: sectionContent;
+  margin-top: 3vh;
+
+}
+
+/* Can be given to Topbar when a modal is opened
+ * so that the Topbar is not rendered on top of it.*/
+.topbarBehindModal {
+  z-index: initial !important;
+}
+
+.topbar {
+
+}
+
+.container {
+  /* Layout */
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+
+  @media (--viewportMedium) {
+    position: relative;
+    min-height: var(--SearchPage_containerHeight);
+  }
+}
+
+.mainWrapper {
+  width: 100%;
+}
+
+.searchResultContainer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2px 0 0 0;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (--viewportMedium) {
+    padding: 18px 0 0 0;
+    /**
+     * .container is using flexbox,
+     * This specifies that searchResultContainer is taking 60% from the viewport width
+     */
+    flex-basis: 50%;
+  }
+
+  @media (--viewportLarge) {
+    flex-basis: 62.5%;
+    padding: 23px 0 0 0;
+  }
+}
+
+.topSection {
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 35px;
+
+  background-color: var(--nuBackgroundDark);
+  border-radius: 50px;
+  padding: 2% 4%;
+
+  @media (--viewportMobileLarge) {
+    border-radius: 0;
+    margin-bottom: 0;
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: row;
+  margin-left: 5%;
+
+  @media (--viewportMobileLarge) {
+    justify-content: space-evenly;
+    margin: 1vh 0 0;
+  }
+}
+
+.searchFieldItem {
+  margin: auto;
+}
+
+.zipInput {
+  padding-left: 5%;
+  margin: auto;
+
+  @media (--viewportMobileLarge) {
+    height: 5.5vh;
+  }
+}
+
+
+.serviceSelect {
+  padding: 4px 0px 10px 10px;
+  border: 2px solid #b2b2b2 !important;
+  background-color: white;
+  border-radius: 20px;
+  background-image: url('../../assets/icons/triangle.svg');
+
+  @media (--viewportMobileLarge) {
+    height: 5.5vh;
+  }
+}
+
+.zipInputRoot {
+  border: 2px solid #b2b2b2 !important;
+  background-color: white;
+  border-radius: 20px;
+  padding: 4px 0px 10px 10px;
+}
+
+.zipSuccessClass {
+  background: none;
+  &:after {
+    background: none;
+  }
+
+  &:hover,
+  &:focus {
+    &:after {
+      background: none;
+    }
+  }
+}
+
+.searchButton {
+  width: fit-content;
+  height: 50px;
+  min-height: 0;
+  margin: auto;
+  padding-left: 15%;
+  padding-right: 15%;
+
+  @media(--viewportMobileLarge){
+    font-size: 14px;
+    width: auto;
+    margin: 0;
+    height: 5vh;
+  }
+}
+
+.searchBtnText {
+  padding: 0 1vw;
+}
+
+.clearButtonRoot {
+  height: fit-content;
+  font-size: 18px;
+  color: #888888;
+  margin: auto 2vw;
+}
+
+.bottomSection {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.error {
+  color: var(--failColor);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.searchString {
+  /* Search string should not break on white spaces - i.e. line-break should happen before. */
+  white-space: nowrap;
+}
+
+.searchFilters {
+  display: flex;
+
+  @media (--viewportMedium) {
+    display: flex;
+    padding: 0 24px;
+    margin-bottom: 21px;
+  }
+
+  @media (--viewportLarge) {
+    padding: 0 36px;
+  }
+}
+
+.searchFiltersMobile {
+}
+
+.searchFiltersPanel {
+  flex-grow: 1;
+  display: flex;
+  padding: 0 24px 24px 24px;
+
+  @media (--viewportLarge) {
+    padding: 0 36px 36px 36px;
+  }
+}
+
+.listings {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.newSearchInProgress {
+  opacity: 0.1;
+}
+
+.searchListingsPanel {
+  flex-grow: 1;
+}
+
+.mapPanel {
+  @media (--viewportMedium) {
+    /**
+     * .container is using flexbox,
+     * This specifies that mapPanel is taking 34% from the viewport width
+     */
+    flex-basis: 50%;
+
+    /* Own layout settings */
+    display: flex;
+    height: 100%;
+  }
+
+  @media (--viewportLarge) {
+    flex-basis: 37.5%;
+  }
+}
+
+.mapWrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.map {
+  width: 100vw;
+  height: 100vh;
+
+  @media (--viewportMedium) {
+    /* Map is fixed so that it doesn't scroll along search results */
+    position: fixed;
+    top: var(--topbarHeightDesktop);
+    right: 0;
+
+    /* Fixed content needs width relative to viewport */
+    width: 50vw;
+    height: var(--SearchPage_containerHeight);
+  }
+
+  @media (--viewportLarge) {
+    width: 37.5vw;
+  }
+}
+
+.header {
+  color: var(--nuPink);
+  display: flex;
+  flex-direction: row;
+}
+
+.field {
+  color: var(--nuPink);
+}
+
+.label {
+  color: rgba(0, 0, 0, 0.44);
+  font-size: 16px;
+}
+
+.inputDiv {
+  &:after {
+    content: "";
+    float: left;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--nuPink);
+  }
+}
+
+.inputText {
+  color: black;
+  font-size: 14px;
+}
+
+.editIcon {
+  justify-content: flex-end;
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+}
+
+.formRow {
+  margin-right: 20px;
+  width: 50%;
+
+  &:last-of-type {
+    margin-right: 0px
+  }
+}
+
+.searchParamsForm {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+  @media (--viewportMobileLarge) {
+    flex-direction: column;
+  }
+}
+
+.searchFields {
+  display: flex;
+  flex-direction: row;
+}
+
+.filtersSideNav {
+  display: flex;
+  flex-direction: column;
+}
+
+.sortButtonsCard {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 30px;
+  border: solid 1px #cccaca;
+  margin-bottom: 36px;
+}
+
+.sortTitle {
+  font-size: 30px;
+  color: black;
+  margin: 1vw auto;
+  padding-top: 1vw;
+}
+
+.sortButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-bottom: 5%;
+  margin: auto;
+  width: 450px;
+
+  @media (--viewportMobileLarge) {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.sortButton {
+  font-size: 15px;
+  margin-top: 2vh;
+}
+
+.sortSelected {
+  @apply --marketplaceButtonStylesPrimary;
+  padding: 0;
+  width:25%;
+  font-size: 15px;
+  min-height: 0;
+
+  @media (--viewportMobileLarge) {
+    width: auto;
+  }
+}
+
+.modalContainer {
+  width: 100%;
+  padding: 94px 0;
+  margin: 0 24px;
+}
+
+.modalHeadingWrapper {
+  padding-bottom: 31px;
+  border-bottom: 1px solid var(--matterColorNegative);
+}
+
+.modalHeading {
+  @apply --marketplaceH1FontStyles;
+  margin-top: 0;
+}
+
+.buttonText {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.mobileSortButton {
+  color: var(--nuPink);
+  border: 1px #666666;
+  border-radius: 20px;
+  height: max-content;
+  font-size: 18px;
+
+  &:hover {
+    color: white;
+  }
+}
+
+.mobileSortButtonSelected {
+  height: max-content;
+  border-radius: 20px;
+  width: 30vw;
+  font-size: 18px;
+  background-color: var(--nuPink);
+  color: white;
+}
+
+.mobileButtonsGroup {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 3vh;
+}
+
+

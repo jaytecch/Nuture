@@ -1,0 +1,12 @@
+@import '../../../marketplace.css';
+
+.root {
+  fill: var(--matterColor);
+  transition: var(--transitionStyleButton);
+  margin-left:20px;
+
+  &:hover {
+    /*fill: var(--marketplaceColor);*/
+  filter: url('#icon-twitter_color');
+  }
+}

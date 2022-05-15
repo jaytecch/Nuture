@@ -1,0 +1,126 @@
+@import '../../marketplace.css';
+
+.root {
+  @apply --marketplaceButtonStyles;
+
+  /* Clear padding that is set for link elements looking like buttons */
+  padding: 0;
+}
+
+.primaryButtonRoot {
+  @apply --marketplaceButtonStylesPrimary;
+
+  /* Clear padding that is set for link elements looking like buttons */
+  padding: 0;
+}
+
+.secondaryButtonRoot {
+  @apply --marketplaceButtonStylesSecondary;
+
+  /* We must lift up the text from the center since it looks better with
+   the button border. Also clears the top padding set for link
+   elements looking like buttons */
+  padding: 0 0 2px 0;
+}
+
+.inlineTextButtonRoot {
+  @apply --marketplaceLinkStyles;
+}
+
+.nurtureUpButtonRoot {
+  @apply --nurtureUpButtonStyles;
+
+  padding: 0px 11px;
+}
+
+.primaryButton {
+  /* Class handle for primary button state styles */
+}
+.secondaryButton {
+  /* Class handle for secondary button state styles */
+}
+
+.nurtureUpButton {
+
+}
+
+.inlineTextButton {
+
+}
+
+.inProgress {
+  padding: 0;
+
+  &:disabled {
+    background-color: var(--marketplaceColorDark);
+  }
+}
+
+.primaryButton.inProgress:disabled {
+  /*background-color: var(--successColor);*/
+  background-color: var(--marketplaceColorDark);
+}
+
+.secondaryButton.inProgress:disabled {
+  background-color: var(--matterColorLight);
+}
+
+.ready {
+  padding: 0;
+
+  &:disabled {
+    background-color: var(--marketplaceColor);
+  }
+}
+
+.primaryButton.ready:disabled {
+  /*background-color: var(--successColor);*/
+  background-color: var(--marketplaceColor);
+}
+
+.secondaryButton.ready:disabled {
+  background-color: var(--matterColorLight);
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  stroke: var(--matterColorLight);
+  stroke-width: 3px;
+  margin: auto;
+}
+
+.checkmark {
+  width: 24px;
+  height: 24px;
+  stroke: var(--matterColorLight);
+
+  /* Animation */
+  animation-name: checkmarkAnimation;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  margin: auto;
+}
+
+@keyframes checkmarkAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.secondaryButton .spinner {
+  stroke: var(--matterColorAnti);
+}
+
+.secondaryButton .checkmark {
+  stroke: var(--matterColorAnti);
+}

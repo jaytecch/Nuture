@@ -1,0 +1,100 @@
+@import '../../marketplace.css';
+
+.pageTitle {
+  text-align: Left;
+  color: var(--nuPink);
+
+  @media (--viewportMobileLarge) {
+    text-align: center;
+  }
+}
+
+.content {
+  margin: auto;
+}
+
+.form {
+  padding-top: 35px;
+  padding-bottom: 50px;
+
+  @media (--viewportMedium) {
+    width: 685px;
+  }
+}
+
+.list {
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.listing {
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 5px 5px 6px #00000029;
+
+  margin-bottom: 40px;
+  display: flex;
+  margin-right: auto;
+  margin-left: auto;
+
+  width: 40vw;
+
+  @media (--viewportMobileLarge) {
+    width: 80vw;
+    margin-bottom: 10px;
+  }
+}
+
+.icon {
+  height: 50px;
+  fill: var(--nuPink);
+  margin: auto 1vw;
+}
+
+.listingAboutWrapper {
+  display: flex;
+  flex-direction: column;
+  padding-right: 20px;
+  margin-bottom: 5%;
+  margin-top: 3%;
+
+  @media (--viewportMobileLarge) {
+    padding-right: 5px;
+    width: 45%;
+  }
+}
+
+.listingTitle {
+  @apply --marketplaceH3FontStyles;
+  color: var(--nuPink);
+  width: 25vw;
+  margin-bottom: 0;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (--viewportMobileLarge) {
+    font-size: 12px;
+  }
+}
+
+.listingServiceLabel {
+  color: var(--nuPink);
+  font-size: 12px;
+
+  @media (--viewportMobileLarge) {
+    font-size: 10px;
+  }
+}
+
+.listingDesc {
+  margin: auto 0;
+  font-size: 12px;
+  width: 25vw;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
