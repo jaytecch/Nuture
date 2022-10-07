@@ -13,6 +13,10 @@
      background-size: cover;
 #E6163891
     }
+     .underlay{
+      background: url(./dot.png);
+      background-size: 100% 100%;
+    }
  
   </style>
 </head>
@@ -41,9 +45,9 @@
  <div class="px-2 py-4 flex flex-wrap">
  
  <div class="w-full md:w-1/2 my-4">
-   <div class="w-[300px] md:w-[400px] h-[300px] md:h-[400px] mx-auto">
-     <img class="w-full h-full" src="/hands-1850223_1920.jpg" />
-     
+   <div class="w-[300px] md:w-[400px] h-[300px] md:h-[400px] mx-auto relative">
+     <img class="w-full h-full relative z-[1]" src="/hands-1850223_1920.jpg" />
+          <div class="underlay -left-10 top-10 absolute w-full h-full ">
    </div>
  </div>
   
