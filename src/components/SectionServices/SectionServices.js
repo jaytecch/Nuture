@@ -32,14 +32,15 @@ const SectionServices = props => {
     <div className={css.cardContainer}>
       <h2 className={css.ourServicesText}>OUR SERVICES</h2>
       <p className={css.subtitleText}>{subTitle}</p>
+      <div className={css.spacing}>
       <ul className={css.ulMargin}>
         <li className={css.row}>
           <Card className={css.card} flat={false}>
             <div className={css.iconCard}>
-              <IconSleepConsultant/>
+              <IconPostDoula/>
             </div>
-            <FormattedMessage id="Services.sleepConsultant" />
-            <p className={css.text}><FormattedMessage id="ServicesDescription.sleepConsultant" /></p>
+            <FormattedMessage className={css.cardHeader} id="Services.postDoula" />
+            <p className={css.text}><FormattedMessage id="ServicesDescription.postDoula" /></p>
           </Card>
           <Card className={css.card} flat={false}>
             <div className={css.iconCard}>
@@ -50,20 +51,27 @@ const SectionServices = props => {
           </Card>
           <Card className={css.card} flat={false}>
             <div className={css.iconCard}>
+              <IconMidwife/>
+            </div>
+            <FormattedMessage id="Services.midwife" />
+            <p className={css.text}><FormattedMessage id="ServicesDescription.midwife" /></p>
+          </Card>
+          <Card className={css.card} flat={false}>
+            <div className={css.iconCard}>
+              <IconSleepConsultant/>
+            </div>
+            <FormattedMessage id="Services.sleepConsultant" />
+            <p className={css.text}><FormattedMessage id="ServicesDescription.sleepConsultant" /></p>
+          </Card>
+        </li>
+        <li className={css.row}>
+          <Card className={css.card} flat={false}>
+            <div className={css.iconCard}>
               <IconNursery/>
             </div>
             <FormattedMessage id="Services.nurseryConsultant" />
             <p className={css.text}><FormattedMessage id="ServicesDescription.nurseryConsultant" /></p>
           </Card>
-          <Card className={css.card} flat={false}>
-            <div className={css.iconCard}>
-              <IconPostDoula/>
-            </div>
-            <FormattedMessage id="Services.postDoula" />
-            <p className={css.text}><FormattedMessage id="ServicesDescription.postDoula" /></p>
-          </Card>
-        </li>
-        <li className={css.row}>
           <Card className={css.card} flat={false}>
             <div className={css.iconCard}>
               <IconCarSeatTech/>
@@ -78,14 +86,6 @@ const SectionServices = props => {
             </div>
             <FormattedMessage id="Services.lactationConsultant" />
             <p className={css.text}><FormattedMessage id="ServicesDescription.lactationConsultant" /></p>
-          </Card>
-
-          <Card className={css.card} flat={false}>
-            <div className={css.iconCard}>
-              <IconMidwife/>
-            </div>
-            <FormattedMessage id="Services.midwife" />
-            <p className={css.text}><FormattedMessage id="ServicesDescription.midwife" /></p>
           </Card>
           <Card className={css.card} flat={false}>
             <div className={css.iconCard}>
@@ -125,6 +125,7 @@ const SectionServices = props => {
         </li>
 
       </ul>
+      </div>
 
     </div>
   );

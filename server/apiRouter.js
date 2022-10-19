@@ -14,6 +14,10 @@ const initiatePrivileged = require('./api/initiate-privileged');
 const initiateLoginAs = require('./api/initiate-login-as');
 const loginAs = require('./api/login-as');
 const addApplicant = require('./api/add-applicant');
+const createBackgroundCandidate = require('./api/create-background-candidate');
+const createBackgroundReport = require('./api/create-background-report');
+const contactNU = require('./api/contact-nu');
+const chargeProSubscription = require('./api/charge-pro-subscription');
 
 const router = express.Router();
 
@@ -65,5 +69,12 @@ router.get('/initiate-login-as', initiateLoginAs);
 router.get('/login-as', loginAs);
 
 router.post('/add-applicant', addApplicant);
+
+router.post('/create-background-candidate', createBackgroundCandidate);
+router.post('/create-background-report', createBackgroundReport);
+
+router.post('/contact-nu', contactNU);
+
+router.post('/charge-pro-subscription', chargeProSubscription)
 
 module.exports = router;

@@ -1,0 +1,42 @@
+@import '../../marketplace.css';
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto 30px;
+
+  width: 90%;
+
+  @media (--viewportMobileLarge) {
+    width: 100%;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+  width: 100%;
+  height: fit-content;
+  margin-top: 30px;
+
+  @media (--viewportMobileLarge) {
+    margin-top: 15px;
+  }
+}
+
+.largeColumn {
+  width: calc(100% / 3);
+  margin: 0 15px;
+}
+
+.mediumColumn {
+  width: calc(100% / 2);
+  margin: 0 15px;
+}
+
+.smallColumn {
+  width: 100%;
+}
+

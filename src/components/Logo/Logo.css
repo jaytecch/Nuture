@@ -12,7 +12,7 @@
   height: 37px;
   width: 173px;
 
-  @media (--viewportMobileMedium) {
+  @media (--viewportMobileLarge) {
     height:21px;
     width:99px;
 

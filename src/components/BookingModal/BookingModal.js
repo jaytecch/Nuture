@@ -7,7 +7,7 @@ import {
   PrimaryButton,
   ManageAvailabilityCalendar,
   TimeSelection,
-  BookingBreakdown
+  BookingBreakdown,
 } from '../../components';
 import css from './BookingModal.css';
 import classNames from 'classnames';
@@ -16,9 +16,13 @@ import * as moment from "moment";
 import zipToTZ from "zipcode-to-timezone";
 import {array, func, node, object, oneOfType, string} from 'prop-types';
 import {DATE_TYPE_DATETIME, LINE_ITEM_UNITS, propTypes} from '../../util/types';
-
+import Geocoder from '../LocationAutocompleteInput/GeocoderMapbox';
+import {updateMetadata} from "../../ducks/Auth.duck";
+import {connect} from "react-redux";
+import {ensureCurrentUser} from "../../util/data";
+import {speculateFreeTransaction} from "../../containers/ProfilePage/ProfilePage.duck";
 const {UUID} = sdkTypes;
-
+const publicIp = require('public-ip');
 const defaultAvailabilityPlan = {
   type: 'availability-plan/time',
   timezone: "America/New_York",
@@ -33,6 +37,9 @@ const defaultAvailabilityPlan = {
 
   ],
 };
+
+const singleSelectServices = ['carSeatTechnician', 'postpartumDoula'];
+const toFromServices = ['postpartumDoula'];
 
 const createEntriesFromTimeSlots = timeslots =>
   timeslots.reduce((allEntries, timeslot) => {
@@ -56,6 +63,7 @@ const defaultState = {
   section: 1,
   selectedId: null,
   selectedListing: null,
+  selectedListingType: null,
   selectedDates: [],
   selectedTimeSlots: [],
   availabilityPlan: defaultAvailabilityPlan,
@@ -66,22 +74,25 @@ const defaultState = {
   selectedServiceLabel: null,
   timeNextButtonDisabled: true,
   multiSelectTime: true,
+  isToFrom: false,
+  geocoder: new Geocoder(),
+  typedContractSignature: null,
+  contractSignedForServiceType: false,
 };
 
 const BookingModal = props => {
   const {
     rootClassName,
     className,
-    onFetchTimeSlots,
-    onManageDisableScrolling,
-    authorDisplayName,
     onSubmit,
     getListing,
     listingRefs,
     availability,
     fetchSpeculatedTransaction,
+    fetchSpeculateFreeTransaction,
     onInitiateOrder,
     currentUser,
+    onUpdateUserProfile,
   } = props;
 
   const classes = classNames(rootClassName || css.root, className)
@@ -98,7 +109,8 @@ const BookingModal = props => {
     const {publicData} = attributes;
     const {serviceType, expirationDate, zip} = publicData;
     const {contract, label, key} = getServiceType(serviceType) || {};
-    const multiSelectTime = key !== 'carSeatTechnician';
+    const multiSelectTime = !singleSelectServices.includes(key);
+    const isToFrom = toFromServices.includes(key);
 
     const start = moment().startOf('day').toDate();
     const end = new Date(expirationDate);
@@ -110,9 +122,11 @@ const BookingModal = props => {
       section: nextSection,
       selectedId: id,
       selectedListing: listing,
+      selectedListingType: key,
       selectedServiceLabel: label,
       selectedServiceContract: contract,
       multiSelectTime: multiSelectTime,
+      isToFrom: isToFrom,
       selectedDates: newListing ? [] : bookingState.selectedDates,
       selectedTimeSlots: newListing ? [] : bookingState.selectedTimeSlots,
     }
@@ -180,6 +194,11 @@ const BookingModal = props => {
   const rollupTimeslots = () => {
     let rolledUpTimeslots = [];
 
+    // no need to rollup if we are in a to from service
+    if(bookingState.isToFrom) {
+      return bookingState.selectedTimeSlots;
+    }
+
     bookingState.selectedTimeSlots.forEach(time => {
       const filteredTimeslots = rolledUpTimeslots.filter(timeslot => timeslot.date.isSame(time.date));
 
@@ -221,33 +240,68 @@ const BookingModal = props => {
     const listingId = bookingState.selectedId;
     const rolledUpTimeslots = rollupTimeslots();
 
-    const stripeCustomer = currentUser.stripeCustomer || {};
+    const ensuredCurrentUser = ensureCurrentUser(currentUser);
+    const {attributes, stripeCustomer} = ensuredCurrentUser || {};
+    const {profile} = attributes || {};
+    const {protectedData} = profile || {};
+    const {city, state, streetAddress1, zip} = protectedData || {};
+
     const defaultPaymentMethod = stripeCustomer.defaultPaymentMethod || {};
-    const attributes = defaultPaymentMethod.attributes || {};
-    const stripePayment = attributes.stripePaymentMethodId;
+    const paymentMethodAttributes = defaultPaymentMethod.attributes || {};
+    const stripePayment = paymentMethodAttributes.stripePaymentMethodId;
 
-    const promises = [];
-    const paramsArray = [];
-    rolledUpTimeslots.forEach(timeslot => {
-      const params = {
-        listingId,
-        "bookingStart": timeslot.start.toDate(),
-        "bookingEnd": timeslot.end.toDate(),
-        paymentMethod: stripePayment,
-      }
+    //Get lat long of user
+    const address = streetAddress1 + ", " + city + ", " + state + " " + zip;
+    bookingState.geocoder.getPlacePredictions(address)
+      .then(results => {
+        const latlong = {
+          lat: results.predictions[0].center[1],
+          long: results.predictions[0].center[0]
+        };
 
-      paramsArray.push(params);
-      promises.push(fetchSpeculatedTransaction(params))
-    });
+        const promises = [];
+        const paramsArray = [];
+        rolledUpTimeslots.forEach(timeslot => {
+          let params, promise;
 
-    Promise.all(promises).then(values => {
-      setBookingState({
-        ...bookingState,
-        section: nextSection,
-        transactionParams: paramsArray,
-        speculatedTransaction: values
+          if(bookingState.selectedListingType === "postpartumDoula" && promises.length > 0) {
+            params = {
+              listingId,
+              "bookingStart": timeslot.start.toDate(),
+              "bookingEnd": timeslot.end.toDate(),
+              protectedData: {location: {latlong, address}},
+            }
+            promise = fetchSpeculateFreeTransaction(params);
+          } else {
+            params = {
+              listingId,
+              "bookingStart": timeslot.start.toDate(),
+              "bookingEnd": timeslot.end.toDate(),
+              paymentMethod: stripePayment,
+              protectedData: {location: {latlong, address}},
+            }
+
+            promise = fetchSpeculatedTransaction(params);
+          }
+
+          paramsArray.push(params);
+          promises.push(promise)
+        });
+
+        Promise.all(promises).then(values => {
+          console.log("SPEC VALUES: " + JSON.stringify(values));
+          setBookingState({
+            ...bookingState,
+            section: nextSection,
+            transactionParams: paramsArray,
+            speculatedTransaction: values,
+            // contractSignedForServiceType: signed,
+          });
+        });
+      })
+      .catch(e => {
+        console.log("failed to get address", e);
       });
-    });
   }
 
   const handleBooking = (nextSection) => {
@@ -273,7 +327,45 @@ const BookingModal = props => {
   };
 
   const handleConfirmBookingSuccess = () => {
-    setBookingState(defaultState);
+
+    let pubIp = '';
+
+    publicIp.v4() .then(response => {
+      pubIp = response;
+      const params = {
+        [bookingState.selectedServiceLabel]: {
+          typedContractSignature: bookingState.typedContractSignature,
+          contractName: bookingState.selectedServiceLabel,
+          signatureDate: new Date().getTime(),
+          clientIp: response,
+        }
+      }
+      onUpdateUserProfile(params);
+      setBookingState(defaultState);
+    })
+      .catch(e => {
+        const params = {
+          [bookingState.selectedServiceLabel]: {
+            typedContractSignature: bookingState.typedContractSignature,
+            contractName: bookingState.selectedServiceLabel,
+            signatureDate: new Date().getTime(),
+            clientIp: 'unknown',
+          }
+        }
+        onUpdateUserProfile(params);
+        setBookingState(defaultState);
+      });
+
+    //console.log('Do I get here 2 = ' + bookingState.typedContractSignature );
+
+    // .then(result => {
+    //
+    //   console.log('Contract Saved = ' + result);
+    // })
+    // .catch(error => {
+    //   console.error(error);
+    //
+    // });
     onSubmit();
   }
 
@@ -354,7 +446,7 @@ const BookingModal = props => {
 
     if (actionType === 'select-option') {
       let addedSlot;
-      if(bookingState.multiSelectTime) {
+      if (bookingState.multiSelectTime) {
         newSelected = [...bookingState.selectedTimeSlots, action.option]
       } else {
         addedSlot = times;
@@ -377,6 +469,14 @@ const BookingModal = props => {
       timeNextButtonDisabled: timeNextButtonDisableCheck(newSelected, bookingState.selectedDates)
     });
   }
+  const handleTypedSignature = (event) => {
+    console.log('Do I get here???? ' + event.target.value);
+    console.log('event ' + event);
+    console.log('event.target ' + event.target.value);
+
+    setBookingState({...bookingState, typedContractSignature: event.target.value});
+
+  };
 
   const timeSelection = (
     <div className={css.timeSelection}>
@@ -388,6 +488,7 @@ const BookingModal = props => {
         values={bookingState.selectedTimeSlots}
         isCreateBooking={true}
         isMulti={bookingState.multiSelectTime}
+        isToFrom={bookingState.isToFrom}
       />
 
       <div className={css.buttonGroup}>
@@ -417,22 +518,45 @@ const BookingModal = props => {
           bookingTransactions={bookingState.speculatedTransaction}
           bookings={bookingState.speculatedTransaction.map(tx => tx.booking)}
           timeZone={bookingState.availabilityPlan.timezone}
+          isFlatRate={bookingState.isToFrom}
         />) : null}
 
-      <div className={css.contractDiv}>
-        <input type="checkbox" id="contractCheck" className={css.checkbox}
-               onClick={(event) => handleContractCheck(event)}/>
-        <label for="contractCheck">By checking this box, you are electronically signing that you
-          have read and agree to the
-          <a href={bookingState.selectedServiceContract ? bookingState.selectedServiceContract() : null}
-             download={"NU_" + bookingState.selectedServiceLabel + "_Contract"}> {bookingState.selectedServiceLabel} Contract.</a>
-        </label>
-      </div>
+      {/*{bookingState.contractSignedForServiceType ? (*/}
+      {/*  <div className={css.alreadySignedDisclaimer}>You have previously signed that you*/}
+      {/*    have read, understood, and agree to the*/}
+      {/*    <a*/}
+      {/*      href={bookingState.selectedServiceContract ? bookingState.selectedServiceContract() : null}*/}
+      {/*      download={"NU_" + bookingState.selectedServiceLabel + "_Contract"}> {bookingState.selectedServiceLabel} Contract.</a>*/}
+      {/*  </div>*/}
+      {/*) : (*/}
+
+
+        {/*<div className={css.contractDiv}>*/}
+        {/*  <div>*/}
+        {/*    <input className={css.signatureTextBox} type="text" id="contractSignature"*/}
+        {/*           name="contractSignature" label="Typed Signature" placeholder="Typed Signature"*/}
+        {/*           onBlur={handleTypedSignature}*/}
+        {/*    />*/}
+
+        {/*  </div>*/}
+        {/*  /!*<input type="checkbox" id="contractCheck" className={css.checkbox}*!/*/}
+        {/*  /!*       onClick={(event) => handleContractCheck(event)}/>*!/*/}
+        {/*  <div className={css.signatureDisclaimer}>By typing your name in the above text field, you*/}
+        {/*    are electronically signing that you*/}
+        {/*    have read, understood, and agree to the*/}
+        {/*    <a*/}
+        {/*      href={bookingState.selectedServiceContract ? bookingState.selectedServiceContract() : null}*/}
+        {/*      download={"NU_" + bookingState.selectedServiceLabel + "_Contract"}> {bookingState.selectedServiceLabel} Contract.</a>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
+      {/*)*/}
+      {/*}*/}
       <div className={css.buttonGroup}>
         <PrimaryButton className={css.actionButton} onClick={() => goBack()}>
           Back
         </PrimaryButton>
-        <PrimaryButton className={css.actionButton} disabled={bookingState.contractNotChecked}
+        <PrimaryButton className={css.actionButton}
+                       // disabled={!bookingState.typedContractSignature && !bookingState.contractSignedForServiceType}
                        onClick={() => nextPageSubmit()}>
           Request Booking
         </PrimaryButton>
@@ -440,13 +564,28 @@ const BookingModal = props => {
     </div>
   );
 
-  const successMessage = (
-    <div>
-      <h2>Your booking request has been sent!</h2>
+  /*
+  <div className={css.footer}>
+        <InlineTextButton rootClassName={css.logoutButton} onClick={onLogout}>
+          <FormattedMessage id="TopbarMobileMenu.logoutLink"/>
+        </InlineTextButton>
+      </div>
+   */
 
-      <PrimaryButton className={css.actionButton} onClick={() => handleConfirmBookingSuccess()}>
-        Close
-      </PrimaryButton>
+  const successMessage = (
+    <div className={css.successMessageGroup}>
+      <h2>Success</h2>
+      <p className={css.successMessage}>Your booking request has been sent!</p>
+
+      <div className={css.footer}>
+        <PrimaryButton
+          className={css.successMessageCloseButton}
+          onClick={() => handleConfirmBookingSuccess()}
+        >
+          Close
+        </PrimaryButton>
+      </div>
+
     </div>
   )
 
@@ -466,6 +605,10 @@ BookingModal.defautlProps = {
   availability: {},
 }
 
+const mapDispatchToProps = dispatch => ({
+  onUpdateUserProfile: params => dispatch(updateMetadata(params)),
+})
+
 BookingModal.propTypes = {
   onFetchTimeSlots: func,
   onManageDisableScrolling: func.isRequired,
@@ -475,11 +618,16 @@ BookingModal.propTypes = {
   listingRefs: array,
   availability: object,
   fetchSpeculatedTransaction: func.isRequired,
+  fetchSpeculateFreeTransaction: func.isRequired,
   onInitiateOrder: func.isRequired,
   currentUser: propTypes.currentUser,
 }
 
 export default compose(
   withRouter,
-  injectIntl
+  injectIntl,
+  connect(
+    null,
+    mapDispatchToProps
+  ),
 )(BookingModal);

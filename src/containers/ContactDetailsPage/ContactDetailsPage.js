@@ -2,7 +2,7 @@ import React from 'react';
 import { bool, func } from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import {FormattedMessage, injectIntl, intlShape} from '../../util/reactIntl';
+import {injectIntl, intlShape} from '../../util/reactIntl';
 import { propTypes } from '../../util/types';
 import { ensureCurrentUser } from '../../util/data';
 import { sendVerificationEmail } from '../../ducks/user.duck';
@@ -13,7 +13,7 @@ import {
   LayoutWrapperTopbar,
   LayoutWrapperFooter,
   Footer,
-  Page, Hero, AvatarDashboard,
+  Page, Hero,
 } from '../../components';
 import { AboutMeForm } from '../../forms';
 import { TopbarContainer } from '../../containers';
@@ -48,6 +48,7 @@ export const ContactDetailsPageComponent = props => {
   const protectedData = profile.protectedData || {};
   const isParent = publicData.accountType === "parent";
 
+
   const initValues = {
     firstName: profile.firstName,
     lastName: profile.lastName,
@@ -79,7 +80,6 @@ export const ContactDetailsPageComponent = props => {
 
   const contactInfoForm = user.id ? (
     <AboutMeForm
-      className={css.form}
       initialValues={initValues}
       saveUserError={saveUserError}
       saveEmailError={saveEmailError}

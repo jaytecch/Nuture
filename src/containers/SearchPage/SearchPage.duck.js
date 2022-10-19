@@ -160,7 +160,7 @@ export const searchMapListingsError = e => ({
   payload: e,
 });
 
-export const searchListings = searchParams => (dispatch, getState, sdk) => {
+export const searchListings = (searchFor, searchParams) => (dispatch, getState, sdk) => {
   dispatch(searchListingsRequest(searchParams));
 
   const user = getState().user.currentUser;
@@ -168,7 +168,7 @@ export const searchListings = searchParams => (dispatch, getState, sdk) => {
   const {profile} = attributes || {};
   const {publicData} = profile || {};
   const {accountType} = publicData || {};
-  const isPro = accountType === "pro"
+  const isPro = searchFor === "job" || accountType === "pro"
   const searchListingType = isPro ? LISTING_TYPES.job : LISTING_TYPES.service;
 
   const priceSearchParams = priceParam => {
@@ -243,14 +243,14 @@ export const queryUserReviews = userId => (dispatch, getState, sdk) => {
         return review;
       })
       .catch(e => {
-        console.log("Serach Page Error: ", e);
+        console.log("Search Page Error: ", e);
         return [];
       });
 };
 
-export const loadData = searchParams => (dispatch, getState, sdk) => {
+export const loadData = (searchParams, searchFor) => (dispatch, getState, sdk) => {
   return dispatch(fetchCurrentUser()).then(() => {
-    return dispatch(searchListings(searchParams));
+    return dispatch(searchListings(searchFor, searchParams));
   })
 }
 
@@ -283,7 +283,7 @@ export const getAssociatedProListing = (proId, serviceType) => (dispatch, getSta
   return sdk.listings.query({authorId: proId, pub_serviceType: serviceType})
     .then(response => {
       const entities = denormalisedResponseEntities(response);
-      return entities[0];
+      return entities.length > 0 ? entities[0] : null;
     })
 };
 
@@ -302,10 +302,18 @@ export const apply = (listingId, applicant) => (dispatch, getState, sdk) => {
       return dispatch(addApplicantSuccess());
     })
     .catch(e => {
-      log.error(e, 'add-applicant-failed', {
-        listingId: listingId,
-        applicant
-      });
-      return dispatch(addApplicantError(storableError(e)));
+      if(e.error === "exists"){
+        log.error(e, 'Applicant exists', {
+          listingId: listingId,
+          applicant
+        });
+      } else {
+        log.error(e, 'add-applicant-failed', {
+          listingId: listingId,
+          applicant
+        });
+      }
+      dispatch(addApplicantError(storableError(e)))
+      throw e;
     });
 }

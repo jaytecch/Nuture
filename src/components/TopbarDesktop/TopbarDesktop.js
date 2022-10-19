@@ -5,20 +5,20 @@ import classNames from 'classnames';
 import {ACCOUNT_SETTINGS_PAGES} from '../../routeConfiguration';
 import {propTypes} from '../../util/types';
 import {
+  Avatar, IconDownTriangle,
   InlineTextButton,
-  Logo,
   Menu,
   MenuContent,
   MenuItem,
   MenuLabel,
   NamedLink,
-  OwnListingLink,
 } from '../../components';
 
 import css from './TopbarDesktop.css';
 import MenuIcon from "../Topbar/MenuIcon";
 import {ACCOUNT_TYPES, LISTING_TYPES} from "../../nurtureUpLists";
 import {ensureCurrentUser} from "../../util/data";
+import {Link} from "react-router-dom";
 
 const TopbarDesktop = props => {
   const {
@@ -49,7 +49,8 @@ const TopbarDesktop = props => {
   const {profile} = user.attributes || {};
   const {publicData} = profile || {};
   const {accountType} = publicData || {};
-  const searchListingType = accountType === "pro" ? LISTING_TYPES.job : LISTING_TYPES.service
+  const isProvider = accountType === 'pro';
+  const searchListingType = isProvider ? LISTING_TYPES.job : LISTING_TYPES.service
 
   const currentPageClass = page => {
     const isAccountSettingsPage =
@@ -60,19 +61,10 @@ const TopbarDesktop = props => {
   const profileMenu = authenticatedOnClientSide ? (
     <Menu>
       <MenuLabel className={css.profileMenuLabel} isOpenClassName={css.profileMenuIsOpen}>
-        <MenuIcon className={css.menuIcon}/>
+        <Avatar rootClassName={css.menuAvatarRoot} user={user} disableProfileLink />
+        <IconDownTriangle rootClassName={css.menuArrowRoot} className={css.menuArrow}/>
       </MenuLabel>
       <MenuContent className={css.profileMenuContent}>
-        <MenuItem key="AccountSettingsPage">
-          <NamedLink
-            className={classNames(css.yourListingsLink, currentPageClass('AccountSettingsPage'))}
-            name="AccountSettingsPage"
-          >
-            <span className={css.menuItemBorder} />
-            <FormattedMessage id="TopbarDesktop.accountSettingsLink" />
-          </NamedLink>
-        </MenuItem>
-
         <MenuItem key="Dashboard">
           <NamedLink
             className={classNames(css.yourListingsLink, currentPageClass('Dashboard'))}
@@ -89,7 +81,7 @@ const TopbarDesktop = props => {
             name="SearchPage"
           >
             <span className={css.menuItemBorder} />
-            <FormattedMessage id="TopbarDesktop.searchLink" />
+            {isProvider ? <FormattedMessage id="TopbarDesktop.searchPro" /> : <FormattedMessage id="TopbarDesktop.searchParent" />}
           </NamedLink>
         </MenuItem>
 
@@ -101,6 +93,42 @@ const TopbarDesktop = props => {
             <span className={css.menuItemBorder} />
             <FormattedMessage id="TopbarDesktop.inbox" />
           </NamedLink>
+        </MenuItem>
+
+        <MenuItem key="AccountSettingsPage">
+          <NamedLink
+            className={classNames(css.yourListingsLink, currentPageClass('AccountSettingsPage'))}
+            name="AccountSettingsPage"
+          >
+            <span className={css.menuItemBorder} />
+            <FormattedMessage id="TopbarDesktop.accountSettingsLink" />
+          </NamedLink>
+        </MenuItem>
+
+        <MenuItem key="AboutPage">
+          <NamedLink
+            className={classNames(css.yourListingsLink, currentPageClass('AboutPage'))}
+            name="AboutPage"
+          >
+            <span className={css.menuItemBorder} />
+            <FormattedMessage id="TopbarDesktop.about" />
+          </NamedLink>
+        </MenuItem>
+
+        <MenuItem key="Safety">
+          <Link
+            className={classNames(css.yourListingsLink, currentPageClass('Safety'))}
+            to={"/about#safety-anchor"}
+          >
+            <span className={css.menuItemBorder} />
+            <FormattedMessage id="TopbarDesktop.safety" />
+          </Link>
+        </MenuItem>
+
+        <MenuItem key="Blog">
+          <a href={"http://nurtureup.blog"} className={css.yourListingsLink} target="_blank">
+            Blog
+          </a>
         </MenuItem>
 
         <MenuItem key="logout">
@@ -123,61 +151,84 @@ const TopbarDesktop = props => {
   );
 
   const loginLink = isAuthenticatedOrJustHydrated ? null : (
-    <div className={css.loginLink} onClick={setIsLoginModalOpen}>
-      <span className={css.login}>
+    <div className={css.topbarLink} onClick={setIsLoginModalOpen}>
         <FormattedMessage id="TopbarDesktop.login" />
-      </span>
     </div>
   );
 
-  const logoLink = (
-    <NamedLink className={css.logoLink} name="LandingPage">
-      <Logo
-        format="desktop"
-        className={css.logo}
-        alt={intl.formatMessage({ id: 'TopbarDesktop.logo' })}
-      />
-    </NamedLink>
-  );
-
+  const aboutLinkClass = classNames(css.topbarLink, {
+    [css.disableLink]: currentPage === 'AboutPage',
+  });
   const aboutLink = isAuthenticatedOrJustHydrated ? null :  (
-    <NamedLink className={css.aboutLink} name="AboutPage">
-
+    <NamedLink className={aboutLinkClass} name="AboutPage">
       <FormattedMessage id="TopbarDesktop.about" />
-
     </NamedLink>
   ) ;
 
   const safetyLink = isAuthenticatedOrJustHydrated ? null :  (
-    <NamedLink className={css.safetyLink} name="AboutPage">
-
+    <Link className={css.topbarLink} to={"/about#safety-anchor"}>
       <FormattedMessage id="TopbarDesktop.safety" />
-
-    </NamedLink>
+    </Link>
   ) ;
 
+  const blogLink = isAuthenticatedOrJustHydrated ? null :  (
+    <a href={"http://nurtureup.blog"} className={css.topbarLink} target="_blank">
+      Blog
+    </a>
+  ) ;
   const contactLink = isAuthenticatedOrJustHydrated ? null :  (
-    <div className={css.contactLink} onClick={setIsContactModalOpen}>
-
+    <div className={css.topbarLink} onClick={setIsContactModalOpen}>
         <FormattedMessage id="TopbarDesktop.contact" />
-
     </div>
   ) ;
+
+  const dashboardLinkClass = classNames(css.topbarLink, {
+    [css.disableLink]: currentPage === 'DashboardPage',
+  });
+  const dashboardLink = isAuthenticatedOrJustHydrated ? (
+    <NamedLink className={dashboardLinkClass} name="Dashboard">
+      <FormattedMessage id="TopbarDesktop.dashboardLink" />
+    </NamedLink>
+  ) : null;
+
+  const messagesLinkClass = classNames(css.topbarLink, {
+    [css.disableLink]: currentPage === 'InboxPage',
+  });
+  const messagesLink = isAuthenticatedOrJustHydrated ? (
+    <NamedLink className={messagesLinkClass} name="InboxPage">
+      <FormattedMessage id="TopbarDesktop.inbox" />
+    </NamedLink>
+  ) : null ;
+
+  const searchButton = isAuthenticatedOrJustHydrated ? (
+    <NamedLink name="SearchPage" className={css.quickActionButton}>
+      <span className={css.searchButtonText}>
+        {isProvider ? ("FIND A JOB") : ("FIND A SERVICE PRO")}
+      </span>
+    </NamedLink>
+  ) : null;
 
   const verticalLink = isAuthenticatedOrJustHydrated ? null :  (
-    <div className={css.verticalLink}>
-      <div className={css.login}/>
-    </div>
+    <div className={css.verticalLink}/>
   ) ;
 
   return (
     <nav className={classes}>
-      {aboutLink}
-      {safetyLink}
-      {contactLink}
-      {verticalLink}
-      {loginLink}
-      {signupButton}
+      <div className={css.linkGroup}>
+        {dashboardLink}
+        {messagesLink}
+        {searchButton}
+
+        {aboutLink}
+        {safetyLink}
+        {blogLink}
+        {contactLink}
+        {verticalLink}
+        {loginLink}
+        {signupButton}
+      </div>
+
+
       {profileMenu}
     </nav>
   );

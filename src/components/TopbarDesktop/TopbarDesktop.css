@@ -131,8 +131,12 @@
 }
 
 /* Menu Links */
-.aboutLink{
-  width: 62px;
+.linkGroup {
+  display: flex;
+  margin: auto 0;
+}
+
+.topbarLink {
   height: 30px;
   margin: 9px 2vw 10px 0;
   font-size: 20px;
@@ -144,89 +148,40 @@
   text-align: center;
   color: #ffffff;
 
-&:hover {
-   text-decoration: underline;
-   color: white;
- }
-}
-
- .safetyLink{
-   width: 65px;
-   height: 30px;
-   margin: 9px 2vw 10px 0px;
-   font-size: 20px;
-   font-weight: 600;
-   font-stretch: normal;
-   font-style: normal;
-   line-height: 1.5;
-   letter-spacing: normal;
-   text-align: center;
-   color: #ffffff;
-
   &:hover {
     text-decoration: underline;
     color: white;
   }
 }
 
-.contactLink{
-  width: 83px;
-  height: 30px;
-  margin: 9px 2vw 10px 0px;
+.quickActionButton {
+  @apply --marketplaceButtonStylesPrimary;
+
+  min-height: unset;
+  display: inline-block;
+  width: 100%;
+  padding: 0;
+}
+
+.searchButtonText {
+  align-items: center;
   font-size: 20px;
-  font-weight: 600;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.5;
-  letter-spacing: normal;
-  text-align: center;
-  color: #ffffff;
-
-  &:hover {
-    text-decoration: underline;
-    color: white;
-  }
+  margin: 0px 20px;
+  height: 100%;
+  display: inline-flex;
 }
 
-
+.disableLink {
+  pointer-events: none;
+  border-top: 5px solid var(--nuPink);
+  margin-top: 5px;
+}
 
 .verticalLink {
-  //flex-shrink: 0;
-  //height: 100%;
-  //color: white;
-  //font-size: 20px;
-  //margin-top: auto;
-  //margin-bottom: auto;
-  //padding: 0 15px;
-  //font-weight: 100!important;
-
   width: 0;
   height: 30px;
-  margin: 9px 2vw 10px 0px;
+  margin: 9px 2vw 10px 0;
   border: solid 1px #ffffff;
-}
-/* Inbox */
-.inboxLink {
-  @apply --marketplaceH4FontStyles;
-  height: 100%;
-  padding: 0 12px 0 12px;
-  margin-top: 0;
-  margin-bottom: 0;
-  color: var(--matterColor);
-
-  &:hover {
-    color: var(--matterColorDark);
-  }
-
-  @media (--viewportMedium) {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-}
-
-.inbox {
-  @apply --TopbarDesktop_label;
-  position: relative;
 }
 
 .notificationDot {
@@ -271,7 +226,7 @@
   align-items: center;
   height: 100%;
   margin: 0;
-  padding: 0 12px 0 12px;
+  padding: 0 12px 0px 12px;
 
   &:active {
     border-bottom: 0;
@@ -288,6 +243,22 @@
   fill: var(--nuPink);
   width: 36px;
   height: 26px;
+}
+
+.menuAvatarRoot {
+  width: 60px;
+  border-radius: 30px;
+  margin: auto;
+  box-shadow: 4px 4px 6px 0 rgba(0, 0, 0, 0.16);
+}
+
+.menuArrowRoot {
+  margin-left: 5px;
+  width: 16px;
+}
+
+.menuArrow {
+  fill: white;
 }
 
 .avatar {
@@ -320,35 +291,6 @@
   letter-spacing: normal;
   text-align: center;
   color: #ffffff;
-
-}
-
-/* Authentication */
-
-.loginLink {
-
-  width: 55px;
-  height: 30px;
-  margin: 9px 2vw 10px 0px;
-  font-size: 20px;
-  font-weight: 600;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.5;
-  letter-spacing: normal;
-  text-align: center;
-  color: #ffffff;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-
-
-.login {
-
-
 
 }
 

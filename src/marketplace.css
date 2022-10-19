@@ -1,5 +1,4 @@
 @import './marketplaceFonts.css';
-
 /* ================ Custom properties aka variables ================ */
 
 :root {
@@ -165,6 +164,7 @@
     &:hover {
       text-decoration: underline;
       cursor: pointer;
+      color: var(--nuBackground);
     }
   };
 
@@ -214,7 +214,6 @@
       /*outline: none;*/
       /*background: var(--nuYellow);*/
        text-decoration: none;
-       box-shadow: var(--boxShadowButton);
        background: linear-gradient(340deg, var(--nuYellow), var(--nuYellow));
     }
 
@@ -259,7 +258,6 @@
       outline: none;
       background-color: var(--marketplaceColorDark);
       text-decoration: none;
-      box-shadow: var(--boxShadowButton);
     }
     &:disabled {
       background-color: var(--matterColorNegative);
@@ -650,3 +648,7 @@
 @custom-media --viewportMobileSmall (max-width: 330px);
 @custom-media --viewportMobileMedium (max-width: 550px);
 @custom-media --viewportMobileLarge (max-width: 767px);
+
+@custom-media --viewportHeightMedium (max-height: 650px);
+@custom-media --viewportHeightMedium (max-height: 700px);
+@custom-media --viewportHeightLarge (min-height: 1120px);

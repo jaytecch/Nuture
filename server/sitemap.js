@@ -2,7 +2,7 @@ const path = require('path');
 const moment = require('moment');
 
 const buildPath = path.resolve(__dirname, '..', 'build');
-const PORT = parseInt(process.env.PORT, 10);
+const PORT = parseInt(process.env.AWS_ALB_PORT, 10);
 const USING_SSL = process.env.REACT_APP_SHARETRIBE_USING_SSL === 'true';
 
 /**
@@ -53,7 +53,7 @@ exports.sitemapStructure = () => {
   return {
     url: domain(process.env.REACT_APP_CANONICAL_ROOT_URL),
     http: USING_SSL ? 'https' : 'http',
-    port: port(process.env.REACT_APP_CANONICAL_ROOT_URL),
+    port: PORT,
     sitemap: path.join(buildPath, 'static', 'sitemap.xml'),
     robots: path.join(buildPath, 'robots.txt'),
     sitemapSubmission: '/static/sitemap.xml',

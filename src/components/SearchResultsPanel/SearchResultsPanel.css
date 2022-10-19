@@ -63,6 +63,7 @@
 
   @media (--viewportMobileLarge) {
     margin-top: 2vh;
+    justify-content:center;
   }
 }
 
@@ -102,4 +103,37 @@
 .messageModalContent {
   flex-grow: 1;
   display: flex;
+}
+
+.noServiceContent {
+  width: 500px;
+}
+
+.noServiceSubtext {
+  color: black;
+  overflow-wrap: break-word;
+}
+
+.successMessage {
+  color: black;
+  overflow-wrap: break-word;
+}
+
+.successMessage {
+  color: red;
+  overflow-wrap: break-word;
+}
+
+.noResults {
+  margin-top: 50px !important;
+  color: black;
+  width: 50vw;
+  height: 125px;
+
+  @media (--viewportMobileLarge) {
+    width: 100%;
+    text-align: center;
+    overflow-wrap: break-word;
+    white-space: unset;
+  }
 }

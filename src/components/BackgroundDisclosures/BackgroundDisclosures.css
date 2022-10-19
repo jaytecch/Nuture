@@ -357,6 +357,17 @@
   }
 }
 
+.accountSettingsBackgroundSuccess {
+
+  margin-top: 25vh;
+  color: var(--nuPink);
+  align-text: center;
+  justify-content: center;
+  display: flex;
+
+}
+
+
 .welcomeMessageText {
 
   margin-top: 20px;
@@ -581,6 +592,7 @@
   font-size: 20px;
   line-height: 20px;
   letter-spacing: 0px;
+  text-align: center;
 
   @media (max-width: 768px) {
     margin-top: 30px;

@@ -22,6 +22,7 @@
     line-height: 1.18;
     letter-spacing: normal;
     text-align: center;
+    margin: 0;
 }
 
 .root {
@@ -33,7 +34,7 @@
 
   margin: 2% auto 0;
 
-  @media (--viewportMobileMedium) {
+  @media (--viewportMobileLarge) {
     border-radius: 0;
     height: 20vh;
     margin: 10% auto 0;
@@ -45,7 +46,7 @@
 .spacing {
   margin: 5% 15%;
 
-  @media (--viewportMobileMedium) {
+  @media (--viewportMobileLarge) {
     margin-top: 10%;
   }
 }
@@ -62,7 +63,7 @@
   width: 20vw;
   margin: auto;
 
-  @media (--viewportMobileMedium) {
+  @media (--viewportMobileLarge) {
     width: 65vw;
   }
 }
@@ -129,6 +130,7 @@
 .iconAccomplished {
   fill: var(--nuBackground);
   padding: 12px;
+  width: 50px;
 }
 
 .progressHeader {

@@ -372,19 +372,22 @@ const CardInboxComponent = props => {
 
   return (
     <Card className={classes} flat={true} header={header}>
-      <ul className={css.itemList}>
-        {!fetchInProgress ? (
-          viewableItems.map(toTxItem)
-        ) : (
-          <li className={css.listItemsLoading}>
-            <IconSpinner/>
-          </li>
-        )}
-        {noResults}
-      </ul>
-      <NamedLink name="InboxPage" className={css.namedLinkButton}>
-        SEE MORE
-      </NamedLink>
+      <div className={css.content}>
+        <ul className={css.itemList}>
+          {!fetchInProgress ? (
+            viewableItems.map(toTxItem)
+          ) : (
+            <li className={css.listItemsLoading}>
+              <IconSpinner/>
+            </li>
+          )}
+          {noResults}
+        </ul>
+        <NamedLink name="InboxPage" className={css.namedLinkButton}>
+          SEE MORE
+        </NamedLink>
+      </div>
+
     </Card>
   );
 };

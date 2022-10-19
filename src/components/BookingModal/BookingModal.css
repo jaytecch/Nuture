@@ -15,6 +15,7 @@
 
 .serviceButtonsGroup {
   display: flex;
+  margin-top: 30px;
 
   @media (--viewportMobileMedium) {
     display: block;
@@ -94,8 +95,10 @@
 }
 
 .actionButton {
-  margin-top: auto;
-  margin-bottom: 24px;
+  margin: auto 5px 24px;
+  font-size: 16px;
+  height: 55px;
+  min-height: unset;
 }
 
 .dateSelection {
@@ -133,10 +136,36 @@
 }
 
 .contractDiv {
-  display: flex;
-  flex-direction: row;
+  display: block;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.signatureTextBox {
+  border: 2px solid;
+  width: 100%;
+  padding-left: 10px;
+  border-radius: 10px;
+  font-color: gray;
+  font-size: 14px;
+
+}
+
+.signatureDisclaimer {
+  font-weight: 600!important;
+  margin-top: 2px;
+  margin-bottom: 20px;
+  margin-left: 5px;
+
+}
+
+.alreadySignedDisclaimer {
+  font-weight: 600!important;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  margin-left: 15px;
+  border-radius:10px;
+
 }
 
 
@@ -217,5 +246,58 @@
 
 .checkbox input[type="checkbox"]:focus + label::before {
   outline: 0;
+}
+
+.successMessageGroup {
+  width: 20vw;
+
+  @media (--viewportMobileLarge) {
+    width: 100%;
+  }
+}
+
+.successMessage {
+  color: var(--nuPink);
+  overflow-wrap: break-word;
+  @media (--viewportMobileLarge) {
+    white-space: unset;
+    text-align: center;
+    margin-top: 15vh !important;
+    line-height: 45px;
+  }
+}
+
+.successMessageCloseButton {
+  min-height: unset;
+  height: 50px;
+  width: max-content;
+  padding: 0 40px;
+  margin: auto;
+
+  @media (--viewportMobileLarge) {
+    @apply --marketplaceLinkStyles;
+    /* Logout font is smaller and gray since the action is not recommended. */
+    @apply --marketplaceH3FontStyles;
+    color: var(--matterColorAnti);
+    background-color: white;
+
+    /* Position component */
+    width: initial;
+    margin: 4px 0 6px 0;
+    padding: 0;
+  }
+}
+
+.footer {
+
+  @media (--viewportMobileLarge) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    padding: 24px;
+    background-color: var(--matterColorLight);
+    box-shadow: var(--boxShadowTop);
+  }
 }
 

@@ -2,22 +2,22 @@ import React from 'react';
 import { FormattedMessage, intlShape } from '../../util/reactIntl';
 import {convertMoneyToNumber, formatMoney} from '../../util/currency';
 import { LINE_ITEM_NIGHT, LINE_ITEM_DAY, propTypes } from '../../util/types';
+import {arrayOf, bool} from 'prop-types';
 
 import css from './BookingBreakdown.css';
-import {arrayOf} from "prop-types";
 import {types as sdkTypes} from "../../util/sdkLoader";
 
 const { Money } = sdkTypes;
 
 const LineItemBasePriceMaybe = props => {
-  const { unitType, intl, bookingTransactions} = props;
+  const { unitType, intl, bookingTransactions, isFlatRate} = props;
   const isNightly = unitType === LINE_ITEM_NIGHT;
   const isDaily = unitType === LINE_ITEM_DAY;
   const translationKey = isNightly
     ? 'BookingBreakdown.baseUnitNight'
     : isDaily
-    ? 'BookingBreakdown.baseUnitDay'
-    : 'BookingBreakdown.baseUnitQuantity';
+      ? 'BookingBreakdown.baseUnitDay'
+      : 'BookingBreakdown.baseUnitQuantity';
 
   let bookingTotal = 0;
   let bookingQuantity = 0;
@@ -45,7 +45,7 @@ const LineItemBasePriceMaybe = props => {
   const unitPrice = unitPurchase ? formatMoney(intl, unitPurchase.unitPrice) : null;
   const total = unitPurchase ? formatMoney(intl, new Money(bookingTotal, 'USD')) : null;
 
-  return quantity && total ? (
+  return !isFlatRate && quantity && total ? (
     <div className={css.lineItem}>
       <span className={css.itemLabel}>
         <FormattedMessage id={translationKey} values={{ unitPrice, quantity }} />
@@ -59,6 +59,7 @@ LineItemBasePriceMaybe.propTypes = {
   bookingTransactions: arrayOf(propTypes.transaction).isRequired,
   unitType: propTypes.bookingUnitType.isRequired,
   intl: intlShape.isRequired,
+  isFlatRate: bool.isRequired,
 };
 
 export default LineItemBasePriceMaybe;

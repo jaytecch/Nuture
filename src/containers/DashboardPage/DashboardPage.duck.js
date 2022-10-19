@@ -167,7 +167,8 @@ export const fetchBookings = (accountType) => (dispatch, getState, sdk) => {
       'transitions',
       'payinTotal',
       'payoutTotal',
-      'createdAt'
+      'createdAt',
+      'protectedData',
     ],
     'fields.user': ['profile.displayName', 'profile.abbreviatedName'],
     'fields.image': ['variants.square-small', 'variants.square-small2x'],

@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import { string, shape, number, object } from 'prop-types';
+import React, {Component} from 'react';
+import {string, shape, number, object} from 'prop-types';
 // This MultiTouch lib is used for 2-finger panning.
 // which prevents user to experience map-scroll trap, while scrolling the page.
 // https://github.com/mapbox/mapbox-gl-js/issues/2618
 // TODO: we should add an overlay with text "use two fingers to pan".
 import MultiTouch from 'mapbox-gl-multitouch';
 import uniqueId from 'lodash/uniqueId';
-import { circlePolyline } from '../../util/maps';
+import {circlePolyline} from '../../util/maps';
 import config from '../../config';
 
 const mapMarker = mapsConfig => {
-  const { enabled, url, width, height } = mapsConfig.customMarker;
+  const {enabled, url, width, height} = mapsConfig.customMarker;
   if (enabled) {
     const element = document.createElement('div');
     element.style.backgroundImage = `url(${url})`;
     element.style.width = `${width}px`;
     element.style.height = `${height}px`;
-    return new window.mapboxgl.Marker({ element });
+    return new window.mapboxgl.Marker({element});
   } else {
     return new window.mapboxgl.Marker();
   }
@@ -59,8 +59,9 @@ class DynamicMapboxMap extends Component {
 
     this.updateFuzzyCirclelayer = this.updateFuzzyCirclelayer.bind(this);
   }
+
   componentDidMount() {
-    const { center, zoom, mapsConfig } = this.props;
+    const {center, zoom, mapsConfig} = this.props;
     const position = [center.lng, center.lat];
 
     this.map = new window.mapboxgl.Map({
@@ -70,7 +71,7 @@ class DynamicMapboxMap extends Component {
       zoom,
       scrollZoom: false,
     });
-    this.map.addControl(new window.mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
+    this.map.addControl(new window.mapboxgl.NavigationControl({showCompass: false}), 'top-left');
     this.map.addControl(new MultiTouch());
 
     if (mapsConfig.fuzzy.enabled) {
@@ -82,6 +83,7 @@ class DynamicMapboxMap extends Component {
       this.centerMarker.setLngLat(position).addTo(this.map);
     }
   }
+
   componentWillUnmount() {
     if (this.map) {
       this.centerMarker = null;
@@ -89,13 +91,14 @@ class DynamicMapboxMap extends Component {
       this.map = null;
     }
   }
+
   componentDidUpdate(prevProps) {
     if (!this.map) {
       return;
     }
 
-    const { center, zoom, mapsConfig } = this.props;
-    const { lat, lng } = center;
+    const {center, zoom, mapsConfig} = this.props;
+    const {lat, lng} = center;
     const position = [lng, lat];
 
     // zoom change
@@ -122,13 +125,14 @@ class DynamicMapboxMap extends Component {
 
     // NOTE: mapsConfig changes are not handled
   }
+
   updateFuzzyCirclelayer() {
     if (!this.map) {
       // map already removed
       return;
     }
-    const { center, mapsConfig } = this.props;
-    const { lat, lng } = center;
+    const {center, mapsConfig} = this.props;
+    const {lat, lng} = center;
     const position = [lng, lat];
 
     this.map.removeLayer(this.fuzzyLayerId);
@@ -139,11 +143,12 @@ class DynamicMapboxMap extends Component {
 
     this.map.setCenter(position);
   }
+
   render() {
-    const { containerClassName, mapClassName } = this.props;
+    const {containerClassName, mapClassName} = this.props;
     return (
       <div className={containerClassName}>
-        <div className={mapClassName} ref={el => (this.mapContainer = el)} />
+        <div className={mapClassName} ref={el => (this.mapContainer = el)}/>
       </div>
     );
   }

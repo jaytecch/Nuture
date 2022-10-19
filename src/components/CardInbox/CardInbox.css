@@ -9,6 +9,13 @@
   color: var(--nuPink);
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
 .navigation {
   /* Layout */
   display: flex;
@@ -373,7 +380,8 @@
 
 .namedLinkButton {
   @apply --marketplaceButtonStylesPrimary;
-  margin-top: 30px;
+
+margin-top: 20px;
 
   @media (max-width: 768px) {
     font-size: 14px;

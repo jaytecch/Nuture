@@ -48,7 +48,6 @@
 .contentWrapper {
   display: flex;
   flex-wrap: wrap;
-  max-width: 300px;
   padding-top: 5px;
   padding-bottom: 5px;
   margin-top: 0px;
@@ -66,36 +65,48 @@
   padding: 8px 0 12px 0;
   margin-right: 18px;
 }
-@media (--viewportMedium) {
-  .label {
-    padding: 8px 0 16px 0;
-  }
-}
+
 
 .inputsWrapper {
+  display: flex;
+}
+
+.nonCurrencyInputsWrapper {
+  display: flex;
+  padding-left: 12px;
+}
+
+.displayDiv{
   display: flex;
 }
 
 .minValue {
   @apply --marketplaceSearchFilterSublabelFontStyles;
   width: 48px;
-  text-align: center;
+  /*text-align: center;*/
   border-bottom-color: var(--attentionColor);
   border-bottom-width: 3px;
+  padding:unset;
 
   -moz-appearance: textfield;
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+
+  &::before {
+    color: black;
+    content: "$";
   }
 }
 .maxValue {
   @apply --marketplaceSearchFilterSublabelFontStyles;
   width: 48px;
-  text-align: center;
+  /*text-align: center;*/
   border-bottom-color: var(--attentionColor);
   border-bottom-width: 3px;
+  padding:unset;
 
   -moz-appearance: textfield;
   &::-webkit-inner-spin-button,
@@ -105,8 +116,19 @@
   }
 }
 
+.dollar {
+  font-size: 18px;
+  margin: auto;
+}
+
+.dollarGroup{
+  display:flex;
+  flex-direction: row;
+}
+
 .valueSeparator {
-  margin: 4px 8px 0 8px;
+  /*margin: 4px 8px 0 8px;*/
+  margin: 4px 40px 0 0;
 }
 
 @media (--viewportMedium) {

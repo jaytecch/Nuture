@@ -42,7 +42,7 @@ export const CardPaymentMethodComponent = props => {
 
   const defaultCard = (
     <div className={css.savedPaymentMethod}>
-      <div>Credit Card</div>
+      <div className={css.subheader}>Credit Card</div>
       <IconCard brand={brand} className={css.cardIcon} />
       <span className={css.cardDigits}>{last4Digits}</span>
     </div>
@@ -53,13 +53,17 @@ export const CardPaymentMethodComponent = props => {
 
   return (
     <Card className={classes} flat={true} header={header}>
-      <div >
-        {!card ? null : defaultCard }
+      <div className={css.content}>
+        <div >
+          {!card ? null : defaultCard }
+        </div>
+
+        <NamedLink name="PaymentMethodsPage" className={css.namedLinkButton}>
+          <span className={css.updateButtonText}>{buttonText}</span>
+        </NamedLink>
+
       </div>
 
-      <NamedLink name="PaymentMethodsPage" className={css.namedLinkButton}>
-        <span className={css.updateButtonText}>{buttonText}</span>
-      </NamedLink>
     </Card>
   );
 };

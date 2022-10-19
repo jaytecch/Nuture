@@ -5,25 +5,7 @@
   margin-right: auto;
 }
 
-.textInput {
-  padding-top: 10px;
-}
-
-.buttonGroup {
-  display: flex;
-  flex-direction: row;
-  padding-top: 35px;
-}
-
-.messageArea {
-  padding-top: 30px;
-  color: var(--nuPink);
-  font-size: 18px;
-}
-
-.messageAreaRoot {
-  padding-top: 10px;
-  padding-left: 10px;
-  width: 500px;
-  height: 200px;
+.error {
+  color: red;
+  text-align: center;
 }

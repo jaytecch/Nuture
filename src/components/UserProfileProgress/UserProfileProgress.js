@@ -12,7 +12,7 @@ import {
   paidSubscription,
   paymentAdded
 } from "./PossibleSteps";
-import {ensureCurrentUser} from "../../util/data";
+import {ensureCurrentUser, ensurePaymentMethodCard, ensureStripeCustomer} from "../../util/data";
 
 const UserProfileProgressComponent = props => {
   const {
@@ -33,6 +33,12 @@ const UserProfileProgressComponent = props => {
 
   const usersSteps = [];
 
+  const hasDefaultPaymentMethod =
+    currentUser &&
+    ensureStripeCustomer(currentUser.stripeCustomer).attributes.stripeCustomerId &&
+    ensurePaymentMethodCard(currentUser.stripeCustomer.defaultPaymentMethod).id;
+
+
   // Order the steps so that all success is in the beginning.
   let stepPositions;
   if(isPro) {
@@ -41,7 +47,8 @@ const UserProfileProgressComponent = props => {
     usersSteps.unshift({done: proSubscriptionPaid === 'true', step: paidSubscription});
     stepPositions = [0, 33, 66, 100];
   } else {
-    usersSteps.push({done: paymentMethodAdded === 'true', step: paymentAdded});
+    //usersSteps.push({done: paymentMethodAdded === 'true', step: paymentAdded});
+    usersSteps.push({done: hasDefaultPaymentMethod, step: paymentAdded});
     stepPositions = [0, 100];
   }
   usersSteps.unshift({done: true, step: profileInfo});

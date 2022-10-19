@@ -2,6 +2,7 @@
 
 .root {
   margin: auto;
+  width: 100%;
 
   & :global(.CalendarMonth_caption) {
     @apply --marketplaceH3FontStyles;
@@ -28,7 +29,7 @@
 
   & :global(.DayPicker__horizontal) {
     background-color: transparent;
-    margin-left: -18px;
+
   }
 
   & :global(.DayPicker_weekHeader) {
@@ -73,6 +74,63 @@
     background: var(--nuPink);
     color: var(--nuBackground);
     border-radius: 40px;
+  }
+
+  & :global(.CalendarMonthGrid, .CalendarMonthGrid_1, .CalendarMonthGrid__horizontal, .CalendarMonthGrid__horizontal_2) {
+    width: 100%;
+  }
+
+  & :global(.DayPicker, .DayPicker_1, .DayPicker__horizontal, .DayPicker__horizontal_2) {
+    width: 100% !important;
+  }
+
+  & :global(.DayPicker_transitionContainer, .DayPicker_transitionContainer_1, .DayPicker_transitionContainer__horizontal, .DayPicker_transitionContainer__horizontal_2) {
+    width: 100% !important;
+  }
+
+  & :global(.CalendarMonthGrid_month__hidden, .CalendarMonthGrid_month__hidden_2) {
+    display: none !important;
+  }
+
+  & :global(.CalendarMonthGrid, .CalendarMonthGrid_1, .CalendarMonthGrid__horizontal, .CalendarMonthGrid__horizontal_2) {
+    width: 100% !important;
+  }
+
+  & :global(.CalendarMonthGrid_month__horizontal, .CalendarMonthGrid_month__horizontal_1) {
+    width: 33% !important;
+  }
+
+  & :global(.DayPickerKeyboardShortcuts_buttonReset, .DayPickerKeyboardShortcuts_buttonReset_1, .DayPickerKeyboardShortcuts_show, .DayPickerKeyboardShortcuts_show_2, .DayPickerKeyboardShortcuts_show__bottomRight, .DayPickerKeyboardShortcuts_show__bottomRight_3 ){
+    margin-right: 15px;
+    display: none;
+  }
+
+  & :global(.DayPicker_weekHeaders, .DayPicker_weekHeaders_1, .DayPicker_weekHeaders__horizontal, .DayPicker_weekHeaders__horizontal_2) {
+    width: 100% !important;
+  }
+
+  & :global(.DayPicker_weekHeader, .DayPicker_weekHeader_1:first-child) {
+    width: 33% !important;
+    left: 0 !important;
+    /*position: static !important;*/
+  }
+  & :global(.DayPicker_weekHeader, .DayPicker_weekHeader_1:nth-child(even) ){
+    width: 33% !important;
+    left: 355px !important;
+    /*position: static !important;*/
+  }
+  & :global(.DayPicker_weekHeader, .DayPicker_weekHeader_1:last-child) {
+    width: 33% !important;
+    left: 710px !important;
+    /*position: static !important;*/
+  }
+
+  & :global(.DayPicker_weekHeaders, .DayPicker_weekHeaders_1, .DayPicker_weekHeaders__horizontal, .DayPicker_weekHeaders__horizontal_2.div) {
+    width: 100% !important;
+  }
+
+  & :global(#datepicker-container.div.div.div ){
+    width: 100% !important;
   }
 }
 

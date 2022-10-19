@@ -74,12 +74,10 @@
 
   margin-top: auto;
   margin-bottom: 13px;
-@media(--viewportMobileMedium){
-  font-size: 30px;
-  margin-top:100px;
-}
-
-
+  @media (--viewportMobileMedium) {
+    font-size: 30px;
+    margin-top: 100px;
+  }
 }
 
 .navigationLink {
@@ -90,15 +88,15 @@
   /* Layout */
   margin-top: 0;
   margin-bottom: 11px;
-@media(--viewportMobileMedium){
-  font-size: 30px;
-}
+  @media (--viewportMobileMedium) {
+    font-size: 30px;
+  }
 
 }
+
 .currentPageLink {
   color: var(--marketplaceColorDark);
 }
-
 
 
 .notificationBadge {
@@ -107,6 +105,7 @@
   right: -26px;
 
   /* This is inside a link - remove underline */
+
   &:hover {
     text-decoration: none;
   }
@@ -122,6 +121,7 @@
 
   margin: var(--TopbarMobileMenu_topMargin) auto 24px;
 }
+
 .authenticationLinks {
   white-space: nowrap;
 }
@@ -142,7 +142,12 @@
   }
 }
 
-.loginForm {
+.backLink {
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.form {
   margin: auto;
 }
 
@@ -160,7 +165,7 @@ css.error {
 }
 
 .navLinkText {
-@media(--viewportMobileMedium){
-  font-size: 20px;
-}
+  @media (--viewportMobileMedium) {
+    font-size: 20px;
+  }
 }

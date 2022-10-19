@@ -5,9 +5,9 @@ import {FormattedMessage, injectIntl, intlShape} from '../../util/reactIntl';
 import {Form as FinalForm} from 'react-final-form';
 import classNames from 'classnames';
 import * as validators from '../../util/validators';
-import PhoneInput, { format, normalize } from "react-phone-input-auto-format";
+import PhoneInput, {format, normalize} from "react-phone-input-auto-format";
 
-import { withRouter } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 import css from './SignupForm.css';
 import {PaymentMethodsForm} from "../index";
@@ -24,34 +24,27 @@ import {connect} from "react-redux";
 import FieldTextInput from "../../components/FieldTextInput/FieldTextInput";
 import {
   Button,
-  Form,
   IconSearchCareGiver,
-  IconSearchCareJob, IconSpinner,
+  IconSearchCareJob,
   PrimaryButton
 } from "../../components";
 
-import IconSearchCareJobSmall from "../../components/Icons/IconSearchCareJob/IconSearchCareJobSmall";
-import IconSearchCareGiverSmall from "../../components/Icons/IconSearchCareGiver/IconSearchCareGiverSmall";
+import IconSearchCareJobSmall
+  from "../../components/Icons/IconSearchCareJob/IconSearchCareJobSmall";
+import IconSearchCareGiverSmall
+  from "../../components/Icons/IconSearchCareGiver/IconSearchCareGiverSmall";
 import {authenticationInProgress, signup, updateMetadata} from "../../ducks/Auth.duck";
 import {sendVerificationEmail} from "../../ducks/user.duck";
 import BackgroundDisclosures from "../../components/BackgroundDisclosures/BackgroundDisclosures";
 import ProSubscriptionPaymentForm from "../PaymentMethodsForm/ProSubscriptionPaymentForm";
-import { withViewport } from '../../util/contextHelpers';
-import {TopbarContainer} from '../../containers';import {
-  Page,
-  LayoutWrapperMain,
-  LayoutWrapperTopbar,
-  LayoutWrapperFooter,
-  Footer,
-  AvatarLarge,
-  NamedLink,
-  Reviews,
-  ButtonTabNavHorizontal, LayoutSingleColumn, Modal,
+import {withViewport} from '../../util/contextHelpers';
+import {
+  Modal,
 } from '../../components';
 import SinglePagePDFViewer from "../../components/Pdf/single-page";
-import TermsOfUsagePdf from "../../components/TermsOfUsage/TermsofUse.pdf";
 import CovidWaiverPdf from "../../assets/documents/COVID-19 Waiver_Draft.pdf"
 import FieldCheckbox from "../../components/FieldCheckbox/FieldCheckbox";
+
 const KEY_CODE_ENTER = 13;
 const BACKSPACE = 8;
 
@@ -61,13 +54,13 @@ export class SignupFormComponent extends Component {
 
     super(props);
 
-    const {history, proFromLanding} = props;
+    const {history, proFromLanding, pdfWidth} = props;
     //console.log(history);
     this.state = {
-      iconState:'',
+      iconState: '',
       showPaymentDiv: false,
       showDisclosures: false,
-      showGeneralInfo: proFromLanding ? true: false,
+      showGeneralInfo: proFromLanding ? true : false,
       proSubPaymentInProgress: false,
       parentSubPaymentInProgress: false,
       lastName: '',
@@ -85,11 +78,13 @@ export class SignupFormComponent extends Component {
       licenseNumber: '',
       licenseState: '',
       accountType: proFromLanding ? 'pro' : '',
-      cardErrorMsg:'',
+      cardErrorMsg: '',
       hasCardError: false,
-      modalOpen:false,
+      modalOpen: false,
       viewportWidth: '',
+      pdfWidth: pdfWidth,
       covidAndTermsAck: false,
+      proSubscriptionPaid: false,
     };
 
   }
@@ -104,7 +99,7 @@ export class SignupFormComponent extends Component {
             rootClassName,
             className,
             formId,
- //           handleSubmit,
+            //           handleSubmit,
             inProgress,
             invalid,
             intl,
@@ -123,6 +118,10 @@ export class SignupFormComponent extends Component {
 
           const windowWidth = viewport.width;
 
+          const {attributes} = currentUser || {};
+          const {profile} = attributes || {};
+          const {privateData} = profile || {};
+          const {proSubscriptionPaid} = privateData || {};
 
           // email
           const emailLabel = intl.formatMessage({
@@ -430,7 +429,8 @@ export class SignupFormComponent extends Component {
 
           const handleSubmitSignup = values => {
             this.setState({viewportWidth: windowWidth});
-            console.log('In Signup, viewportWidth set to ' + this.state.viewportWidth);
+            //console.log('In Signup, viewportWidth set to ' + this.state.viewportWidth);
+
             this.setState({showPaymentDiv: true});
 
 
@@ -447,9 +447,9 @@ export class SignupFormComponent extends Component {
               state: this.state.state.trim(),
               accountType: this.state.accountType.trim()
             }
-            submitSignup(params) .then(result => {
+            submitSignup(params).then(result => {
               //console.log('result of erroneous signup = ' + result);
-              if(result === 409){
+              if (result === 409) {
                 this.setState({showDisclosures: false});
                 this.setState({showPaymentDiv: false});
                 this.setState({showGeneralInfo: true});
@@ -485,7 +485,7 @@ export class SignupFormComponent extends Component {
             //console.log(params);
             const {history} = this.props;
             //console.log(history);
-
+            //console.log('In Signup, pdfWidth set to ' + this.state.pdfWidth);
             this.setState({proSubPaymentInProgress: true});
             this.setState({parentSubPaymentInProgress: true});
 
@@ -498,7 +498,7 @@ export class SignupFormComponent extends Component {
                   paymentParams: getPaymentParams(currentUser, formValues),
                 };
 
-                 //console.log('Stripe Params = ' + stripeParams);
+                //console.log('Stripe Params = ' + stripeParams);
                 return onHandleCardSetup(stripeParams);
               })
               .then(result => {
@@ -518,42 +518,35 @@ export class SignupFormComponent extends Component {
                 return result.attributes.stripeCustomerId;
               })
               .then(stripeCustomerId => {
-                ////console.log(stripeCustomer);
-                //console.log("data = " + stripeCustomerId);
-                ////console.log(JSON.stringify(ensuredCurrentUser));
-                if(this.state.accountType === 'pro'){
-                  //return onChargeProFee(stripeCustomerId);
-                  const result = onChargeProFee(stripeCustomerId);
-                  //console.log('RESULT = ' + {result});
-                  return result;
-                }else{
+                if (this.state.accountType === 'pro') {
+                  return onChargeProFee(stripeCustomerId);
+                } else {
                   return;
                 }
-
-
               })
               .then(() => {
                 const params = {paymentMethodAdded: "true"};
                 if (this.state.accountType === 'pro') {
                   params.proSubscriptionPaid = "true";
+                  this.setState({proSubscriptionPaid: 'true'});
                 }
 
-                onUpdateUserProfile(params);
-
-                //console.log('In Dashboard Redirect, accountType = ' + this.state.accountType);
-                //const history = fieldRenderProps.history;
-
-                if(this.state.accountType === 'pro'){
-                  //console.log('This is a PRO, so we need to open disclosures');
-                  this.setState({parentSubPaymentInProgress: false});
-                  this.setState({showPaymentDiv: false, showDisclosures: true, proSubPaymentInProgress: false});
-                }else {
-                  //console.log('This is a PARENT, so we need to go to dashboard');
-                  this.setState({proSubPaymentInProgress: false});
-                  this.setState({parentSubPaymentInProgress: false});
-                  history.push('/dashboard');
-                }
-
+                onUpdateUserProfile(params).then(() => {
+                  if (this.state.accountType === 'pro') {
+                    //console.log('This is a PRO, so we need to open disclosures');
+                    this.setState({parentSubPaymentInProgress: false});
+                    this.setState({
+                      showPaymentDiv: false,
+                      showDisclosures: true,
+                      proSubPaymentInProgress: false
+                    });
+                  } else {
+                    //console.log('This is a PARENT, so we need to go to dashboard');
+                    this.setState({proSubPaymentInProgress: false});
+                    this.setState({parentSubPaymentInProgress: false});
+                    history.push('/dashboard');
+                  }
+                });
               })
               .catch(error => {
                 console.error('ERROR!!!' + JSON.stringify(error));
@@ -572,11 +565,11 @@ export class SignupFormComponent extends Component {
           };
 
           const paymentFormDiv = (
-
             <div>
               <h1 className={css.createAccountGeneralHeaderText}>Payment</h1>
               <h1 className={css.createAccountInfoSubText}>Add a default payment method</h1>
-              {this.state.hasCardError ? <span className={css.error}>{this.state.cardErrorMsg}</span> : null}
+              {this.state.hasCardError ?
+                <span className={css.error}>{this.state.cardErrorMsg}</span> : null}
               <PaymentMethodsForm
                 formId="PaymentMethodsForm"
                 //onSubmit={handlePaymentSubmit}
@@ -584,19 +577,20 @@ export class SignupFormComponent extends Component {
                 inProgress={this.state.parentSubPaymentInProgress}
               />
               <div className={css.skipText}>
-                <a href="#" onClick={skipPayment} className={css.skipText} >
+                <a href="#" onClick={skipPayment} className={css.skipText}>
                   Skip
                 </a>{' '}
               </div>
             </div>
           );
-          const proPaymentFormDiv = (
 
+          const proPaymentFormDiv = (
             <div>
               <h1 className={css.createAccountGeneralHeaderText}>Payment</h1>
               <h1 className={css.createAccountInfoSubText}>Pay $99 Pro Subscription Fee</h1>
 
-              {this.state.hasCardError ? <span className={css.error}>{this.state.cardErrorMsg}</span> : null}
+              {this.state.hasCardError ?
+                <span className={css.error}>{this.state.cardErrorMsg}</span> : null}
 
               <ProSubscriptionPaymentForm
                 formId="PaymentMethodsForm"
@@ -612,59 +606,44 @@ export class SignupFormComponent extends Component {
             </div>
           );
 
-          const backgroundDisclosuresDiv = (
-            <div>
+          const backgroundDisclosuresDiv =  (
+              <div>
               <h1 className={css.createAccountGeneralHeaderText}>Background Check</h1>
-
-              {/*<BackgroundDisclosures email={this.state.email.trim()}*/}
-            <BackgroundDisclosures values={this.state}
-              />
+              <BackgroundDisclosures
+                values={this.state}/>
             </div>
-          );
+            );
 
-          const showBackgroundDisclosures = values => {
-            //window.alert('I made it');
-            this.setState({showDisclosures: true});
-            this.setState({showPaymentDiv: false});
-          };
-
-          const Input = () => {
-            return <PhoneInput onChange={handlePhoneChange} />;
-          };
-
-          const handleFormatChange = value => {
-
-          };
-
-          const handlePhoneFormat = (e) => {
-            const re = /[0-9A-F:]+/g;
-            // remove any characters that are not digits
-            if (!re.test(e.key)) {
-              e.target.value = e.target.value.slice(0, -1);
-              e.preventDefault();
-            } else {
-              if (e.keyCode !== BACKSPACE) {
-                if (e.target.value.length === 3) {
-                  e.target.value = '(' + e.target.value + ') ';
-                } else if (e.target.value.length === 9) {
-                  e.target.value = e.target.value + '-';
-                }
-                // removes last character with the backspace key is hit
-              } else if (e.keyCode === BACKSPACE) {
-                this.setState({phone: this.state.phone.slice(0, -1)})
-                e.preventDefault();
-              }
-            }
-          };
-
-          // const handlePhoneChange = (e) => {
-          //   this.setState({phone: e.target.value});
+          // const showBackgroundDisclosures = values => {
+          //   //window.alert('I made it');
+          //   this.setState({showDisclosures: true});
+          //   this.setState({showPaymentDiv: false});
           // };
+          //
+          // const Input = () => {
+          //   return <PhoneInput onChange={handlePhoneChange} />;
+          // };
+          //
+          // const handleFormatChange = value => {
+          //
+          // };
+
+          const handlePhoneFormat = (phoneValue) => {
+            let parts = phoneValue.match(/^\(?(\d{3})\D*(\d{3})\D*(\d{4})$/);
+
+            let formatted = '';
+
+            if (parts) {
+              formatted = '(' + parts[1] + ') ' + parts[2] + '-' + parts[3];
+            }
+            return formatted;
+          };
+
+
           const capitalize = (inputName) => {
             const nameCapitalized = inputName.charAt(0).toUpperCase() + inputName.slice(1);
             return nameCapitalized;
           }
-
 
 
           const handleNameChange = (event) => {
@@ -692,7 +671,17 @@ export class SignupFormComponent extends Component {
           const handlePhoneChange = (event) => {
             //console.log(event)
             //console.log(event.target.value)
+
+
+            let userInput = event.target.value;
+
+            if (userInput.length === 10) {
+              event.target.value = handlePhoneFormat(userInput);
+              //console.log('after format ' + event.target.value);
+            }
+
             this.setState({phone: event.target.value});
+
           };
           const handleEmailChange = (event) => {
             //validators.composeValidators(emailRequired, emailValid);
@@ -754,11 +743,11 @@ export class SignupFormComponent extends Component {
             this.setState({licenseNumber: event.target.value});
           };
 
-          const closeModal =() => {
+          const closeModal = () => {
             this.setState({modalOpen: false});
 
           };
-          const openModal =() => {
+          const openModal = () => {
             this.setState({modalOpen: true});
 
           };
@@ -768,8 +757,9 @@ export class SignupFormComponent extends Component {
               <h1 className={css.createAccountGeneralHeaderText}>Create Your Account</h1>
               <h1 className={css.createAccountInfoSubText}>I am registering as a...</h1>
               <div className={css.caregiverSeekerButtons}>
-                <Button rootClassName={css.searchButton} inProgress={false} disabled={submitDisabled}
-                               onClick={handleServiceProSignup}>
+                <Button rootClassName={css.searchButton} inProgress={false}
+                        disabled={submitDisabled}
+                        onClick={handleServiceProSignup}>
                   <span className={css.serviceProWords}> Service Pro</span>
                   <br/>
                   <span className={css.serviceProImg}>
@@ -779,27 +769,30 @@ export class SignupFormComponent extends Component {
                 <div>
 
                 </div>
-                <Button rootClassName={css.searchButton} inProgress={false} disabled={submitDisabled}
-                  onClick={handleParentSignup}>
+                <Button rootClassName={css.searchButton} inProgress={false}
+                        disabled={submitDisabled}
+                        onClick={handleParentSignup}>
                   <span className={css.parentWords}>Parent</span>
                   <br/>
                   <span className={css.parentImg}>
                     <IconSearchCareJob className={css.iconFill}/>
                   </span>
                 </Button>
-            </div>
+              </div>
             </div>
           );
 
           const proIcon = (
             <div className={css.iconBackground}>
-            <p className={css.iconText}><IconSearchCareGiverSmall className={css.iconImage} />Service Pro</p>
-            {/*<div className={css.iconImage}><IconSearchCareJob/></div>*/}
+              <p className={css.iconText}><IconSearchCareGiverSmall className={css.iconImage}/>Service
+                Pro</p>
+              {/*<div className={css.iconImage}><IconSearchCareJob/></div>*/}
             </div>
           );
           const parentIcon = (
             <div className={css.iconBackground}>
-              <p className={css.iconText}><IconSearchCareJobSmall className={css.iconImage} />     Parent</p>
+              <p className={css.iconText}><IconSearchCareJobSmall className={css.iconImage}/> Parent
+              </p>
               {/*<IconSearchCareGiver className={css.iconImage}/>*/}
             </div>
           );
@@ -843,13 +836,12 @@ export class SignupFormComponent extends Component {
                   type="phone"
                   id={formId ? `${formId}.phone` : 'phone'}
                   name="phone"
-                  maxlength="14"
+                  maxLength="10"
                   autoComplete="phone"
                   //label={phoneLabel}
                   placeholder={phoneLabel}
                   value={this.state.phone}
                   onInput={handlePhoneChange}
-                  onKeyUp={handlePhoneFormat}
                   validate={validators.composeValidators(phoneRequired, phoneValid)}
                 />
                 <FieldTextInput
@@ -907,7 +899,7 @@ export class SignupFormComponent extends Component {
                 <FieldTextInput
                   id={formId ? `${formId}.state` : 'state'}
                   name="state"
-                  maxlength="2"
+                  maxLength="2"
                   className={css.state}
                   type="text"
                   autoComplete="address-level1"
@@ -924,7 +916,7 @@ export class SignupFormComponent extends Component {
                   type="text"
                   id={formId ? `${formId}.zip` : 'zip'}
                   name="zip"
-                  maxlength="10"
+                  maxLength="10"
                   autoComplete="postal-code"
                   //label={addressZipLabel}
                   placeholder={addressZipLabel}
@@ -966,8 +958,10 @@ export class SignupFormComponent extends Component {
                   id="SignupForm.termsAndConditionsAcceptText"
                   values={{termsLink}}
                 />&nbsp;and {covidWaiver}
-                {windowWidth > 700 ? <a href="#" className={css.termsLink} onClick={() => openModal(true )}> COVID-19 Waiver</a> :
-                  <a href={CovidWaiverPdf} download={"Covid-19 Waiver"} >COVID-19 Waiver</a>}
+                {windowWidth > 700 ?
+                  <a href="#" className={css.termsLink} onClick={() => openModal(true)}> COVID-19
+                    Waiver</a> :
+                  <a href={CovidWaiverPdf} download={"Covid-19 Waiver"}>COVID-19 Waiver</a>}
 
 
               </span>
@@ -975,7 +969,8 @@ export class SignupFormComponent extends Component {
 
                 </p>
 
-                <PrimaryButton className={css.signupButton} inProgress={false} disabled={submitDisabled || !this.state.covidAndTermsAck}
+                <PrimaryButton className={css.signupButton} inProgress={false}
+                               disabled={submitDisabled || !this.state.covidAndTermsAck}
                                onClick={handleSubmitSignup} spinnerClassName={css.spinner}>
                   Submit
                 </PrimaryButton>
@@ -1000,14 +995,16 @@ export class SignupFormComponent extends Component {
           return (
 
             <div className={css.content}>
-              {this.state.accountType === 'parent'? parentIcon :
-                this.state.accountType === 'pro'? proIcon : null
+              {
+                this.state.accountType === 'parent' ? parentIcon :
+                  this.state.accountType === 'pro' ? proIcon : null
               }
 
-              {this.state.showPaymentDiv && this.state.accountType === 'parent' ? paymentFormDiv :
-                this.state.showPaymentDiv && this.state.accountType === 'pro' ? proPaymentFormDiv :
-                this.state.showDisclosures ? backgroundDisclosuresDiv :
-                  this.state.showGeneralInfo ? generalInfoDiv : createYourAccountDiv
+              {
+                this.state.showPaymentDiv && this.state.accountType === 'parent' ? paymentFormDiv :
+                  this.state.showPaymentDiv && this.state.accountType === 'pro' ? proPaymentFormDiv :
+                    this.state.showDisclosures ? backgroundDisclosuresDiv :
+                      this.state.showGeneralInfo ? generalInfoDiv : createYourAccountDiv
               }
             </div>
 
@@ -1067,7 +1064,7 @@ const mapDispatchToProps = dispatch => ({
   onHandleCardSetup: params => dispatch(handleCardSetup(params)),
   onCreateSetupIntent: params => dispatch(createStripeSetupIntent(params)),
   onUpdateUserProfile: params => dispatch(updateMetadata(params)),
-  onChargeProFee: (stripeCustomer) =>dispatch (chargeProFee(stripeCustomer)),
+  onChargeProFee: (stripeCustomer) => dispatch(chargeProFee(stripeCustomer)),
   onSavePaymentMethod: (stripeCustomer, newPaymentMethod) =>
     dispatch(savePaymentMethod(stripeCustomer, newPaymentMethod)),
   onDeletePaymentMethod: params => dispatch(deletePaymentMethod(params)),

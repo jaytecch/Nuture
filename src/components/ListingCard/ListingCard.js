@@ -146,7 +146,6 @@ export const ListingCardComponent = props => {
     </div>
   )
 
-  const spacing = (<div className={css.spacing}/> )
   const vertLine =  <div className={css.vertLine}/>;
 
   const onMessageClick = e => {

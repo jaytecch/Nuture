@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, useState} from "react";
 import {bool, string} from 'prop-types';
 import {compose} from 'redux';
 import {propTypes} from "../../util/types";
@@ -125,7 +125,7 @@ class BioFormComponent extends Component {
                 <FieldRangeSlider
                   id={`${formId}.experience`}
                   name="experience"
-                  label={experienceLabel}
+                  label={experienceLabel + " (" + experience + ")"}
                   min={0}
                   max={100}
                   step={1}
@@ -135,7 +135,7 @@ class BioFormComponent extends Component {
                 <FieldRangeSlider
                   id={`${formId}.travelRadius`}
                   name="travelRadius"
-                  label={travelRadiusLabel}
+                  label={travelRadiusLabel + " (" + travelRadius + ")"}
                   min={0}
                   max={100}
                   step={1}

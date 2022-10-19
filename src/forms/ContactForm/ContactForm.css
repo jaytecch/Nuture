@@ -1,0 +1,40 @@
+@import '../../marketplace.css';
+
+.form {
+  @media (--viewportMobileLarge) {
+    width: 80vw;
+  }
+}
+
+.textInput {
+  padding-top: 10px;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: row;
+  padding-top: 35px;
+
+  @media (--viewportMobileLarge) {
+    flex-direction: column;
+  }
+}
+
+.buttonSpacing {
+  @media (--viewportMobileLarge) {
+    margin: 5px;
+  }
+}
+
+.messageArea {
+  padding-top: 30px;
+  color: var(--nuPink);
+  font-size: 18px;
+}
+
+.messageAreaRoot {
+  padding-top: 10px;
+  padding-left: 10px;
+  width: 500px;
+  height: 200px;
+}

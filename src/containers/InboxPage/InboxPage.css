@@ -109,22 +109,23 @@
 
 .listItem {
   /* Layout */
-  margin-bottom: 10px;
   padding: 20px 20px 12px;
 
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: var(--matterColorNegative);
-  width: 450px;
 
   &:last-child {
     border-bottom: none;
   }
 
   @media (--viewportLarge) {
-    margin-bottom: 24px;
     padding: 23px 23px 15px;
   }
+}
+
+.selectedListItem {
+  background-color: pink;
 }
 
 .item {
@@ -333,6 +334,10 @@
   display: flex;
   flex-direction: row;
   margin: 2% auto;
+
+  @media (max-width: 1600px) {
+    margin: 2% 4%;
+  }
 
   @media (--viewportMobileLarge) {
     margin: 0;

@@ -69,6 +69,10 @@ export const SPECULATE_TRANSACTION_REQUEST = 'app/ProfilePage/SPECULATE_TRANSACT
 export const SPECULATE_TRANSACTION_SUCCESS = 'app/ProfilePage/SPECULATE_TRANSACTION_SUCCESS';
 export const SPECULATE_TRANSACTION_ERROR = 'app/ProfilePage/SPECULATE_TRANSACTION_ERROR';
 
+export const SPECULATE_FREE_TRANSACTION_REQUEST = 'app/ProfilePage/SPECULATE_FREE_TRANSACTION_REQUEST';
+export const SPECULATE_FREE_TRANSACTION_SUCCESS = 'app/ProfilePage/SPECULATE_FREE_TRANSACTION_SUCCESS';
+export const SPECULATE_FREE_TRANSACTION_ERROR = 'app/ProfilePage/SPECULATE_FREE_TRANSACTION_ERROR';
+
 export const INITIATE_ORDER_REQUEST = 'app/ProfilePage/INITIATE_ORDER_REQUEST';
 export const INITIATE_ORDER_SUCCESS = 'app/ProfilePage/INITIATE_ORDER_SUCCESS';
 export const INITIATE_ORDER_ERROR = 'app/ProfilePage/INITIATE_ORDER_ERROR';
@@ -88,12 +92,13 @@ const initialState = {
     // },
   },
   speculateTransactionInProgress: false,
-
+  speculateFreeTransactionInProgress:false,
   userShowError: null,
   queryListingsError: null,
   queryReviewsError: null,
   sendEnquiryError: null,
   speculateTransactionError: null,
+  speculateFreeTransactionError: null,
   initiateOrderError: null,
 };
 
@@ -173,6 +178,30 @@ export default function profilePageReducer(state = initialState, action = {}) {
         speculateTransactionInProgress: false,
         speculateTransactionError: payload,
       };
+    case SPECULATE_TRANSACTION_SUCCESS:
+      return {
+        ...state,
+        speculateTransactionInProgress: false,
+      }
+    case SPECULATE_FREE_TRANSACTION_REQUEST:
+      return {
+        ...state,
+        speculateFreeTransactionInProgress: true,
+        speculateFreeTransactionError: null,
+        speculatedFreeTransaction: null,
+      };
+    case SPECULATE_FREE_TRANSACTION_ERROR:
+      console.error(payload); // eslint-disable-line no-console
+      return {
+        ...state,
+        speculateFreeTransactionInProgress: false,
+        speculateFreeTransactionError: payload,
+      };
+    case SPECULATE_FREE_TRANSACTION_SUCCESS:
+      return {
+        ...state,
+        speculateFreeTransactionInProgress: false,
+      }
     case INITIATE_ORDER_REQUEST:
       return { ...state, initiateOrderError: null };
     case INITIATE_ORDER_SUCCESS:
@@ -263,6 +292,19 @@ export const speculateTransactionSuccess = transaction => ({
   payload: { transaction },
 });
 
+export const speculateFreeTransactionError = e => ({
+  type: SPECULATE_FREE_TRANSACTION_ERROR,
+  error: true,
+  payload: e,
+});
+
+export const speculateFreeTransactionRequest = () => ({ type: SPECULATE_FREE_TRANSACTION_REQUEST });
+
+export const speculateFreeTransactionSuccess = transaction => ({
+  type: SPECULATE_FREE_TRANSACTION_SUCCESS,
+  payload: { transaction },
+});
+
 export const speculateTransactionError = e => ({
   type: SPECULATE_TRANSACTION_ERROR,
   error: true,
@@ -339,6 +381,10 @@ export const showUser = userId => (dispatch, getState, sdk) => {
     .catch(e => dispatch(showUserError(storableError(e))));
 };
 
+export const reloadUser = userId => (dispatch, getState, sdk) =>{
+  return  dispatch(fetchCurrentUser({include: ['stripeCustomer.defaultPaymentMethod']}));
+}
+
 export const loadData = userId => (dispatch, getState, sdk) => {
   // Clear state so that previously loaded data is not visible
   // in case this page load fails.
@@ -412,11 +458,32 @@ export const getListing = (listingId) => (dispatch, getState, sdk) => {
  * pricing info for the booking breakdown to get a proper estimate for
  * the price with the chosen information.
  */
+export const speculateFreeTransaction = params => (dispatch, getState, sdk) => {
+  dispatch(speculateFreeTransactionRequest());
+
+  const bookingData = {
+    startDate: params.bookingStart,
+    endDate: params.bookingEnd,
+  }
+  const bodyParams = {
+    transition: TRANSITION_NEW_BOOKING_REQUEST,
+    processAlias: config.freeBookingProcessAlias,
+    params: params,
+  }
+
+  const queryParams = {
+    include: ['booking', 'provider'],
+    expand: true,
+  }
+
+  return dispatch(speculate(bookingData, bodyParams, queryParams));
+}
+
 export const speculateTransaction = params => (dispatch, getState, sdk) => {
   dispatch(speculateTransactionRequest());
   const bookingData = {
     startDate: params.bookingStart,
-    endDate: params.bookingEnd
+    endDate: params.bookingEnd,
   }
 
   const bodyParams = {
@@ -429,6 +496,10 @@ export const speculateTransaction = params => (dispatch, getState, sdk) => {
     expand: true,
   };
 
+  return dispatch(speculate(bookingData, bodyParams, queryParams));
+};
+
+const speculate = (bookingData, bodyParams, queryParams) => (dispatch, getState, sdk) =>  {
   return initiatePrivileged({isSpeculative: true, bookingData, bodyParams, queryParams})
     .then(response => {
       const entities = denormalisedResponseEntities(response);
@@ -438,7 +509,7 @@ export const speculateTransaction = params => (dispatch, getState, sdk) => {
       return entities[0];
     })
     .catch(e => {
-      const { listingId, bookingStart, bookingEnd } = params;
+      const { listingId, bookingStart, bookingEnd } = bodyParams.params;
       log.error(e, 'speculate-transaction-failed', {
         listingId: listingId.uuid,
         bookingStart,
@@ -446,10 +517,12 @@ export const speculateTransaction = params => (dispatch, getState, sdk) => {
       });
       return dispatch(speculateTransactionError(storableError(e)));
     });
-};
+}
 
 export const initiateOrder = orderParams => (dispatch, getState, sdk) => {
   dispatch(initiateOrderRequest());
+
+  const alias = !orderParams.paymentMethod ? config.freeBookingProcessAlias : config.bookingProcessAlias;
 
   const bookingData = {
     startDate: orderParams.bookingStart,
@@ -457,7 +530,7 @@ export const initiateOrder = orderParams => (dispatch, getState, sdk) => {
   }
 
   const bodyParams = {
-      processAlias: config.bookingProcessAlias,
+      processAlias: alias,
       transition: TRANSITION_NEW_BOOKING_REQUEST,
       params: orderParams
     };

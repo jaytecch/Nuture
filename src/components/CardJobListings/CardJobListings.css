@@ -4,12 +4,18 @@
 
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
 .noListingHeader {
   color: black;
 }
 
 .list {
-  padding-bottom: 20px;
   display: flex;
   flex-direction: column;
 }
@@ -63,11 +69,14 @@
   clear: both;
 }
 
+.row {
+  width: 100%;
+}
+
 .column {
   float: left;
   padding: 10px;
-  width: 500px;
-  /*height: 300px; !* Should be removed. Only for demonstration *!*/
+  width: 100%
 }
 
 .columnLeft {

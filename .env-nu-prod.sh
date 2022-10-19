@@ -1,0 +1,69 @@
+
+# Mandatory configuration
+#
+# Note: You also need to set Stripe secret key in Flex Console.
+#
+# shellcheck disable=SC2034
+REACT_APP_SHARETRIBE_SDK_CLIENT_ID=96df6bea-73b4-4503-ba92-231fef3693ff
+REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_live_51IC4EZFKkjAhNpUweIDAAeHdT4fWzAMQmoyn01wIP9BG3yYMk1ezanKhXNmfXaOgV9kDs90I7nVF5Nu4BwuDmL9y00b5GG8FuB
+REACT_APP_STRIPE_SECRET_KEY=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
+REACT_APP_STRIPE_SUBSCRIPTION_ID=price_1IZ5FPFKkjAhNpUwNU3V9XT6
+REACT_APP_STRIPE_URL=https://api.stripe.com/v1
+REACT_APP_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoiamFlbG1hcmFqaCIsImEiOiJja2w4cXN4NmwxZnF2Mm9wcndvcjQ5NGhjIn0.mH2_clpq3_5Xwx3RS-UG2Q
+SHARETRIBE_SDK_CLIENT_SECRET=e79a4c3577740c50af607193718804e0f62dbf2a
+
+INTEGRATION_SDK_CLIENT_ID=e7261ddc-4a81-498f-8d7a-c718a24df06d
+INTEGRATION_SDK_CLIENT_SECRET=380730759c203773dddaddcd3bf156aa984dc96f
+
+REACT_APP_CHECKR_SECRET_KEY=dd223782067d84ae90e24c1128f3f33b851a38b1
+REACT_APP_CHECKR_URL=https://api.checkr.com/v1/
+
+REACT_APP_RECAPTCHA_ON=true
+REACT_APP_RECAPTCHA_TOKEN=6LftrocaAAAAAKHQQaYTaR6PgjN2ktuYCLzpLRqN
+
+# Or set up an alternative map provider (Google Maps). Check documentation.
+# REACT_APP_GOOGLE_MAPS_API_KEY=
+
+# Defaults
+#
+
+REACT_APP_SHARETRIBE_MARKETPLACE_CURRENCY=USD
+REACT_APP_CANONICAL_ROOT_URL=https://www.nurtureup.net
+AWS_ALB_PORT=443
+REACT_APP_DEV_API_SERVER_PORT=8080
+PORT=8080
+
+# This is overwritten by configuration in .env.development and
+# .env.test. In production deployments use env variable and set it to
+# 'production'
+REACT_APP_ENV=production
+NODE_ENV=production
+
+
+# Options. Uncomment and set to test.
+#
+
+# REACT_APP_SHARETRIBE_USING_SSL=true
+# SERVER_SHARETRIBE_TRUST_PROXY=true
+# REACT_APP_SENTRY_DSN=change-me
+# REACT_APP_CSP=report
+# BASIC_AUTH_USERNAME=sharetribe
+# BASIC_AUTH_PASSWORD=secret
+# REACT_APP_GOOGLE_ANALYTICS_ID=change-me
+
+
+# Features
+#
+
+REACT_APP_AVAILABILITY_ENABLED=true
+REACT_APP_DEFAULT_SEARCHES_ENABLED=true
+
+# EMAIL CONFIGURATIONS
+# Contact Us email
+REACT_APP_CONTACT_US_EMAIL=hello@nurtureup.com
+
+# AWS Settings
+REACT_APP_AWS_PROFILE=default
+REACT_APP_AWS_REGION=us-east-1
+
+MAILCHIMP_URL='https://nurtureup.us1.list-manage.com/subscribe/post?u=22fac55823165dbb4dde1760d&amp;id=680a200879'

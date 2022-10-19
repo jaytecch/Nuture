@@ -72,6 +72,7 @@
 
 .preferences {
   min-width: max-content;
+  margin-bottom: 30px;
 }
 
 .h2Title {
@@ -84,4 +85,35 @@
 
 .selectedTimes{
   margin-top: 40px;
+}
+
+.title{
+
+  margin-bottom:30px;
+}
+
+.descriptionInput{
+
+  margin-bottom:30px;
+}
+
+.belowDescrSection{
+
+  margin-bottom:30px;
+}
+
+.zip{
+  margin-bottom:30px;
+}
+
+.belowPrefsSection{
+  margin-bottom:30px;
+}
+
+.visualSpace {
+  margin-bottom:30px;
+}
+
+.setSchedule{
+  margin-top: 80px;
 }

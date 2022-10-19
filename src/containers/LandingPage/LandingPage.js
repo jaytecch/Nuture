@@ -20,8 +20,11 @@ import MailchimpSubscribe from "react-mailchimp-subscribe";
 import facebookImage from '../../assets/nurtureupFacebook-1200x630.jpg';
 import twitterImage from '../../assets/nurtureupTwitter-600x314.jpg';
 import css from './LandingPage.css';
-import heroUrl from '../../assets/homepage/hero-image-homepg@2x.png'
-import {types as sdkTypes} from "../../util/sdkLoader";
+import heroUrl from '../../assets/hero-landing/hero-landing.png';
+import mobileHeroUrl from '../../assets/hero-landing/midwife-750px.png';
+import SectionHowItWorks from "./SectionHowItWorks";
+import SectionVetting from "./SectionVetting";
+import {FormattedMessage} from "react-intl";
 
 
 export const LandingPageComponent = props => {
@@ -39,12 +42,12 @@ export const LandingPageComponent = props => {
   const schemaTitle = intl.formatMessage({id: 'LandingPage.schemaTitle'}, {siteTitle});
   const schemaDescription = intl.formatMessage({id: 'LandingPage.schemaDescription'});
   const schemaImage = `${config.canonicalRootURL}${facebookImage}`;
-
+  const mailchimpUrl = config.mailchimp.url;
 
   const url = "https://candygyrltravels.us20.list-manage.com/subscribe/post?u=7703d03fb6f7b47790a6cf76d&amp;id=cf9d1e4594";
   const SimpleForm = (
     <div className={css.subscribeForm}>
-      <MailchimpSubscribe url={url}/>
+      <MailchimpSubscribe url={mailchimpUrl}/>
     </div>
   );
 
@@ -52,49 +55,49 @@ export const LandingPageComponent = props => {
     let email;
     const STATE_RE = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/i;
 
-    console.log('email test = ' + STATE_RE.test(email));
+
 
 
     const submit = () =>
 
       email &&
       email.value.indexOf("@") > -1
-      &&  onValidated({
+      && onValidated({
         EMAIL: email.value,
 
       });
 
     return (
       <div>
-      <div className={css.customFormDiv}>
-        {status === "sending" && <div className={css.sendingMsg}>sending...</div>}
+        <div className={css.customFormDiv}>
+          {status === "sending" && <div className={css.sendingMsg}>sending...</div>}
 
-        <div className={css.subscribeBox}>
+          <div className={css.subscribeBox}>
 
-          <input className={css.emailInput}
-                 ref={node => (email = node)}
-                 type="email"
-                 placeholder="Email Address"
-          />
+            <input className={css.emailInput}
+                   ref={node => (email = node)}
+                   type="email"
+                   placeholder="Email Address"
+            />
 
-          <PrimaryButton className={css.subscribeButton} onClick={submit}>
-            SUBSCRIBE
-          </PrimaryButton>
+            <PrimaryButton className={css.subscribeButton} onClick={submit}>
+              SUBSCRIBE
+            </PrimaryButton>
+          </div>
         </div>
-      </div>
-    <div className={css.subscribeStatus}>
-      {status === "error" && (
-        <div
-          className={css.errorMsg}dangerouslySetInnerHTML={{__html: message}}
-        />
-      )}
-      {status === "success" && (
-        <div
-          className={css.successMsg}
-          dangerouslySetInnerHTML={{__html: message}}
-        />
-      )}
-    </div>
+        <div className={css.subscribeStatus}>
+          {status === "error" && (
+            <div
+              className={css.errorMsg} dangerouslySetInnerHTML={{__html: message}}
+            />
+          )}
+          {status === "success" && (
+            <div
+              className={css.successMsg}
+              dangerouslySetInnerHTML={{__html: message}}
+            />
+          )}
+        </div>
       </div>
     );
   };
@@ -120,16 +123,25 @@ export const LandingPageComponent = props => {
       <LayoutSingleColumn>
         <LayoutWrapperTopbar>
           <TopbarContainer/>
+
+          <Hero url={heroUrl} mobileUrl={mobileHeroUrl} rootClassName={css.heroRootClass}>
+            <SectionHero history={history} location={location}/>
+          </Hero>
         </LayoutWrapperTopbar>
         <LayoutWrapperMain className={css.flexcontainer}>
-            <Hero url={heroUrl} rootClassName={css.heroRootClass}>
-              <SectionHero className={css.hero} history={history} location={location}/>
-            </Hero>
-
           <div className={css.row}>
-            <LandingCarousel />
+            <p className={css.manuscriptText}>
+              <FormattedMessage id='LandingPage.manuscriptText' />
+            </p>
+            <LandingCarousel/>
           </div>
-          <SectionServices className={css.ourservices} textType={'landing'}/>
+
+          <div className={css.subSectionGroup}>
+            <SectionHowItWorks />
+            <SectionVetting />
+            <SectionServices className={css.ourservices} textType={'landing'}/>
+          </div>
+
 
           <ul className={css.sections}>
             <li className={css.section}>
@@ -139,7 +151,7 @@ export const LandingPageComponent = props => {
                   NurtureUp</p>
                 <MailchimpSubscribe
                   className={css.subscribeForm}
-                  url={url}
+                  url={mailchimpUrl}
                   render={({subscribe, status, message}) => (
                     <CustomForm
                       status={status}

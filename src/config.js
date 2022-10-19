@@ -32,7 +32,8 @@ const sortSearchByDistance = false;
 //
 // In a way, 'processAlias' defines which transaction process (or processes)
 // this particular web application is able to handle.
-const bookingProcessAlias = 'nurtureup/release-1';
+const bookingProcessAlias = 'nu-hourly/release-1';
+const freeBookingProcessAlias = 'free-booking-process/release-1'
 
 // The transaction line item code for the main unit type in bookings.
 //
@@ -59,9 +60,15 @@ const dayCountAvailableForBooking = 90;
 const sdkClientId = process.env.REACT_APP_SHARETRIBE_SDK_CLIENT_ID;
 const sdkBaseUrl = process.env.REACT_APP_SHARETRIBE_SDK_BASE_URL;
 const sdkTransitVerbose = process.env.REACT_APP_SHARETRIBE_SDK_TRANSIT_VERBOSE === 'true';
-const sdkCheckrUrl = process.env.REACT_APP_CHECKR_SDK_BASE_URL;
+const checkrUrl = process.env.REACT_APP_CHECKR_URL;
 const checkrSecretKey = process.env.REACT_APP_CHECKR_SECRET_KEY;
-console.log("loaded checkr secret key" + checkrSecretKey);
+const recaptchaOn = process.env.REACT_APP_RECAPTCHA_ON;
+const recaptchaToken = process.env.REACT_APP_RECAPTCHA_TOKEN;
+const mailchimpUrl = process.env.REACT_APP_MAILCHIMP_URL;
+
+// console.log("loaded checkr secret key " + checkrSecretKey);
+// console.log("loaded checkr url " + checkrUrl);
+// console.log("loaded mailchimp" + mailchimpUrl);
 
 const currency = process.env.REACT_APP_SHARETRIBE_MARKETPLACE_CURRENCY;
 
@@ -80,10 +87,10 @@ const sentryDsn = process.env.REACT_APP_SENTRY_DSN;
 const usingSSL = process.env.REACT_APP_SHARETRIBE_USING_SSL === 'true';
 
 // Address information is used in SEO schema for Organization (http://schema.org/PostalAddress)
-const addressCountry = 'FI';
-const addressRegion = 'Helsinki';
-const postalCode = '00100';
-const streetAddress = 'Bulevardi 14';
+const addressCountry = 'US';
+const addressRegion = 'Maryland';
+const postalCode = '';
+const streetAddress = '';
 
 // Canonical root url is needed in social media sharing and SEO optimization purposes.
 const canonicalRootURL = process.env.REACT_APP_CANONICAL_ROOT_URL;
@@ -189,6 +196,7 @@ const config = {
   dev,
   locale,
   bookingProcessAlias,
+  freeBookingProcessAlias,
   bookingUnitType,
   enableAvailability,
   dayCountAvailableForBooking,
@@ -207,7 +215,15 @@ const config = {
     supportedCountries: stripeCountryDetails,
   },
   checkr: {
+    url: checkrUrl,
     secretKey: checkrSecretKey,
+  },
+  mailchimp: {
+    url: mailchimpUrl,
+  },
+  recaptcha: {
+    on: recaptchaOn,
+    token: recaptchaToken,
   },
   canonicalRootURL,
   address: {

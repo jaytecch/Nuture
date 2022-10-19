@@ -61,7 +61,10 @@ const HeadingCustomerWithSubtitle = props => {
         <span className={css.mainTitle}>
           <FormattedMessage id={id} values={values} />
         </span>
-        <FormattedMessage id={subtitleId} values={subtitleValues} />
+        <span className={css.mainTitle}>
+           <FormattedMessage id={subtitleId} values={subtitleValues} />
+        </span>
+
       </h1>
       {children}
       <ListingDeletedInfoMaybe listingDeleted={listingDeleted} />
@@ -176,7 +179,8 @@ const PanelHeading = props => {
           id="TransactionPanel.orderPreauthorizedTitle"
           values={{ customerName }}
           subtitleId="TransactionPanel.orderPreauthorizedSubtitle"
-          subtitleValues={{ listingLink }}
+          //subtitleValues={{ listingLink }}
+          subtitleValues={{ providerName }}
         >
           {!listingDeleted ? (
             <p className={css.transactionInfoMessage}>

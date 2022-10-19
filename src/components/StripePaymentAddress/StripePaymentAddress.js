@@ -10,6 +10,7 @@ import css from './StripePaymentAddress.css';
 
 const StripePaymentAddress = props => {
   const { className, intl, disabled, form, fieldId, card } = props;
+  form.country = 'US';
 
   const optionalText = intl.formatMessage({
     id: 'StripePaymentAddress.optionalText',
@@ -146,25 +147,25 @@ const StripePaymentAddress = props => {
           onUnmount={() => form.change('state', undefined)}
         />
 
-        <FieldSelect
-          id={`${fieldId}.country`}
-          name="country"
-          disabled={disabled}
-          className={css.field}
-          //label={countryLabel}
-          validate={countryRequired}
-        >
-          <option disabled value="">
-            {countryPlaceholder}
-          </option>
-          {countryCodes.map(country => {
-            return (
-              <option key={country.code} value={country.code}>
-                {country.name}
-              </option>
-            );
-          })}
-        </FieldSelect>
+        {/*<FieldSelect*/}
+        {/*  id={`${fieldId}.country`}*/}
+        {/*  name="country"*/}
+        {/*  disabled={disabled}*/}
+        {/*  className={css.field}*/}
+        {/*  //label={countryLabel}*/}
+        {/*  validate={countryRequired}*/}
+        {/*>*/}
+        {/*  <option disabled value="">*/}
+        {/*    {countryPlaceholder}*/}
+        {/*  </option>*/}
+        {/*  {countryCodes.map(country => {*/}
+        {/*    return (*/}
+        {/*      <option key={country.code} value={country.code}>*/}
+        {/*        {country.name}*/}
+        {/*      </option>*/}
+        {/*    );*/}
+        {/*  })}*/}
+        {/*</FieldSelect>*/}
       </div>
     </div>
   );

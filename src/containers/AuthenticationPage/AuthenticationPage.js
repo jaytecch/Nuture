@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, {number} from 'prop-types';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter, Redirect} from 'react-router-dom';
@@ -38,11 +38,14 @@ import css from './AuthenticationPage.css';
 import TermsOfUsagePdf from "../../components/TermsOfUsage/TermsofUse.pdf";
 import SinglePagePDFViewer from "../../components/Pdf/single-page";
 
+
 export class AuthenticationPageComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {tosModalOpen: false};
     this.state = {limitedTopBar: true}
+
+
   }
 
   render() {
@@ -65,6 +68,8 @@ export class AuthenticationPageComponent extends Component {
 
     const user = ensureCurrentUser(currentUser);
     const currentUserLoaded = !!user.id;
+
+
 
     // We only want to show the email verification dialog in the signup
     // tab if the user isn't being redirected somewhere else
@@ -107,6 +112,7 @@ export class AuthenticationPageComponent extends Component {
           inProgress={authInProgress}
           onOpenTermsOfService={() => this.setState({tosModalOpen: true})}
           proFromLanding={proFromLanding}
+          pdfWidth={window.innerWidth}
         />
       </div>
     );
@@ -189,7 +195,7 @@ export class AuthenticationPageComponent extends Component {
 
           <LayoutWrapperTopbar >
 
-            <TopbarContainer className={topbarClasses}/>
+            <TopbarContainer className={topbarClasses} />
 
             {/*<NamedLink name="LandingPage"className={topbarClasses}>*/}
             {/*  <Logo*/}

@@ -22,6 +22,7 @@ import { TopbarContainer } from '../../containers';
 import { PaymentMethodsForm } from '../../forms';
 import { createStripeSetupIntent, stripeCustomer, loadData } from './PaymentMethodsPage.duck.js';
 import heroUrl from "../../assets/hero-img-account-settings/hero-img-account-settings.png";
+import {updateMetadata} from "../../ducks/Auth.duck";
 
 import css from './PaymentMethodsPage.css';
 
@@ -45,6 +46,7 @@ const PaymentMethodsPageComponent = props => {
     onManageDisableScrolling,
     intl,
     stripeCustomerFetched,
+    onUpdateUserProfile
   } = props;
 
   const heroHeader = intl.formatMessage({id: "AccountSettings.heroHeader"});
@@ -107,9 +109,17 @@ const PaymentMethodsPageComponent = props => {
       })
       .then(() => {
         // Update currentUser entity and its sub entities: stripeCustomer and defaultPaymentMethod
-        fetchStripeCustomer();
-        setIsSubmitting(false);
-        setCardState('default');
+        onUpdateUserProfile({paymentMethodAdded: "true"})
+          .then(() => {
+            fetchStripeCustomer();
+            setIsSubmitting(false);
+            setCardState('default');
+          })
+          .catch(error => {
+            console.log('ERROR updating profile!!!' + error.message);
+            setIsSubmitting(false);
+            setCardState('default');
+          });
       })
       .catch(error => {
         console.error(error);
@@ -119,7 +129,13 @@ const PaymentMethodsPageComponent = props => {
 
   const handleRemovePaymentMethod = () => {
     onDeletePaymentMethod().then(() => {
-      fetchStripeCustomer();
+      onUpdateUserProfile({paymentMethodAdded: "false"})
+        .then(() => {
+          fetchStripeCustomer();
+        })
+        .catch(error => {
+          console.log('ERROR updating profile!!!' + error.message);
+        });
     });
   };
 
@@ -257,6 +273,7 @@ const mapDispatchToProps = dispatch => ({
   onSavePaymentMethod: (stripeCustomer, newPaymentMethod) =>
     dispatch(savePaymentMethod(stripeCustomer, newPaymentMethod)),
   onDeletePaymentMethod: params => dispatch(deletePaymentMethod(params)),
+  onUpdateUserProfile: params => dispatch(updateMetadata(params)),
 });
 
 const PaymentMethodsPage = compose(

@@ -10,6 +10,9 @@
     "REACT_APP_CHECKR_SECRET_KEY": {
       "description": "CHECKER API key"
     },
+    "REACT_APP_CHECKR_URL": {
+      "description": "CHECKER url"
+    },
     "REACT_APP_MAPBOX_ACCESS_TOKEN": {
       "description": "See: Integrating to map providers documentation https://github.com/sharetribe/ftw-hourly/blob/master/docs/map-providers.md"
     },

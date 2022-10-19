@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { bool, func } from 'prop-types';
+import {bool, func, number, shape} from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl';
@@ -25,6 +25,7 @@ import css from './BackgroundDisclosuresPage.css';
 import BackgroundDisclosures from "../../components/BackgroundDisclosures/BackgroundDisclosures";
 import heroUrl from "../../assets/hero-img-account-settings/hero-img-account-settings.png";
 import * as validators from "../../util/validators";
+import { withViewport } from '../../util/contextHelpers';
 
 export const BackgroundDisclosuresPageComponent = props => {
   const {
@@ -41,46 +42,38 @@ export const BackgroundDisclosuresPageComponent = props => {
     onResendVerificationEmail,
     onSubmitBackgroundDisclosures,
     intl,
+    viewport,
   } = props;
 
   const heroHeader = intl.formatMessage({id: "AccountSettings.heroHeader"});
 
   const user = ensureCurrentUser(currentUser);
-  const currentEmail = user.attributes.email || '';
-  const profile = user.attributes.profile || {};
-  const firstName = profile.firstName || '';
-  const lastName = profile.lastName || '';
+  const {attributes} = user || {};
+  const {email: currentEmail, profile } = attributes || {};
+  const {firstName, lastName, protectedData, publicData, privateData} = profile || {}
+  const {proSubscriptionPaid} = privateData || {};
 
-  const protectedData = user.attributes.profile.protectedData || {};
-  const publicData = user.attributes.profile.publicData || {};
-  const privateData = user.attributes.profile.privateData || {};
-
-  const accountType = publicData.accountType || '';
-  const currentPhoneNumber = protectedData.phoneNumber || '';
-  const backgroundInvestigationSubmitted = privateData.backgroundInvestigationSubmitted || 'false';
+  const {accountType} = publicData || {};
+  const {phoneNumber: currentPhoneNumber} = protectedData || {};
+  const {backgroundInvestigationSubmitted} = privateData || {};
   //console.log('private data = ' + JSON.stringify(protectedData));
   //console.log('public data = ' + JSON.stringify(publicData));
   //console.log('user = ' + JSON.stringify(user));
   //console.log('public data = ' + JSON.stringify(publicData));
 
   const params = {
-    firstName: firstName.trim(),
-    lastName: lastName.trim(),
-    email: currentEmail.trim(),
-    //password: this.state.password.trim(),
-    // phone: this.state.phone.trim(),
-    // streetAddress1: this.state.address1.trim(),
-    // streetAddress2: this.state.address2.trim(),
-    // zip: this.state.zip.trim(),
-    // city: this.state.city.trim(),
-    // state: this.state.state.trim(),
-    accountType: accountType.trim(),
-    parentComponent: 'Background',
-    backgroundInvestigationSubmitted: backgroundInvestigationSubmitted,
+    firstName: firstName ? firstName.trim() : '',
+    lastName: lastName ? lastName.trim() : '',
+    email: currentEmail ? currentEmail.trim() : '',
+    pdfWidth: window.innerWidth,
+    accountType: accountType ? accountType.trim() : '',
+    parentComponent: 'AccountSettings',
+    backgroundInvestigationSubmitted: backgroundInvestigationSubmitted ? backgroundInvestigationSubmitted : 'false',
+    proSubscriptionPaid
   }
 
   const onSubmit = values => {
-    console.log('MADE');
+    //console.log('MADE');
   };
   const contactInfoForm = user.id ? (
 
@@ -154,6 +147,10 @@ BackgroundDisclosuresPageComponent.propTypes = {
   sendVerificationEmailInProgress: bool.isRequired,
   sendVerificationEmailError: propTypes.error,
   onResendVerificationEmail: func.isRequired,
+  viewport: shape({
+    width: number.isRequired,
+    height: number.isRequired,
+  }).isRequired,
 
   // from injectIntl
   intl: intlShape.isRequired,
@@ -197,6 +194,7 @@ const BackgroundDisclosuresPage = compose(
     mapStateToProps,
     mapDispatchToProps
   ),
+  withViewport,
   injectIntl
 )(BackgroundDisclosuresPageComponent);
 

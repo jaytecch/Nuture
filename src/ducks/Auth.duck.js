@@ -183,11 +183,19 @@ export const signup = params => (dispatch, getState, sdk) => {
   console.log('Params  = ' + JSON.stringify(params));
   dispatch(signupRequest());
   const { email, password, firstName, lastName, accountType, displayName, ...rest } = params;
-  //const { email, password, firstName, lastName, address1, address2, city, state, zip, phone } = params;
   const dispName = displayName ? displayName : firstName + " " + lastName;
+  const privateData = accountType === 'pro' ? {
+    backgroundInvestigationSubmitted: 'false',
+    paymentMethodAdded: 'false',
+    proSubscriptionPaid: 'false',
+    backgroundPassed: 'false',
+  } : {
+    paymentMethodAdded: 'false',
+  }
+
   const createUserParams = isEmpty(rest)
-    ? { email, password, firstName, lastName, displayName: dispName}
-    : { email, password, firstName, lastName, displayName: dispName, publicData:{accountType}, protectedData: { ...rest }};
+    ? { email, password, firstName, lastName, displayName: dispName, publicData:{accountType}, privateData}
+    : { email, password, firstName, lastName, displayName: dispName, publicData:{accountType}, privateData, protectedData: { ...rest }};
 
 
   // We must login the user if signup succeeds since the API doesn't
@@ -208,7 +216,7 @@ export const signup = params => (dispatch, getState, sdk) => {
 };
 
 export const updateMetadata = params => (dispatch, getState, sdk) => {
-
+  //console.log('in update ' + params);
   return sdk.currentUser
     .updateProfile({privateData: params})
     .then(response => {console.log('Response :' + response)});

@@ -10,6 +10,7 @@ const PayoutActionButtons = props => {
     className,
     rootClassName,
     showButtons,
+    disablePayout,
     payoutInProgress,
     disputeInProgress,
     payoutError,
@@ -49,13 +50,15 @@ const PayoutActionButtons = props => {
         >
           <FormattedMessage id="TransactionPage.disputeButton" />
         </SecondaryButton>
-        <PrimaryButton
-          inProgress={payoutInProgress}
-          disabled={buttonsDisabled}
-          onClick={onPayout}
-        >
-          <FormattedMessage id="TransactionPage.payoutButton" />
-        </PrimaryButton>
+        {!disablePayout ?
+          <PrimaryButton
+            inProgress={payoutInProgress}
+            disabled={buttonsDisabled}
+            onClick={onPayout}
+          >
+            <FormattedMessage id="TransactionPage.payoutButton"/>
+          </PrimaryButton>
+        : null}
       </div>
     </div>
   ) : null;

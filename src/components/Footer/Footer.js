@@ -101,12 +101,15 @@ export const FooterComponent = props => {
   const [faqModalOpen, setFaqModalOpen] = useState(false);
   const [covidModalOpen, setCovidModalOpen] = useState(false);
   const [contactModalOpen, setContactModalOpen] = useState(false);
+  const mailchimpUrl = config.mailchimp.url;
+
+  //console.log('mailchimp url = ' + mailchimpUrl );
 
   const windowWidth = viewport.width;
-  const url = "https://candygyrltravels.us20.list-manage.com/subscribe/post?u=7703d03fb6f7b47790a6cf76d&amp;id=cf9d1e4594";
+  //const url = "https://candygyrltravels.us20.list-manage.com/subscribe/post?u=7703d03fb6f7b47790a6cf76d&amp;id=cf9d1e4594";
   const SimpleForm = (
     <div className={css.subscribeForm}>
-      <MailchimpSubscribe url={url}/>
+      <MailchimpSubscribe url={mailchimpUrl}/>
     </div>
   );
 
@@ -201,7 +204,7 @@ export const FooterComponent = props => {
                 </li>
                 <li className={css.listItem}>
                   <a href="#" className={css.link} onClick={() => setFaqModalOpen(true )}>
-                    <FormattedMessage id="Footer.toHelpPage" /></a>
+                    <FormattedMessage id="Footer.toFaqPage" /></a>
                 </li>
               </ul>
             </div>
@@ -218,7 +221,8 @@ export const FooterComponent = props => {
                 </li>
                 <li className={css.listItem}>
                   <Link
-                    to={"/about#safety-anchor"}
+
+
                     // href="safety-anchor"
 
                     className={css.link}
@@ -256,7 +260,7 @@ export const FooterComponent = props => {
                   <div>
                     <MailchimpSubscribe
                       className={css.subscribeForm}
-                      url={url}
+                      url={mailchimpUrl}
                       render={({subscribe, status, message}) => (
                         <CustomForm
                           status={status}

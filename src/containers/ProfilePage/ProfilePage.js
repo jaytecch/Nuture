@@ -38,7 +38,7 @@ import {
   sendEnquiry,
   getTimeSlots,
   initiateOrder,
-  speculateTransaction
+  speculateTransaction, speculateFreeTransaction,
 } from './ProfilePage.duck';
 import config from '../../config';
 import {getServiceType} from "../../nurtureUpLists";
@@ -147,7 +147,9 @@ export class ProfilePageComponent extends Component {
 
   onBookingSubmit(values) {
     this.setState({appointmentModalOpen: false});
-    console.log("Made booking");
+    console.log("Made booking, reloading usesr id = " + JSON.stringify(this.props.user.id ));
+    this.props.onLoadData(this.props.user.id);
+
   }
 
   render() {
@@ -171,6 +173,7 @@ export class ProfilePageComponent extends Component {
       // onFetchAvailabilityExceptions,
       onFetchTimeSlots,
       fetchSpeculatedTransaction,
+      fetchSpeculateFreeTransaction,
       onInitiateOrder,
     } = this.props;
 
@@ -391,6 +394,7 @@ export class ProfilePageComponent extends Component {
                   onFetchTimeSlots,
                 }}
                 fetchSpeculatedTransaction={fetchSpeculatedTransaction}
+                fetchSpeculateFreeTransaction={fetchSpeculateFreeTransaction}
                 onInitiateOrder={onInitiateOrder}
                 currentUser={ensuredCurrentUser}
               />
@@ -485,7 +489,7 @@ ProfilePageComponent.propTypes = {
 
 const mapStateToProps = state => {
 
-  console.log('IN profile state ' + JSON.stringify(state));
+  //console.log('IN profile state ' + JSON.stringify(state));
   const page = state.ProfilePage;
   const {currentUser} = state.user ;
   const {isAuthenticated} = state.Auth;
@@ -525,7 +529,9 @@ const mapDispatchToProps = dispatch => ({
   onFetchTimeSlots: (listingId, start, end, timezone) =>
     dispatch(getTimeSlots(listingId, start, end, timezone)),
   fetchSpeculatedTransaction: params => dispatch(speculateTransaction(params)),
+  fetchSpeculateFreeTransaction: params => dispatch(speculateFreeTransaction(params)),
   onInitiateOrder: (params) => dispatch(initiateOrder(params)),
+  onLoadData: (userId) => dispatch(loadData(userId)),
 });
 
 const ProfilePage = compose(

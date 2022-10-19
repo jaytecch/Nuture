@@ -67,25 +67,21 @@ GenericError.propTypes = {
 class TopbarComponent extends Component {
   constructor(props) {
     super(props);
-    this.handleMobileMenuOpen = this.handleMobileMenuOpen.bind(this);
-    this.handleMobileMenuClose = this.handleMobileMenuClose.bind(this);
+    this.handleMobileMenuToggle = this.handleMobileMenuToggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleLoginModalToggle = this.handleLoginModalToggle.bind(this);
     this.handleContactModalToggle = this.handleContactModalToggle.bind(this);
 
     this.state = {
+      isMenuOpen: false,
       isLoginModalOpen: false,
       isContactModalOpen: false,
     };
   }
 
-  handleMobileMenuOpen() {
-    redirectToURLWithModalState(this.props, 'mobilemenu');
-  }
-
-  handleMobileMenuClose() {
-    redirectToURLWithoutModalState(this.props, 'mobilemenu');
+  handleMobileMenuToggle(value) {
+    this.setState({isMenuOpen: value});
   }
 
   handleLoginModalToggle(value) {
@@ -163,9 +159,6 @@ class TopbarComponent extends Component {
 
     const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;
 
-    const isMobileLayout = viewport.width < MAX_MOBILE_SCREEN_WIDTH;
-    const isMobileMenuOpen = isMobileLayout && mobilemenu === 'open';
-
     const mobileMenu = (
       <TopbarMobileMenu
         isAuthenticated={isAuthenticated}
@@ -213,7 +206,7 @@ class TopbarComponent extends Component {
           </NamedLink>
           <Button
             rootClassName={css.menu}
-            onClick={this.handleMobileMenuOpen}
+            onClick={() => this.handleMobileMenuToggle(true)}
             title={intl.formatMessage({ id: 'Topbar.menuIcon' })}
           >
             <MenuIcon className={css.menuIcon} />
@@ -223,8 +216,7 @@ class TopbarComponent extends Component {
 
         <div className={css.desktop}>
            <NamedLink className={css.logoLink} name="LandingPage">
-            <Logo format="desktop" className={css.logo} alt={intl.formatMessage({ id: 'TopbarDesktop.logo' })}
-            />
+            <Logo format="desktop" alt={intl.formatMessage({ id: 'TopbarDesktop.logo' })} />
           </NamedLink>
 
           <TopbarDesktop
@@ -247,8 +239,8 @@ class TopbarComponent extends Component {
         </div>
         <Modal
           id="TopbarMobileMenu"
-          isOpen={isMobileMenuOpen}
-          onClose={this.handleMobileMenuClose}
+          isOpen={this.state.isMenuOpen}
+          onClose={() => this.handleMobileMenuToggle(false)}
           onManageDisableScrolling={onManageDisableScrolling}
         >
           {authInProgress ? null : mobileMenu}

@@ -3,7 +3,7 @@
  * I.e. dates and other details related to payment decision in receipt format.
  */
 import React from 'react';
-import {arrayOf, oneOf, string} from 'prop-types';
+import {arrayOf, oneOf, string, bool} from 'prop-types';
 import { FormattedMessage, intlShape, injectIntl } from '../../util/reactIntl';
 import classNames from 'classnames';
 import {
@@ -37,16 +37,20 @@ export const BookingBreakdownComponent = props => {
     intl,
     dateType,
     timeZone,
+    isFlatRate,
   } = props;
 
   const isCustomer = userRole === 'customer';
   const isProvider = userRole === 'provider';
 
-  if(!bookingTransactions || bookingTransactions.length ==0 ) {
+  if(!bookingTransactions || bookingTransactions.length === 0) {
     return null;
   }
 
-  const hasCommissionLineItem = bookingTransactions[0].attributes.lineItems.find(item => {
+  console.log("BOOKING BREAKDOWN: " + JSON.stringify(bookingTransactions))
+
+  const isFree = !bookingTransactions[0].attributes.lineItems;
+  const hasCommissionLineItem = !isFree && bookingTransactions[0].attributes.lineItems.find(item => {
     const hasCustomerCommission = isCustomer && item.code === LINE_ITEM_CUSTOMER_COMMISSION;
     const hasProviderCommission = isProvider && item.code === LINE_ITEM_PROVIDER_COMMISSION;
     return (hasCustomerCommission || hasProviderCommission) && !item.reversal;
@@ -105,12 +109,14 @@ export const BookingBreakdownComponent = props => {
         bookingTransactions={bookingTransactions}
         unitType={unitType}
         intl={intl}
+        isFlatRate={isFlatRate}
       />
 
       <LineItemBasePriceMaybe
         unitType={unitType}
         intl={intl}
         bookingTransactions={bookingTransactions}
+        isFlatRate={isFlatRate}
       />
 
       <LineItemUnknownItemsMaybe
@@ -171,6 +177,7 @@ BookingBreakdownComponent.defaultProps = {
   className: null,
   dateType: null,
   timeZone: null,
+  isFlatRate: false,
 };
 
 BookingBreakdownComponent.propTypes = {
@@ -183,6 +190,7 @@ BookingBreakdownComponent.propTypes = {
   bookings: arrayOf(propTypes.booking).isRequired,
   dateType: propTypes.dateType,
   timeZone: string,
+  isFlatRate: bool.isRequired,
 
   // from injectIntl
   intl: intlShape.isRequired,

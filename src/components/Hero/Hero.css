@@ -9,42 +9,23 @@
   min-height: 300px;
   height: 400px;
 
+  background-size: cover !important;
+  background-repeat: no-repeat;
+  background-position: center center;
+
   @media (--viewportMobileLarge) {
     height: 20vh;
     min-height: 0;
   }
 }
 
-.heroContent {
-  background-size: cover !important;
-  background-repeat: no-repeat;
-  background: var(--nuBackground);
-
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  @media (--viewportMobileLarge) {
-    height: inherit;
-  }
-
-  @media (--viewportLarge) {
-    background-position: center center;
-  }
-}
-
 .searchHeroText {
   font-size: 72px;
 
-  @media (--viewportMobileMedium) {
+  @media (--viewportMobileLarge) {
     //margin-top:50px !important;
 
-    font-size: 24px;
+    font-size: 32px;
   }
 }
 

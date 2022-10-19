@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import heroUrl from '../../assets/kids-telephone/kids-telephone.png';
+import heroUrl from '../../assets/hero-messages/hero-img-messages.png';
+import mobileHeroUrl from '../../assets/hero-messages/hero-img-messages-1226px.png';
 import {arrayOf, bool, number, oneOf, func, object, shape, string} from 'prop-types';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
@@ -23,7 +24,6 @@ import {
   BookingTimeInfo,
   NamedLink,
   Page,
-  PaginationLinks,
   LayoutWrapperMain,
   LayoutSingleColumn,
   LayoutWrapperTopbar,
@@ -31,7 +31,7 @@ import {
   Footer,
   IconSpinner,
   UserDisplayName,
-  Hero, IconArrowHead,
+  Hero,
 } from '../../components';
 import {TopbarContainer} from '../../containers';
 import config from '../../config';
@@ -42,7 +42,6 @@ import {withViewport} from "../../util/contextHelpers";
 import InboxPagingLinks from "./InboxPagingLinks";
 
 const MAX_MOBILE_SCREEN_WIDTH = 768;
-const MAX_ITEMS_PER_PAGE = 10;
 
 const formatDate = (intl, date) => {
   return {
@@ -301,6 +300,7 @@ InboxItem.propTypes = {
   onSelectBooking: func.isRequired
 };
 
+
 export const InboxPageComponent = props => {
   const {
     unitType,
@@ -321,20 +321,17 @@ export const InboxPageComponent = props => {
     onSelectBooking,
     selectedBooking,
     viewport,
+    currentPage
   } = props;
 
   const isMobileLayout = viewport.width < MAX_MOBILE_SCREEN_WIDTH
   const [showTxPanel, setShowTxPanel] = useState(!isMobileLayout || selectedBooking.length > 0);
-  const [currentPage, setCurrentPage] = useState(1);
 
   const ensuredCurrentUser = ensureCurrentUser(currentUser);
   const {profile} = ensuredCurrentUser.attributes || {};
   const {publicData} = profile || {};
   const {accountType} = publicData || {};
   const isOrders = accountType === 'parent';
-  const ordersTitle = intl.formatMessage({id: 'InboxPage.ordersTitle'});
-  const salesTitle = intl.formatMessage({id: 'InboxPage.salesTitle'});
-  const title = isOrders ? ordersTitle : salesTitle;
   const txRole = isOrders ? 'customer' : 'provider';
 
   const handleBookingSelection = booking => {
@@ -349,13 +346,18 @@ export const InboxPageComponent = props => {
     setShowTxPanel(false);
   }
 
-  const toTxItem = bookingList => {
+  const toTxItem = (bookingList, selected) => {
     const tx = transactions.find(tx => tx.id.uuid === bookingList[0].uuid);
+    const isSelected = selected && !!selected.find(id => id.uuid === tx.id.uuid);
     const stateData = txState(intl, tx, txRole);
+
+    const classname = classNames(css.listItem, {
+      [css.selectedListItem]: isSelected,
+    })
 
     // Render InboxItem only if the latest transition of the transaction is handled in the `txState` function.
     return stateData ? (
-      <li key={tx.id.uuid} className={css.listItem}>
+      <li key={tx.id.uuid} className={classname}>
         <InboxItem
           unitType={unitType}
           txRole={txRole}
@@ -391,7 +393,6 @@ export const InboxPageComponent = props => {
     !fetchInProgress && hasOrderOrSaleTransactions(transactions, isOrders, ensuredCurrentUser);
 
   const changePage = page => {
-    setCurrentPage(page);
     onSetPage(page);
   }
 
@@ -404,14 +405,16 @@ export const InboxPageComponent = props => {
     [css.hideFooter]: isMobileLayout && showTxPanel
   })
 
+  const header = intl.formatMessage({id: 'InboxPage.header'});
+
   return (
-    <Page title={title} scrollingDisabled={scrollingDisabled}>
+    <Page title={header} scrollingDisabled={scrollingDisabled}>
       <LayoutSingleColumn>
         <LayoutWrapperTopbar className={css.topbar}>
           <TopbarContainer currentPage="InboxPage"/>
         </LayoutWrapperTopbar>
         <LayoutWrapperMain>
-          <Hero url={heroUrl} rootClassName={css.heroContainer} header="Inbox"/>
+          <Hero url={heroUrl} rootClassName={css.heroContainer} header={header}/>
 
           <div className={css.content}>
             {!isMobileLayout || !showTxPanel ? (
@@ -420,7 +423,7 @@ export const InboxPageComponent = props => {
                 {pagingLinks}
                 <ul className={css.itemList}>
                   {!fetchInProgress ? (
-                    currentPageTransactionIds.map(toTxItem)
+                    currentPageTransactionIds.map(booking => toTxItem(booking, selectedBooking))
                   ) : (
                     <li className={css.listItemsLoading}>
                       <IconSpinner/>
@@ -482,6 +485,7 @@ InboxPageComponent.propTypes = {
   transactions: arrayOf(propTypes.transaction).isRequired,
   rolledUpTransactionIds: arrayOf(arrayOf(object)),
   onSelectBooking: func.isRequired,
+  currentPage: number.isRequired,
 
   // from injectIntl
   intl: intlShape.isRequired,
@@ -504,6 +508,7 @@ const mapStateToProps = state => {
     selectedBooking,
     currentPageTransactionIds,
     numberOfPages,
+    currentPage,
   } = state.InboxPage;
   const {
     currentUser,
@@ -523,6 +528,7 @@ const mapStateToProps = state => {
     selectedBooking,
     currentPageTransactionIds,
     numberOfPages,
+    currentPage,
   };
 };
 

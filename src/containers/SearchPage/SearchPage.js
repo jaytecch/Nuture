@@ -7,6 +7,7 @@ import {withRouter} from 'react-router-dom';
 import debounce from 'lodash/debounce';
 import unionWith from 'lodash/unionWith';
 import heroUrl from '../../assets/search/hero-img-search.png';
+import mobileHeroUrl from '../../assets/search/hero-img-search-791px.png';
 import config from '../../config';
 import routeConfiguration from '../../routeConfiguration';
 import {createResourceLocatorString, pathByRouteName} from '../../util/routes';
@@ -31,7 +32,7 @@ import {
   setActiveListing,
   queryUserReviews,
   sendInquiry,
-  apply, getAssociatedProListing
+  apply, getAssociatedProListing, getListingAvailabilityPlan
 } from './SearchPage.duck';
 import {
   pickSearchParamsOnly,
@@ -188,13 +189,17 @@ export class SearchPageComponent extends Component {
       sendInquiryInProgress,
       onApply,
       getApplicableProListing,
+      getAvailabilityPlan,
       currentUser,
+      searchFor,
     } = this.props;
     // eslint-disable-next-line no-unused-vars
     const {mapSearch, page, ...searchInURL} = parse(location.search, {
       latlng: ['origin'],
       latlngBounds: ['bounds'],
     });
+
+    const isAProSearch = searchFor ? searchFor === 'job' : isPro;
 
     const filters = this.filters();
 
@@ -238,7 +243,7 @@ export class SearchPageComponent extends Component {
     // a child component
     const topbarClasses = this.state.isMobileModalOpen ? css.topbarBehindModal : null;
 
-    const heroTitle = isPro ? "Find a Service Job" : "Find a Service Pro";
+    const heroTitle = isAProSearch ? "Find a Service Job" : "Find a Service Pro";
 
     return (
       <Page
@@ -255,7 +260,7 @@ export class SearchPageComponent extends Component {
               desktopClassName={css.desktopTopbar}
               mobileClassName={css.mobileTopbar}
             />
-            <Hero header={heroTitle} url={heroUrl}/>
+            <Hero header={heroTitle} url={heroUrl} mobileUrl={mobileHeroUrl}/>
           </LayoutWrapperTopbar>
           <LayoutWrapperMain>
             <div className={css.container}>
@@ -319,6 +324,7 @@ SearchPageComponent.defaultProps = {
   educationLevelsFilterConfig: config.custom.educationLevels,
   activeListingId: null,
   currentZip: null,
+  searchFor: null,
 };
 
 SearchPageComponent.propTypes = {
@@ -359,6 +365,7 @@ SearchPageComponent.propTypes = {
   intl: intlShape.isRequired,
   currentZip: number,
   isPro: bool.isRequired,
+  searchFor: string,
 };
 
 const mapStateToProps = state => {
@@ -431,11 +438,12 @@ SearchPage.loadData = (params, search) => {
     latlngBounds: ['bounds'],
   });
   const {page = 1, address, origin, ...rest} = queryParams;
+  const {searchFor, ...restParams} = params;
   const originMaybe = config.sortSearchByDistance && origin ? {origin} : {};
   return loadData({
     ...rest,
     ...originMaybe,
-    ...params,
+    ...restParams,
     page,
     perPage: RESULT_PAGE_SIZE,
     include: ['author', 'images'],
@@ -443,7 +451,7 @@ SearchPage.loadData = (params, search) => {
     'fields.user': ['profile.displayName', 'profile.abbreviatedName'],
     'fields.image': ['variants.landscape-crop', 'variants.landscape-crop2x'],
     'limit.images': 1,
-  });
+  }, searchFor);
 };
 
 export default SearchPage;

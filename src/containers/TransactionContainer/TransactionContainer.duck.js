@@ -130,7 +130,7 @@ export default function checkoutPageReducer(state = initialState, action = {}) {
       return { ...state, fetchTransactionInProgress: true, fetchTransactionError: null };
     case FETCH_TRANSACTION_SUCCESS: {
       const transactionRef = { id: payload.data.data.id, type: 'transaction' };
-      const refs = [...state.bookingRefs, transactionRef];
+      const refs = [...state.bookingRefs, transactionRef].sort();
       return state.transactionRef === null ?
         { ...state, fetchTransactionInProgress: false, transactionRef, bookingRefs: refs }
         :  { ...state, fetchTransactionInProgress: false, bookingRefs: refs };
@@ -463,7 +463,7 @@ export const fetchTransaction = (id, txRole) => (dispatch, getState, sdk) => {
     });
 };
 
-export const acceptSale = (bookingTransactions, isHire = false) => (dispatch, getState, sdk) => {
+export const acceptSale = (params, bookingTransactions, isHire = false) => (dispatch, getState, sdk) => {
   if (acceptOrDeclineInProgress(getState())) {
     return Promise.reject(new Error('Accept or decline already in progress'));
   }
@@ -483,6 +483,7 @@ export const acceptSale = (bookingTransactions, isHire = false) => (dispatch, ge
       response.forEach(resp => dispatch(addMarketplaceEntities(resp)))
       dispatch(acceptSaleSuccess());
       dispatch(fetchCurrentUserNotifications());
+      dispatch(updateMetadata(params));
       return response;
     })
     .catch(e => {
@@ -492,6 +493,8 @@ export const acceptSale = (bookingTransactions, isHire = false) => (dispatch, ge
       });
       throw e;
     });
+
+
 };
 
 export const declineSale = (bookingTransactions, isHire=false) => (dispatch, getState, sdk) => {
@@ -710,4 +713,13 @@ export const loadData = params => (dispatch, getState) => {
     dispatch(fetchMessages(txId, 1)),
     dispatch(fetchNextTransitions(txId)),
   ]);
+};
+
+export const updateMetadata = params => (dispatch, getState, sdk) => {
+
+  console.log('in update ' + params);
+  return sdk.currentUser
+    .updateProfile({privateData: params})
+    .then(response => {console.log('Response :' + response)});
+
 };

@@ -31,11 +31,13 @@ const LineItemUnitPrice = props => {
 
   let totalPrice = 0;
   bookingTransactions.forEach(tx => {
-    const amount = isProvider
-      ? tx.attributes.payoutTotal.amount
-      : tx.attributes.payinTotal.amount;
+    const total = isProvider
+      ? tx.attributes.payoutTotal
+      : tx.attributes.payinTotal;
 
-    totalPrice += Number(amount);
+    if(total) {
+      totalPrice += Number(total.amount);
+    }
   })
 
 

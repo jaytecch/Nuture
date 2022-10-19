@@ -7,14 +7,16 @@ import css from './BookingBreakdown.css';
 import {arrayOf} from "prop-types";
 
 const LineItemUnitPriceMaybe = props => {
-  const { bookingTransactions, unitType, intl } = props;
+  const { bookingTransactions, unitType, intl, isFlatRate } = props;
   const isNightly = unitType === LINE_ITEM_NIGHT;
   const isDaily = unitType === LINE_ITEM_DAY;
   const translationKey = isNightly
     ? 'BookingBreakdown.pricePerNight'
     : isDaily
     ? 'BookingBreakdown.pricePerDay'
-    : 'BookingBreakdown.pricePerQuantity';
+      : isFlatRate
+        ? 'BookingBreakdown.priceFlatRate'
+        : 'BookingBreakdown.pricePerQuantity';
 
   const unitPurchase = bookingTransactions[0].attributes.lineItems.find(
     item => item.code === unitType && !item.reversal

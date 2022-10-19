@@ -21,7 +21,7 @@ export const CardJobListingsComponent = props => {
 
   const header = intl.formatMessage({id: 'Dashboard.myJobListings'});
 
-  const limitedListings = listings.slice(0,MAX_LISTINGS);
+  const limitedListings = listings.slice(0, MAX_LISTINGS);
 
   return (
     <Card
@@ -29,50 +29,50 @@ export const CardJobListingsComponent = props => {
       flat={true}
       header={header}
     >
-      <div className={css.list}>
-        {limitedListings.length > 0 ? limitedListings.map(listing => {
-          const {id, attributes} = listing
-          const {title, description, publicData} = attributes;
-          const {applicants} = publicData;
-          const numApplicants = applicants ? applicants.length : 0;
-          const uuid = id.uuid;
+      <div className={css.content}>
+        <div className={css.list}>
+          {limitedListings.length > 0 ? limitedListings.map(listing => {
+            const {id, attributes} = listing
+            const {title, publicData} = attributes;
+            const {applicants} = publicData;
+            const numApplicants = applicants ? applicants.length : 0;
+            const uuid = id.uuid;
 
 
-          return (
-            <div className={css.listingPadding}>
-              <div className={css.shadow}>
-                <NamedLink
-                  id={uuid}
-                  key={uuid}
-                  className={css.listing}
-                  name="JobListingPage"
-                  params={{id: uuid,}}
-                >
-                  <div className={css.headingBar}>
-                    <div className={css.row}>
-                      <div className={css.column}>
-                    <div className={css.columnLeft}>
-                    <h3 className={css.title}>{title}</h3>
+            return (
+              <div className={css.listingPadding}>
+                <div className={css.shadow}>
+                  <NamedLink
+                    id={uuid}
+                    key={uuid}
+                    className={css.listing}
+                    name="JobListingPage"
+                    params={{id: uuid,}}
+                  >
+                    <div className={css.headingBar}>
+                      <div className={css.row}>
+                        <div className={css.column}>
+                          <div className={css.columnLeft}>
+                            <h3 className={css.title}>{title}</h3>
+                          </div>
+                          <div className={css.columnRight}>
+                            <p className={css.applicantCount}>Applicants: {numApplicants}</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className={css.columnRight}>
-                    <p className={css.applicantCount}>Applicants: {numApplicants}</p>
-                    </div>
-                  </div>
-                    </div>
-                  </div>
-                  <p className={css.description}>{description}</p>
-                </NamedLink>
+                  </NamedLink>
+                </div>
               </div>
-            </div>
-          );
-        }) : (<h3 className={css.noListingHeader}>You have no job listings.</h3>)}
+            );
+          }) : (<h3 className={css.noListingHeader}>You have no job listings.</h3>)}
+        </div>
+
+        <NamedLink name="EditJobListingPage" className={css.namedLinkButton}>
+          {listings.length > 0 ? "SEE MORE" : "CREATE A JOB"}
+        </NamedLink>
       </div>
 
-      <NamedLink name="EditJobListingPage" className={css.namedLinkButton}>
-        <p className={css.namedLinkText}>
-          {listings.length > 0 ? "SEE MORE" : "CREATE A JOB"}
-        </p>
-      </NamedLink>
     </Card>
   )
 };

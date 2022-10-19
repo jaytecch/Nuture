@@ -3,7 +3,15 @@ import css from './CardNextAppointment.css';
 import {FormattedMessage, injectIntl} from "react-intl";
 import {arrayOf, bool, number, oneOf, string} from 'prop-types';
 import classNames from 'classnames';
-import {Avatar, BookingTimeInfo, Card, IconSpinner, NamedLink, UserDisplayName} from "../index";
+import {
+  Map,
+  Avatar,
+  BookingTimeInfo,
+  Card,
+  IconSpinner,
+  NamedLink,
+  UserDisplayName
+} from "../../components";
 import {ensureCurrentUser, ensureListing} from "../../util/data";
 import {txIsEnquired, txIsRequested} from '../../util/transaction';
 import config from "../../config";
@@ -15,12 +23,15 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {createSlug, stringify} from "../../util/urlHelpers";
 import {AvatarLarge} from "..";
+import {types as sdkTypes} from '../../util/sdkLoader';
 import {formatMoney} from "../../util/currency";
+
+const {LatLng} = sdkTypes;
 
 
 // Functional component as internal helper to print BookingTimeInfo if that is needed
 const BookingInfoMaybe = props => {
-  const {bookingClassName, isOrder, intl, tx, unitType} = props;
+  const {isOrder, intl, tx, unitType, address} = props;
   const isEnquiry = txIsEnquired(tx);
 
   if (isEnquiry) {
@@ -44,6 +55,12 @@ const BookingInfoMaybe = props => {
   const bookingPrice = isOrder ? tx.attributes.payinTotal : tx.attributes.payoutTotal;
   const price = bookingPrice ? formatMoney(intl, bookingPrice) : null;
 
+  const addrs = address ? (
+    <div className={css.nextApptRow}>
+      <div className={css.highlightText}>Address:</div>
+      <div className={css.itemPrice}>{address}</div>
+    </div>
+  ) : null;
 
   // Remember to also add formatMoney function from 'util/currency.js' and add this after BookingTimeInfo:
   // <div className={css.itemPrice}>{price}</div>
@@ -70,6 +87,7 @@ const BookingInfoMaybe = props => {
         <div className={css.highlightText}>Total Cost:</div>
         <div className={css.itemPrice}>{price}</div>
       </div>
+      {addrs}
     </div>
 
   );
@@ -103,7 +121,10 @@ const createListingLink = (listing, otherUser, searchParams = {}, className = ''
 
 export const AppointmentItem = props => {
   const {unitType, type, tx, intl, stateData, bookings} = props;
-  const {customer, provider, listing} = tx;
+  const {customer, provider, listing, attributes} = tx;
+  const {protectedData} = attributes || {};
+  const {location} = protectedData || {};
+  const {latlong, address} = location || {};
   const isCustomer = type === 'customer';
 
   const otherUser = isCustomer ? provider : customer;
@@ -123,47 +144,62 @@ export const AppointmentItem = props => {
   const selectedBooking = bookings.find(booking => booking.find(ref => ref.uuid == tx.id.uuid));
   const bookingString = selectedBooking.reduce((str, id) => str === "?" ? id.uuid : str + "+" + id.uuid, "?");
 
+  const mapClickHandle = e => {
+    e.preventDefault();
+  }
+
   //console.log("In appointment formatting listing " + JSON.stringify(listing));
   //console.log("In appointment formatting otheruser" + JSON.stringify(otherUser));
 
   return (
     <div className={css.content}>
       <div className={css.item}>
-        <div className={css.itemAvatar}>
-          {isCustomer && listing ? listingLink : <Avatar user={otherUser}/>}
-        </div>
-        <NamedLink
-          className={linkClasses}
-          name="InboxPage"
-          to={{search: bookingString}}
-        >
-          <div className={css.rowNotificationDot}>{rowNotificationDot}</div>
-          <div className={css.itemInfo}>
-            <div className={classNames(css.itemUsername, stateData.nameClassName)}>
-              {otherUserDisplayName}
-            </div>
-            <BookingInfoMaybe
-              bookingClassName={stateData.bookingClassName}
-              intl={intl}
-              isOrder={isCustomer}
-              tx={tx}
-              unitType={unitType}
-            />
+        <div className={css.info}>
+          <div className={css.itemAvatar}>
+            {isCustomer && listing ? listingLink : <Avatar user={otherUser}/>}
           </div>
+          <NamedLink
+            className={linkClasses}
+            name="InboxPage"
+            to={{search: bookingString}}
+          >
+            <div className={css.rowNotificationDot}>{rowNotificationDot}</div>
+            <div className={css.itemInfo}>
+              <div className={classNames(css.itemUsername, stateData.nameClassName)}>
+                {otherUserDisplayName}
+              </div>
+              <BookingInfoMaybe
+                address={address}
+                intl={intl}
+                isOrder={isCustomer}
+                tx={tx}
+                unitType={unitType}
+              />
+            </div>
 
-          <div className={css.itemState}>
-            <div className={classNames(css.stateName, stateData.stateClassName)}>
-              {/*{stateData.state}*/}
+            <div className={css.itemState}>
+              <div className={classNames(css.stateName, stateData.stateClassName)}>
+                {/*{stateData.state}*/}
+              </div>
+              {/*<div*/}
+              {/*  className={classNames(css.lastTransitionedAt, stateData.lastTransitionedAtClassName)}*/}
+              {/*  title={lastTransitionedAt.long}*/}
+              {/*>*/}
+              {/*  {lastTransitionedAt.short}*/}
+              {/*</div>*/}
             </div>
-            {/*<div*/}
-            {/*  className={classNames(css.lastTransitionedAt, stateData.lastTransitionedAtClassName)}*/}
-            {/*  title={lastTransitionedAt.long}*/}
-            {/*>*/}
-            {/*  {lastTransitionedAt.short}*/}
-            {/*</div>*/}
+          </NamedLink>
+        </div>
+
+
+        {latlong ?
+          <div className={css.map}>
+            <Map center={new LatLng(latlong.lat, latlong.long)} address={address}/>
           </div>
-        </NamedLink>
+          : null}
+
       </div>
+
 
       <NamedLink name="InboxPage" className={css.namedLinkButton} to={{search: bookingString}}>
         SEND A MESSAGE
@@ -203,10 +239,10 @@ export const CardNextAppointmentComponent = props => {
 
 
   const noResults = !transactionArray ? (
-    <div>
-    <li key="noResults" className={css.noResults}>
-      You have no upcoming appointments
-    </li>
+    <div className={css.noResultsDiv}>
+      <p key="noResults" className={css.noResults}>
+        You have no upcoming appointments
+      </p>
 
 
       <NamedLink name="SearchPage" className={css.namedLinkButton}>

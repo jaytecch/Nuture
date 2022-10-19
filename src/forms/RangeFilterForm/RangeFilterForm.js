@@ -1,11 +1,11 @@
 import React from 'react';
-import { bool, func, number, object, string } from 'prop-types';
+import {bool, func, number, object, string} from 'prop-types';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
-import { Field, Form as FinalForm, FormSpy } from 'react-final-form';
-import { FormattedMessage, injectIntl, intlShape } from '../../util/reactIntl';
+import {Field, Form as FinalForm, FormSpy} from 'react-final-form';
+import {FormattedMessage, injectIntl, intlShape} from '../../util/reactIntl';
 
-import { Form, RangeSlider } from '../../components';
+import {Form, RangeSlider} from '../../components';
 import css from './RangeFilterForm.css';
 
 const DEBOUNCE_WAIT_TIME = 400;
@@ -32,7 +32,7 @@ const parseMax = (max, currentMin) => value => {
 
 // RangeFilterForm component
 const RangeFilterFormComponent = props => {
-  const { liveEdit, onChange, onSubmit, onCancel, onClear, ...rest } = props;
+  const {liveEdit, onChange, onSubmit, onCancel, onClear, ...rest} = props;
 
   if (liveEdit && !onChange) {
     throw new Error('RangeFilterForm: if liveEdit is true you need to provide onChange function');
@@ -47,7 +47,7 @@ const RangeFilterFormComponent = props => {
   const handleChange = debounce(
     formState => {
       if (formState.dirty) {
-        const { minValue, maxValue, ...restValues } = formState.values;
+        const {minValue, maxValue, ...restValues} = formState.values;
         onChange({
           minValue: minValue === '' ? rest.min : minValue,
           maxValue: maxValue === '' ? rest.max : maxValue,
@@ -56,11 +56,11 @@ const RangeFilterFormComponent = props => {
       }
     },
     DEBOUNCE_WAIT_TIME,
-    { leading: false, trailing: true }
+    {leading: false, trailing: true}
   );
 
   const handleSubmit = values => {
-    const { minValue, maxValue, ...restValues } = values;
+    const {minValue, maxValue, ...restValues} = values;
     return onSubmit({
       minValue: minValue === '' ? rest.min : minValue,
       maxValue: maxValue === '' ? rest.max : maxValue,
@@ -69,8 +69,8 @@ const RangeFilterFormComponent = props => {
   };
 
   const formCallbacks = liveEdit
-    ? { onSubmit: () => null }
-    : { onSubmit: handleSubmit, onCancel, onClear };
+    ? {onSubmit: () => null}
+    : {onSubmit: handleSubmit, onCancel, onClear};
   return (
     <FinalForm
       {...rest}
@@ -91,20 +91,53 @@ const RangeFilterFormComponent = props => {
           min,
           max,
           step,
+          isCurrency,
         } = formRenderProps;
-        const { minValue: minValueRaw, maxValue: maxValueRaw } = values;
+        const {minValue: minValueRaw, maxValue: maxValueRaw} = values;
         const minValue = typeof minValueRaw !== 'string' ? minValueRaw : min;
         const maxValue = typeof maxValueRaw !== 'string' ? maxValueRaw : max;
-
         const handleCancel = () => {
           // reset the final form to initialValues
           form.reset();
           onCancel();
         };
 
-        const clear = intl.formatMessage({ id: 'RangeFilterForm.clear' });
-        const cancel = intl.formatMessage({ id: 'RangeFilterForm.cancel' });
-        const submit = intl.formatMessage({ id: 'RangeFilterForm.submit' });
+        const formValues = (
+          <div className={css.displayDiv}>
+            <div className={css.dollarGroup}>
+              {isCurrency ? <div className={css.dollar}>$</div> : null}
+              <Field
+                className={css.minValue}
+                id={`${id}.minValue`}
+                name="minValue"
+                component="input"
+                type="number"
+                placeholder={min}
+                min={min}
+                max={max}
+                step={step}
+                parse={parseMin(min, maxValue)}
+              />
+            </div>
+            <span className={css.valueSeparator}>-</span>
+            {isCurrency ? <div className={css.dollar}>$</div> : null}
+            <Field
+              className={css.maxValue}
+              id={`${id}.maxValue`}
+              name="maxValue"
+              component="input"
+              type="number"
+              placeholder={max}
+              min={min}
+              max={max}
+              step={step}
+              parse={parseMax(max, minValue)}
+            />
+          </div>
+        );
+        const clear = intl.formatMessage({id: 'RangeFilterForm.clear'});
+        const cancel = intl.formatMessage({id: 'RangeFilterForm.cancel'});
+        const submit = intl.formatMessage({id: 'RangeFilterForm.submit'});
 
         const classes = classNames(css.root, {
           [css.popup]: showAsPopup,
@@ -119,39 +152,15 @@ const RangeFilterFormComponent = props => {
             onSubmit={handleSubmit}
             tabIndex="0"
             contentRef={contentRef}
-            style={{ minWidth: '300px', ...style }}
+            style={{minWidth: '300px', ...style}}
           >
             <div className={css.contentWrapper}>
               <span className={css.label}>
-                <FormattedMessage id="RangeFilterForm.label" />
+                <FormattedMessage id="RangeFilterForm.label"/>
               </span>
-              <div className={css.inputsWrapper}>
-                <Field
-                  className={css.minValue}
-                  id={`${id}.minValue`}
-                  name="minValue"
-                  component="input"
-                  type="number"
-                  placeholder={min}
-                  min={min}
-                  max={max}
-                  step={step}
-                  parse={parseMin(min, maxValue)}
-                />
-                <span className={css.valueSeparator}>-</span>
-                <Field
-                  className={css.maxValue}
-                  id={`${id}.maxValue`}
-                  name="maxValue"
-                  component="input"
-                  type="number"
-                  placeholder={max}
-                  min={min}
-                  max={max}
-                  step={step}
-                  parse={parseMax(max, minValue)}
-                />
-              </div>
+              {isCurrency ? <div className={css.inputsWrapper}> {formValues} </div> :
+                <div className={css.nonCurrencyInputsWrapper}> {formValues} </div>}
+
             </div>
 
             <div className={css.sliderWrapper}>
@@ -168,7 +177,7 @@ const RangeFilterFormComponent = props => {
             </div>
 
             {liveEdit ? (
-              <FormSpy onChange={handleChange} subscription={{ values: true, dirty: true }} />
+              <FormSpy onChange={handleChange} subscription={{values: true, dirty: true}}/>
             ) : (
               <div className={css.buttonsWrapper}>
                 <button className={css.clearButton} type="button" onClick={onClear}>

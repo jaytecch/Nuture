@@ -103,6 +103,7 @@ class RangeFilterPopup extends Component {
       step,
       intl,
       currencyConfig,
+      isCurrency
     } = this.props;
     const classes = classNames(rootClassName || css.root, className);
     const { minValue, maxValue } = initialValues || {};
@@ -110,15 +111,7 @@ class RangeFilterPopup extends Component {
     const hasValue = value => value != null;
     const hasInitialValues = initialValues && hasValue(minValue) && hasValue(maxValue);
 
-    const label = hasInitialValues
-      ? intl.formatMessage(
-          { id: 'RangeFilter.labelSelectedButton' },
-          {
-            minValue: formatCurrencyMajorUnit(intl, currencyConfig.currency, minValue),
-            maxValue: formatCurrencyMajorUnit(intl, currencyConfig.currency, maxValue),
-          }
-        )
-      : intl.formatMessage({ id: 'RangeFilter.label' });
+    const label = intl.formatMessage({ id: 'RangeFilter.label' });
 
     const labelStyles = hasInitialValues ? css.labelSelected : css.label;
     const contentStyle = this.positionStyleForContent();
@@ -151,6 +144,7 @@ class RangeFilterPopup extends Component {
           step={step}
           showAsPopup
           isOpen={this.state.isOpen}
+          isCurrency={isCurrency}
         />
       </div>
     );

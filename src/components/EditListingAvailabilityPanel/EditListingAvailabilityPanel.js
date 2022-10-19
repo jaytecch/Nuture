@@ -18,6 +18,7 @@ import {
 import { EditListingAvailabilityPlanForm, EditListingAvailabilityExceptionForm } from '../../forms';
 
 import css from './EditListingAvailabilityPanel.css';
+import * as moment from "moment";
 
 const WEEKDAYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
@@ -91,10 +92,12 @@ const Weekday = props => {
       <div className={css.entries}>
         {availabilityPlan && hasEntry
           ? getEntries(availabilityPlan, dayOfWeek).map(e => {
+            const start = moment(e.startTime, "HH").format('h A');
+            const end = moment(e.endTime, "HH").format('h A');
               return (
-                <span className={css.entry} key={`${e.dayOfWeek}${e.startTime}`}>{`${
-                  e.startTime
-                } - ${e.endTime === '00:00' ? '24:00' : e.endTime}`}</span>
+                <span className={css.entry} key={`${e.dayOfWeek}${start}`}>{`${
+                  start
+                } - ${end}`}</span>
               );
             })
           : null}

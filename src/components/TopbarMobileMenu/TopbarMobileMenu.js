@@ -11,18 +11,19 @@ import {propTypes} from '../../util/types';
 import {ensureCurrentUser} from '../../util/data';
 import {
   AvatarLarge,
-  InlineTextButton,
+  InlineTextButton, MenuContent, MenuItem,
   NamedLink,
   NotificationBadge,
   OwnListingLink,
 } from '../../components';
 
 import css from './TopbarMobileMenu.css';
-import {LoginForm} from "../../forms";
+import {ContactForm, LoginForm} from "../../forms";
 import {authenticationInProgress, login} from "../../ducks/Auth.duck";
 import {compose} from "redux";
 import {connect} from 'react-redux';
 import {ACCOUNT_TYPES, LISTING_TYPES} from "../../nurtureUpLists";
+import {Link} from "react-router-dom";
 
 const TopbarMobileMenuComponent = props => {
   const {
@@ -45,8 +46,39 @@ const TopbarMobileMenuComponent = props => {
   const {accountType} = publicData || {};
 
   const [showLoginFrom, setShowLoginForm] = useState(false);
+  const [showContactForm, setShowContactForm] = useState(false);
 
   if (!isAuthenticated) {
+    const home = (
+      <NamedLink className={css.firstNavLink} name="LandingPage">
+        Home
+      </NamedLink>
+    )
+
+    const about = (
+      <NamedLink className={css.navigationLink} name="AboutPage">
+        <FormattedMessage id="TopbarDesktop.about"/>
+      </NamedLink>
+    );
+
+    const safety = (
+      <NamedLink className={css.navigationLink} name="AboutPage">
+        <FormattedMessage id="TopbarDesktop.safety"/>
+      </NamedLink>
+    )
+
+    const blog = (
+      <a href={"http://nurtureup.blog"} className={css.navigationLink} target="_blank">
+        Blog
+      </a>
+    )
+
+    const contact = (
+      <div className={css.navigationLink} onClick={() => setShowContactForm(true)}>
+        <FormattedMessage id="TopbarDesktop.contact"/>
+      </div>
+    )
+
     const loginErrorMessage = (
       <div className={css.error}>
         <FormattedMessage id="AuthenticationPage.loginFailed"/>
@@ -73,24 +105,58 @@ const TopbarMobileMenuComponent = props => {
       </span>
     );
 
+    const loginForm = showLoginFrom ? (
+      <div className={css.form}>
+        <InlineTextButton
+          className={css.backLink}
+          onClick={() => setShowLoginForm(false)}
+        >
+          Back
+        </InlineTextButton>
+
+        {loginError ? loginErrorMessage : null}
+        <LoginForm
+          onSubmit={submitLogin}
+          inProgress={authInProgress}
+        />
+      </div>
+    ) : null;
+
+    const contactForm = showContactForm ? (
+      <div className={css.form}>
+        <InlineTextButton
+          className={css.backLink}
+          onClick={() => setShowContactForm(false)}
+        >
+          Back
+        </InlineTextButton>
+        <ContactForm handleSubmit={() => setShowContactForm(false)}/>
+      </div>
+    ) : null;
+
+    const content = !showLoginFrom && !showContactForm ? (
+      <div className={css.content}>
+        <FormattedMessage
+          id="TopbarMobileMenu.unauthorizedGreeting"
+          values={{lineBreak: <br/>, signupOrLogin}}
+        />
+
+        {home}
+        {about}
+        {safety}
+        {blog}
+        {contact}
+      </div>
+    ) : null;
+
     return (
       <div className={css.root}>
         <div className={css.content}>
           <div className={css.authenticationGreeting}>
-            {showLoginFrom ? (
-              <div className={css.loginForm}>
-                {loginError ? loginErrorMessage : null}
-                <LoginForm
-                  onSubmit={submitLogin}
-                  inProgress={authInProgress}
-                />
-              </div>
-            ) : (
-              <FormattedMessage
-                id="TopbarMobileMenu.unauthorizedGreeting"
-                values={{lineBreak: <br/>, signupOrLogin}}
-              />
-            )}
+            {content}
+
+            {loginForm}
+            {contactForm}
           </div>
         </div>
       </div>
@@ -121,32 +187,52 @@ const TopbarMobileMenuComponent = props => {
           className={classNames(css.firstNavLink, currentPageClass('Dashboard'))}
           name="Dashboard"
         >
-          <FormattedMessage id="TopbarDesktop.dashboardLink" />
+          <FormattedMessage id="TopbarDesktop.dashboardLink"/>
         </NamedLink>
 
         <NamedLink
           className={classNames(css.navigationLink, currentPageClass('AccountSettingsPage'))}
           name="AccountSettingsPage"
         >
-          <FormattedMessage id="TopbarDesktop.accountSettingsLink" />
+          <FormattedMessage id="TopbarDesktop.accountSettingsLink"/>
         </NamedLink>
 
         <NamedLink
           className={classNames(css.navigationLink, currentPageClass('SearchPage'))}
           name="SearchPage"
-          params={{pub_listingType: (accountType ?
+          params={{
+            pub_listingType: (accountType ?
               (accountType === ACCOUNT_TYPES.parent ? LISTING_TYPES.job : LISTING_TYPES.service)
-              : LISTING_TYPES.service)}}
+              : LISTING_TYPES.service)
+          }}
         >
-          <FormattedMessage id="TopbarDesktop.searchLink" />
+          <FormattedMessage id="TopbarDesktop.searchLink"/>
         </NamedLink>
 
         <NamedLink
           className={classNames(css.navigationLink, currentPageClass('InboxPage'))}
           name="InboxPage"
         >
-          <FormattedMessage id="TopbarDesktop.inbox" />
+          <FormattedMessage id="TopbarDesktop.inbox"/>
         </NamedLink>
+
+        <NamedLink
+          className={classNames(css.navigationLink, currentPageClass('AboutPage'))}
+          name="AboutPage"
+        >
+          <FormattedMessage id="TopbarDesktop.about"/>
+        </NamedLink>
+
+        <Link
+          className={classNames(css.navigationLink, currentPageClass('Safety'))}
+          to={"/about#safety-anchor"}
+        >
+          <FormattedMessage id="TopbarDesktop.safety"/>
+        </Link>
+
+        <a href={"http://nurtureup.blog"} className={css.navigationLink} target="_blank">
+          Blog
+        </a>
       </div>
 
       <div className={css.footer}>

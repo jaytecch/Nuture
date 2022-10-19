@@ -13,6 +13,7 @@ import {
 } from '../../util/transaction';
 import { LINE_ITEM_NIGHT, LINE_ITEM_DAY, propTypes } from '../../util/types';
 import {
+  ensureCurrentUser,
   ensureListing, ensurePaymentMethodCard, ensureStripeCustomer,
   ensureTransaction,
   ensureUser,
@@ -29,6 +30,7 @@ import {
 } from '../../components';
 import { SendMessageForm } from '../../forms';
 import config from '../../config';
+
 
 // These are internal components that make this file more readable.
 import AddressLinkMaybe from './AddressLinkMaybe';
@@ -50,6 +52,9 @@ import PanelHeading, {
 
 import css from './TransactionPanel.css';
 import PayoutActionButtons from "./PayoutActionButtons";
+import {updateMetadata} from "../../ducks/Auth.duck";
+import {getServiceType} from "../../nurtureUpLists";
+const publicIp = require('public-ip');
 
 // Helper function to get display names for different roles
 const displayNames = (currentUser, currentProvider, currentCustomer, intl) => {
@@ -87,6 +92,8 @@ export class TransactionPanelComponent extends Component {
       isReviewModalOpen: false,
       isBreakdownModalOpen: false,
       reviewSubmitted: false,
+      typedContractSignature: null,
+      // contractSignedForServiceType: false,
     };
     this.isMobSaf = false;
     this.sendMessageFormName = 'TransactionPanel.SendMessageForm';
@@ -209,6 +216,7 @@ export class TransactionPanelComponent extends Component {
       monthlyTimeSlots,
       nextTransitions,
       handleCloseMessage,
+      onUpdateUserProfile,
     } = this.props;
 
     const currentTransaction = ensureTransaction(transaction);
@@ -217,6 +225,7 @@ export class TransactionPanelComponent extends Component {
     const currentCustomer = ensureUser(currentTransaction.customer);
     const isCustomer = transactionRole === 'customer';
     const isProvider = transactionRole === 'provider';
+    const isFlatRate = currentListing.attributes.publicData.serviceType === 'postpartumDoula';
 
     const listingLoaded = !!currentListing.id;
     const listingDeleted = listingLoaded && currentListing.attributes.deleted;
@@ -227,15 +236,13 @@ export class TransactionPanelComponent extends Component {
     const isProviderBanned = isProviderLoaded && currentProvider.attributes.banned;
     const isProviderDeleted = isProviderLoaded && currentProvider.attributes.deleted;
 
-
-    console.log('currentcustomer in transactionpanel = ' + JSON.stringify(currentUser));
     const hasDefaultPaymentMethod =
       currentUser &&
       ensureStripeCustomer(currentUser.stripeCustomer).attributes.stripeCustomerId &&
       ensurePaymentMethodCard(currentUser.stripeCustomer.defaultPaymentMethod).id;
 
-    console.log('in transactionpanel, default paymentmehtod = ' + hasDefaultPaymentMethod);
-
+    //console.log('in transactionpanel, default paymentmehtod = ' + hasDefaultPaymentMethod);
+    //showBookingPanel: isCustomer && !isProviderBanned && hasCorrectNextTransition,
     const stateDataFn = tx => {
       if (txIsEnquired(tx)  && hasDefaultPaymentMethod ) {
         const transitions = Array.isArray(nextTransitions)
@@ -247,48 +254,54 @@ export class TransactionPanelComponent extends Component {
           transitions.length > 0 && transitions.includes(TRANSITION_NEW_BOOKING_REQUEST_AFTER_ENQUIRY);
         return {
           headingState: HEADING_ENQUIRED,
-          showBookingPanel: isCustomer && !isProviderBanned && hasCorrectNextTransition,
+          showBookingPanel: false,
+          checkForDefaultPayment: true,
+          hideBreakdown: true,
         };
       } else if (txIsHireRequested(tx)) {
         return {
           headingState: HEADING_HIRED,
-          showDetailCardHeadings: isCustomer,
+          //showDetailCardHeadings: isCustomer,
           isHireRequest: true,
           showSaleButtons: isProvider && !isCustomerBanned,
+          checkForDefaultPayment: true,
         }
       } else if (txIsRequested(tx)) {
         return {
           headingState: HEADING_REQUESTED,
-          showDetailCardHeadings: isCustomer,
+          //showDetailCardHeadings: isCustomer,
           isHireRequest: false,
           showSaleButtons: isProvider && !isCustomerBanned,
+          checkForDefaultPayment: true,
         };
       } else if (txIsAccepted(tx)) {
         return {
           headingState: HEADING_ACCEPTED,
-          showDetailCardHeadings: isCustomer,
+          //showDetailCardHeadings: isCustomer,
           showAddress: isCustomer,
+          checkForDefaultPayment: true,
         };
       } else if (txIsDisableCancel(tx)) {
         return {
           headingState: HEADING_ACCEPTED_NO_CANCEL,
-          showDetailCardHeadings: isCustomer,
+          //showDetailCardHeadings: isCustomer,
           showPayoutButtons: isCustomer,
+          checkForDefaultPayment: true,
         };
       } else if (txIsDeclined(tx)) {
         return {
           headingState: HEADING_DECLINED,
-          showDetailCardHeadings: isCustomer,
+          //showDetailCardHeadings: isCustomer,
         };
       } else if (txIsCanceled(tx)) {
         return {
           headingState: HEADING_CANCELED,
-          showDetailCardHeadings: isCustomer,
+          //showDetailCardHeadings: isCustomer,
         };
       } else if (txHasBeenDelivered(tx)) {
         return {
           headingState: HEADING_DELIVERED,
-          showDetailCardHeadings: isCustomer,
+          //showDetailCardHeadings: isCustomer,
           showAddress: isCustomer,
           showPayoutButtons: false
         };
@@ -297,6 +310,7 @@ export class TransactionPanelComponent extends Component {
       }
     };
     const stateData = stateDataFn(currentTransaction);
+    //console.log('STATE DATA = ' + JSON.stringify(stateData));
 
     const deletedListingTitle = intl.formatMessage({
       id: 'TransactionPanel.deletedListingTitle',
@@ -309,11 +323,51 @@ export class TransactionPanelComponent extends Component {
       otherUserDisplayNameString,
     } = displayNames(currentUser, currentProvider, currentCustomer, intl);
 
+    //console.log('Current listing attributes = ' + JSON.stringify(currentListing.attributes));
+
     const { publicData, geolocation } = currentListing.attributes;
     const location = publicData && publicData.location ? publicData.location : {};
     const listingTitle = currentListing.attributes.deleted
       ? deletedListingTitle
       : currentListing.attributes.title;
+
+    // const {serviceType} = publicData || {};
+    // const {contract} = getServiceType(serviceType) || {};
+
+    // const {profile} = currentUser.attributes || {};
+    // const {privateData} = profile || {};
+
+    // console.log('privateData = ' + JSON.stringify(privateData));
+    // const contractData = privateData[listingTitle];
+    // const {contractName} = contractData || {};
+
+    // const tempName = contractName ? contractName.toString().trim().toLowerCase(): '';
+    // const normalizedContractName = listingTitle.toString().trim().toLowerCase();
+
+    // const signed = tempName === normalizedContractName;
+    // this.setState({contractSignedForServiceType: signed});
+    // console.log('contractName =  ' + tempName);
+    // console.log('selected service label = ' + normalizedContractName);
+    // console.log('signed = ' + signed);
+    // console.log('bookingstate.contractSignedForServiceType = ' + this.state.contractSignedForServiceType);
+    // console.log('bookingstate.typedContractSignature = ' + this.state.typedContractSignature);
+
+    let pubIp = '';
+    publicIp.v4() .then(response => {
+      //console.log('*********** response for IP = ' + response);
+      pubIp = response;
+    })
+      .catch(e => {
+        console.log('*********** error for IP = ' + e);
+      });
+    const params = {
+      [ listingTitle] : {
+        typedContractSignature: this.state.typedContractSignature,
+        contractName: listingTitle,
+        signatureDate: new Date().getTime(),
+        clientIp: pubIp,
+      }
+    }
 
     const unitType = config.bookingUnitType;
     const isNightly = unitType === LINE_ITEM_NIGHT;
@@ -341,14 +395,16 @@ export class TransactionPanelComponent extends Component {
         declineInProgress={declineInProgress}
         acceptSaleError={acceptSaleError}
         declineSaleError={declineSaleError}
-        onAcceptSale={() => onAcceptSale(bookingTransactions, stateData.isHireRequest)}
+        onAcceptSale={() => onAcceptSale(params, bookingTransactions, stateData.isHireRequest)}
         onDeclineSale={() => onDeclineSale(bookingTransactions, stateData.isHireRequest)}
       />
     );
 
     const payoutButtons = (
+
       <PayoutActionButtons
         showButtons={stateData.showPayoutButtons}
+        disablePayout={isCustomer && !hasDefaultPaymentMethod}
         onPayout={() => onPayout(bookingTransactions)}
         onDispute={() => onDispute(bookingTransactions)}
         payoutInProgress={payoutInProgress}
@@ -375,6 +431,16 @@ export class TransactionPanelComponent extends Component {
         <FormattedMessage id="TransactionPanel.paymentMethodsPageLink" />
       </NamedLink>
     );
+
+    const handleTypedSignature = (event) => {
+      console.log('Do I get here???? ' + event.target.value);
+      console.log('event ' + event);
+      console.log('event.target ' + event.target.value);
+
+      this.setState({typedContractSignature: event.target.value})
+
+
+    };
 
     const classes = classNames(rootClassName || css.root, className);
 
@@ -468,7 +534,7 @@ export class TransactionPanelComponent extends Component {
             ) : null}
           </div>
 
-          <div className={css.asideDesktop}>
+          {stateData.hideBreakdown ? null : <div className={css.asideDesktop}>
             <div className={css.detailCard}>
               {/*<DetailCardImage*/}
               {/*  avatarWrapperClassName={css.avatarWrapperDesktop}*/}
@@ -504,19 +570,54 @@ export class TransactionPanelComponent extends Component {
                   onFetchTimeSlots={onFetchTimeSlots}
                 />
               ) : null }
-              {isCustomer && !hasDefaultPaymentMethod ? (
-              <div className={css.defaultPaymentErrorDiv}>
-                <span className={css.defaultPaymentErrorText}>You must add a default payment method in order to request this booking.
-                  <NamedLink name="PaymentMethodsPage" className={css.paymentLink}>Add a Payment Method </NamedLink>
-                </span>
-              </div>) : null
-              }
+
+              {!listingTitle.includes('Deleted') ?
+              <div className={css.breakdownTitle}>{listingTitle} Booking Breakdown</div>
+                : null}
+
               <BreakdownMaybe
                 className={css.breakdownContainer}
                 transaction={currentTransaction}
                 bookingTransactions={bookingTransactions}
                 transactionRole={transactionRole}
+                isFlatRate={isFlatRate}
               />
+
+              {/*{tempName === normalizedContractName ? (*/}
+              {/*  <div className={css.alreadySignedDisclaimer}>**You have previously signed that you*/}
+              {/*    have read, understood, and agree to the*/}
+              {/*    <a*/}
+              {/*      href={contract ? contract() : null}*/}
+              {/*      download={"NU_" + contractName + "_Contract"}> {contractName} Contract.</a>*/}
+              {/*  </div>*/}
+              {/*) : (*/}
+
+              {/*  stateData.headingState === "requested" ? (*/}
+              {/*  <div className={css.contractDiv}>*/}
+              {/*    <div>*/}
+              {/*      <input className={css.signatureTextBox} type="text" id="contractSignature"*/}
+              {/*             name="contractSignature" label="Typed Signature" placeholder="Typed Signature" onBlur={handleTypedSignature}*/}
+              {/*      />*/}
+              {/*    </div>*/}
+              {/*    <div className={css.signatureDisclaimer}>By typing your name in the above text field, you*/}
+              {/*      are electronically signing that you*/}
+              {/*      have read, understood, and agree to the*/}
+              {/*      <a*/}
+              {/*        href={contract ? contract() : null}*/}
+              {/*        download={"NU_" + contractName + "_Contract"}> {contractName} Contract.</a>*/}
+              {/*    </div>*/}
+              {/*  </div> ) : null*/}
+              {/*)*/}
+              {/*}*/}
+
+              {isCustomer && stateData.checkForDefaultPayment && !hasDefaultPaymentMethod ? (
+                <div className={css.defaultPaymentErrorDiv}>
+                <span className={css.defaultPaymentErrorText}>You must add a default payment method in order to request this booking.
+                  <NamedLink name="PaymentMethodsPage" className={css.paymentLink}>Add a Payment Method </NamedLink>
+                </span>
+                </div>) : null
+              }
+
 
               {stateData.showSaleButtons ? (
                 <div className={css.desktopActionButtons}>{saleButtons}</div>
@@ -525,8 +626,10 @@ export class TransactionPanelComponent extends Component {
               {stateData.showPayoutButtons ? (
                 <div className={css.desktopActionButtons}>{payoutButtons}</div>
               ) : null}
+
+
             </div>
-          </div>
+          </div>}
         </div>
 
         <ModalInMobile
@@ -577,6 +680,9 @@ TransactionPanelComponent.defaultProps = {
   nextTransitions: null,
   handleCloseMessage: null,
 };
+const mapDispatchToProps = dispatch => ({
+  onUpdateUserProfile: params => dispatch(updateMetadata(params)),
+})
 
 TransactionPanelComponent.propTypes = {
   rootClassName: string,

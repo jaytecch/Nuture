@@ -23,7 +23,6 @@ import ProfileSettingsPage from './ProfileSettingsPage/ProfileSettingsPage.duck'
 import ProfileSettings from '../ducks/ProfileSettings.duck';
 import SearchPage from './SearchPage/SearchPage.duck';
 import StripePayoutPage from './StripePayoutPage/StripePayoutPage.duck';
-import TransactionPage from './TransactionPage/TransactionPage.duck';
 import TransactionContainer from "./TransactionContainer/TransactionContainer.duck";
 
 export {
@@ -47,6 +46,5 @@ export {
   ProfileSettings,
   SearchPage,
   StripePayoutPage,
-  TransactionPage,
   TransactionContainer,
 };

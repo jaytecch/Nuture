@@ -119,3 +119,18 @@ export const transitionPrivileged = body => {
 export const addApplicant = body => {
   return post('/api/add-applicant', body);
 };
+
+export const createBackgroundCandidate = body => {
+  return post('/api/create-background-candidate', body);
+}
+
+export const createBackgroundReport = body => {
+  return post('/api/create-background-report', body);
+}
+export const contactNU = body => {
+  return post('/api/contact-nu', body);
+}
+
+export const chargeProSubscription = body => {
+  return post('/api/charge-pro-subscription', body);
+}

@@ -30,13 +30,14 @@
 
 .txInfo {
   margin-bottom: 210px;
+  max-height: 80%;
 
   @media (--viewportLarge) {
-    flex-basis: 538px;
     flex-grow: 0;
     flex-shrink: 1;
     margin-bottom: 0;
     margin-top: 2%;
+    width: 100%;
   }
 }
 
@@ -159,7 +160,6 @@
 
   @media (--viewportLarge) {
     max-width: 100%;
-    margin: 152px 0 0 0;
     padding: 0;
   }
 }
@@ -286,7 +286,6 @@
   margin: 0 24px 0 24px;
 
   @media (--viewportLarge) {
-    margin: 37px 48px 26px 48px;
     margin: 32px 48px 24px 48px;
     padding: 4px 0 4px 0;
   }
@@ -311,6 +310,15 @@
     display: block;
   }
 }
+
+.breakdownTitle{
+  text-align: center;
+  margin-top: 40px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--nuPink);
+}
+
 
 /* FeedSection subcomponent */
 .feedHeading {
@@ -526,7 +534,7 @@
   border-radius: 100px;
   display: block;
   margin-top: 30px;
-  margin-bottom: 50px;
+  //margin-bottom: 50px;
   margin-left: auto;
   margin-right: auto;
 
@@ -537,5 +545,41 @@
   margin-bottom: 30px;
 
 }
+
+}
+
+.contractDiv {
+  display: block;
+  width: 80%;
+  margin: 20px auto;
+}
+
+.signatureTextBox {
+  border: 2px solid;
+  padding-left: 10px;
+  border-radius: 10px;
+  font-color: gray;
+  font-size: 14px;
+
+
+}
+
+.signatureDisclaimer {
+  font-weight: 600!important;
+  margin-top: 2px;
+  margin-bottom: 20px;
+  margin-left: 5px;
+
+}
+
+.alreadySignedDisclaimer {
+  display:block;
+  width: 75%;
+  font-size: 13px;
+  margin: 10px auto auto;
+
+
+  color: var(--matterColorAnti);
+  padding-bottom: 20px;
 
 }

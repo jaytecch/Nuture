@@ -174,6 +174,7 @@ export const createServiceListing = params => (dispatch, getState, sdk) => {
         travelRadius: travelRadius,
         listingType: "service",
         expirationDate: expirationDate.date.getTime(),
+        isActive: true,
       },
     }, {expand: true}
   ).then(response => {
@@ -225,7 +226,7 @@ export const updateServiceListing = params => (dispatch, getState, sdk) => {
           educationLevel: educationLevel,
           travelRadius: travelRadius,
           listingType: "service",
-          expirationDate: expirationDate.getTime(),
+          expirationDate: expirationDate.date.getTime(),
         },
       }, {expand: true}
     ).then(response => {

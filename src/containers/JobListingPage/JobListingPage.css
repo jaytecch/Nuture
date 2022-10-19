@@ -189,6 +189,15 @@
   }
 }
 
+.noServiceContent {
+  width: 500px;
+}
+
+.noServiceSubtext {
+  color: black;
+  overflow-wrap: break-word;
+}
+
 
 
 

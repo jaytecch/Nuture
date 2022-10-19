@@ -76,11 +76,16 @@ class ModalMissingInformation extends Component {
       const hasListingsOrOrders = currentUserHasListings || hasOrders;
 
       const attributes = currentUser.attributes || {};
+      const {profile} = attributes || {};
+      const {publicData} = profile || {};
+      const {accountType} = publicData || {};
+      const isPro = accountType === 'pro';
+
       const emailUnverified = !!currentUser.id && !attributes.emailVerified;
       const emailVerificationNeeded = hasListingsOrOrders && emailUnverified;
 
       const stripeAccountMissing = !!currentUser.id && !attributes.stripeConnected;
-      const stripeAccountNeeded = currentUserHasListings && stripeAccountMissing;
+      const stripeAccountNeeded = isPro && stripeAccountMissing;
 
       // Show reminder
       if (emailVerificationNeeded) {
@@ -133,7 +138,7 @@ class ModalMissingInformation extends Component {
       <Modal
         id="MissingInformationReminder"
         containerClassName={containerClassName}
-        isOpen={!!this.state.showMissingInformationReminder}
+        isOpen={!this.state.hasSeenMissingInformationReminder && this.state.showMissingInformationReminder !== null}
         onClose={() => {
           this.setState({
             showMissingInformationReminder: null,

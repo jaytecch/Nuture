@@ -356,7 +356,8 @@ const mapStateToProps = state => {
   const transactions = getMarketplaceEntities(state, transactionRef ? [transactionRef] : []);
   const transaction = transactions.length > 0 ? transactions[0] : null;
 
-  const bookingTransactions = bookingRefs.map(() => getMarketplaceEntities(state, bookingRefs)[0])
+  //const bookingTransactions = bookingRefs.map(() => getMarketplaceEntities(state, bookingRefs)[0])
+  const bookingTransactions = getMarketplaceEntities(state, bookingRefs);
 
   return {
     currentUser,

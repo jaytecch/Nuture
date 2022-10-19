@@ -141,8 +141,8 @@ class SearchFiltersMobileComponent extends Component {
 
     return !!price && valuesFromParams.length === 2
       ? {
-        minPrice: valuesFromParams[0],
-        maxPrice: valuesFromParams[1],
+        minValue: valuesFromParams[0],
+        maxValue: valuesFromParams[1],
       }
       : null;
   }
@@ -231,6 +231,7 @@ class SearchFiltersMobileComponent extends Component {
         onSubmit={this.handleRange}
         {...priceFilter.config}
         initialValues={initialPriceRange}
+        isCurrency={true}
       />
     ) : null;
 

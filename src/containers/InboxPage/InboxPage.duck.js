@@ -9,6 +9,7 @@ const { UUID } = sdkTypes;
 const INBOX_PAGE_SIZE = 10;
 
 // ================ Action types ================ //
+export const SET_INITIAL_STATE = 'app/InboxPage/SET_INITIAL_STATE';
 
 export const FETCH_ORDERS_OR_SALES_REQUEST = 'app/InboxPage/FETCH_ORDERS_OR_SALES_REQUEST';
 export const FETCH_ORDERS_OR_SALES_SUCCESS = 'app/InboxPage/FETCH_ORDERS_OR_SALES_SUCCESS';
@@ -39,11 +40,15 @@ const initialState = {
   dataLoaded: false,
   currentPageTransactionIds: [],
   numberOfPages: 1,
+  currentPage: 1,
 };
 
 export default function checkoutPageReducer(state = initialState, action = {}) {
   const {type, payload} = action;
   switch (type) {
+    case SET_INITIAL_STATE:
+      return initialState;
+
     case FETCH_ORDERS_OR_SALES_REQUEST:
       return {...state, fetchInProgress: true, fetchOrdersOrSalesError: null};
     case FETCH_ORDERS_OR_SALES_SUCCESS: {
@@ -72,7 +77,7 @@ export default function checkoutPageReducer(state = initialState, action = {}) {
     case DATA_LOADED:
       return {...state, dataLoaded: true};
     case SET_PAGE:
-      return {...state, currentPageTransactionIds: payload};
+      return {...state, currentPageTransactionIds: payload.txs, currentPage: payload.page};
 
     default:
       return state;
@@ -80,6 +85,8 @@ export default function checkoutPageReducer(state = initialState, action = {}) {
 }
 
 // ================ Action creators ================ //
+export const setInitialState = () => ({type: SET_INITIAL_STATE});
+
 export const dataLoaded = () => ({type: DATA_LOADED})
 
 const fetchOrdersOrSalesRequest = () => ({type: FETCH_ORDERS_OR_SALES_REQUEST});
@@ -100,6 +107,34 @@ export const setPageTxs = currentTxs => ({type: SET_PAGE, payload: currentTxs});
 
 // ================ Thunks ================ //
 
+const setInitialSelectedBooking = booking => (dispatch, getState, sdk) =>{
+  let selectedBooking = booking;
+  if(booking.length === 0) {
+    const {rolledUpTransactionIds} = getState().InboxPage;
+    selectedBooking = rolledUpTransactionIds.length > 0 ? rolledUpTransactionIds[0] : [];
+  }
+
+  return dispatch(selectBooking(selectedBooking))
+}
+
+const setInitialPage = () => (dispatch, getState, sdk) => {
+  const state = getState().InboxPage;
+  const {rolledUpTransactionIds, selectedBooking} = state;
+
+  if(!selectedBooking || selectedBooking.length === 0) {
+    return dispatch(setPage(1));
+  }
+
+  const selectedBookingId = selectedBooking[0].uuid;
+  const txNumber = rolledUpTransactionIds.findIndex(tx => tx[0].uuid === selectedBookingId) + 1;
+
+  const page =  txNumber > 0 ? (
+    Math.ceil(txNumber / INBOX_PAGE_SIZE)
+  ) : 1;
+
+  return dispatch(setPage(page));
+}
+
 export const setPage = page => (dispatch, getState, sdk) => {
   const txIds = getState().InboxPage.rolledUpTransactionIds;
   const numTxs = txIds.length;
@@ -107,7 +142,7 @@ export const setPage = page => (dispatch, getState, sdk) => {
   const endIndex = page * INBOX_PAGE_SIZE;
 
   const currentTxs = txIds.slice(startIndex, endIndex > numTxs ? numTxs : endIndex);
-  dispatch(setPageTxs(currentTxs));
+  dispatch(setPageTxs({txs: currentTxs, page}));
 }
 
 export const resetBooking = () => (dispatch, getState, sdk) => {
@@ -118,6 +153,8 @@ export const resetBooking = () => (dispatch, getState, sdk) => {
 }
 
 export const loadData = (params, search) => (dispatch, getState, sdk) => {
+  dispatch(setInitialState());
+
   if (getState().InboxPage.dataLoaded) {
     return Promise.resolve();
   }
@@ -170,9 +207,9 @@ export const loadData = (params, search) => (dispatch, getState, sdk) => {
       .then(response => {
           dispatch(addMarketplaceEntities(response));
           dispatch(fetchOrdersOrSalesSuccess(response));
-          dispatch(selectBooking(parsedBooking));
+          dispatch(setInitialSelectedBooking(parsedBooking));
+          dispatch(setInitialPage());
           dispatch(dataLoaded());
-          dispatch(setPage(1));
       })
       .catch(e => {
         dispatch(fetchOrdersOrSalesError(storableError(e)));

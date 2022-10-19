@@ -159,11 +159,12 @@
 
 
 .serviceSelect {
-  padding: 4px 0px 10px 10px;
+  padding: 7px 0px 10px 10px;
   border: 2px solid #b2b2b2 !important;
   background-color: white;
   border-radius: 20px;
   background-image: url('../../assets/icons/triangle.svg');
+  background-position-x: 95%;
 
   @media (--viewportMobileLarge) {
     height: 5.5vh;
@@ -174,7 +175,7 @@
   border: 2px solid #b2b2b2 !important;
   background-color: white;
   border-radius: 20px;
-  padding: 4px 0px 10px 10px;
+  padding: 7px 0px 10px 10px;
 }
 
 .zipSuccessClass {
@@ -215,7 +216,11 @@
   height: fit-content;
   font-size: 18px;
   color: #888888;
-  margin: auto 2vw;
+  margin: auto 50px auto 2vw;
+
+  &:hover {
+    color: var(--nuPink);
+  }
 }
 
 .bottomSection {
@@ -426,10 +431,15 @@
 .sortButton {
   font-size: 15px;
   margin-top: 2vh;
+
+  &:hover {
+    color: var(--nuPink);
+  }
 }
 
 .sortSelected {
   @apply --marketplaceButtonStylesPrimary;
+  margin-top: 2vh;
   padding: 0;
   width:25%;
   font-size: 15px;

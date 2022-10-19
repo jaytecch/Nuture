@@ -15,6 +15,7 @@ import routeConfiguration from '../../routeConfiguration';
 import { createResourceLocatorString } from '../../util/routes';
 import { propTypes } from '../../util/types';
 import css from './SearchFilters.css';
+import {detect} from "detect-browser";
 
 // Dropdown container can have a positional offset (in pixels)
 const FILTER_DROPDOWN_OFFSET = -14;
@@ -36,8 +37,8 @@ const initialRangeValue = (queryParams, paramName) => {
 
   return !!value && valuesFromParams.length === 2
     ? {
-        minPrice: valuesFromParams[0],
-        maxPrice: valuesFromParams[1],
+        minValue: valuesFromParams[0],
+        maxValue: valuesFromParams[1],
       }
     : null;
 };
@@ -176,6 +177,7 @@ const SearchFiltersComponent = props => {
       {...priceFilter.config}
       initialValues={initialPriceRange}
       contentPlacementOffset={FILTER_DROPDOWN_OFFSET}
+      isCurrency={true}
     />
   ) : null;
 
@@ -210,14 +212,20 @@ const SearchFiltersComponent = props => {
     </button>
   ) : null;
 
+  const browser = detect();
+  const isSafari = browser && browser.name === "safari";
+
   return (
     <div className={classes}>
       <h3 className={css.filtersTitle}>Filters</h3>
 
-      {hasNoResult ? (
-        <div className={css.noSearchResults}>
+      {hasNoResult ? (isSafari ?
+        <div className={css.safariNoSearchResults}>
           <FormattedMessage id="SearchFilters.noResults" />
         </div>
+          : <div className={css.noSearchResults}>
+            <FormattedMessage id="SearchFilters.noResults" />
+          </div>
       ) : null}
 
       {searchInProgress ? (

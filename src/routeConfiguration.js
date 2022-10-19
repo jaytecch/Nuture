@@ -70,6 +70,18 @@ const routeConfiguration = () => {
       component: AboutPage,
     },
     {
+      path: '/s/job',
+      name: 'SearchForJobPage',
+      component: props => <SearchPage {...props} searchFor="job"/>,
+      loadData: params => SearchPage.loadData({...params, searchFor:"job"}),
+    },
+    {
+      path: '/s/pro',
+      name: 'SearchForProPage',
+      component: props => <SearchPage {...props} searchFor="pro"/>,
+      loadData: params => SearchPage.loadData({...params, searchFor:"pro"} ),
+    },
+    {
       path: '/s',
       name: 'SearchPage',
       component: props => <SearchPage {...props} />,
@@ -128,7 +140,7 @@ const routeConfiguration = () => {
     {
       path: '/login',
       name: 'LoginPage',
-      component: props => <AuthenticationPage {...props} tab="login" />,
+      component: RedirectToLandingPage,
     },
     {
       path: '/signup',

@@ -35,12 +35,11 @@
   margin-top: auto;
   margin-bottom: auto;
   width: 22%;
-  height: auto;
   min-width: 90px;
   max-width: 100px;
   @media (--viewportMobileLarge) {
     width: 20%;
-    height: auto;
+    height: 96px;
   }
 }
 

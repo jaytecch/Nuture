@@ -8,6 +8,7 @@ const { nightsBetween, daysBetween, hoursBetween } = require('./dates');
 const LINE_ITEM_NIGHT = 'line-item/night';
 const LINE_ITEM_DAY = 'line-item/day';
 const LINE_ITEM_UNITS = 'line-item/units';
+const LINE_ITEM_FLAT_RATE = 'line-item/flat-rate';
 
 /** Helper functions for constructing line items*/
 

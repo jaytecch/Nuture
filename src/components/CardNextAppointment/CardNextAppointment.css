@@ -19,6 +19,8 @@
   flex-direction: column;
 }
 
+
+
 .navigation {
   /* Layout */
   display: flex;
@@ -110,15 +112,15 @@
   }
 }
 
-.noResults {
-  margin-left: 24px;
-  margin-right: 24px;
-  margin-top: 1px;
-  text-align: center;
+.noResultsDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
 
-  @media (--viewportLarge) {
-    margin-top: 6px;
-  }
+.noResults {
+  margin: 10px auto;
 }
 
 .itemList {
@@ -174,6 +176,27 @@
 .item {
   display: flex;
   flex-direction: row;
+
+  @media (--viewportMobileLarge) {
+    flex-direction: column;
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+}
+
+.map {
+  width: 150px;
+  height: 150px;
+  margin-left: 10px;
+
+  @media (--viewportMobileLarge) {
+    margin: 10px auto;
+    width: 250px;
+    height: 115px;
+  }
 }
 
 .itemLink {
@@ -402,7 +425,7 @@
 
 .namedLinkButton {
   @apply --marketplaceButtonStylesPrimary;
-  margin-top: 4vh;
+  margin-top: 30px;
 
   @media (max-width: 768px) {
     font-size: 14px;
@@ -413,6 +436,8 @@
 .namedLinkText {
   line-height: 24px;
 }
+
+
 
 .cancel {
   /*width: 124px;*/

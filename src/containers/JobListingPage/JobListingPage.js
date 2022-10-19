@@ -8,7 +8,7 @@ import {types as sdkTypes} from "../../util/sdkLoader";
 import {
   apply,
   getApplicantListings,
-  getAssociatedProListing,
+  getAssociatedProListing, getListingAvailabilityPlan,
   hireApplicant,
   loadData
 } from "./JobListingPage.duck";
@@ -41,6 +41,7 @@ export class JobListingPageComponent extends Component {
 
     this.state = {
       applySuccessModalOpen: false,
+      noServiceModalOpen: false,
     }
   }
 
@@ -52,6 +53,11 @@ export class JobListingPageComponent extends Component {
 
     this.props.getApplicableProListing(id, serviceType)
       .then(listing => {
+        if(listing == null) {
+          this.setState({noServiceModalOpen: true});
+          return;
+        }
+
         const applicant = {
           id: id.uuid,
           listingId: listing.id.uuid,
@@ -262,6 +268,21 @@ export class JobListingPageComponent extends Component {
               onManageDisableScrolling={onManageDisableScrolling}
             >
               <h2 className={css.successMessage}>You have successfully applied for {title}</h2>
+            </Modal>
+
+            <Modal
+              id="ServiceMissing"
+              isOpen={this.state.noServiceModalOpen}
+              onClose={() => this.setState({noServiceModalOpen: false})}
+              onManageDisableScrolling={onManageDisableScrolling}
+            >
+              <div className={css.noServiceContent}>
+                <h2>Cannot Apply</h2>
+                <p className={css.noServiceSubtext}>
+                  You do not have {title} as one of your
+                  listed services. You can create this service in account settings
+                </p>
+              </div>
             </Modal>
 
           </LayoutWrapperMain>

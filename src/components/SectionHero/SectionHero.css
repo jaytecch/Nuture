@@ -26,10 +26,8 @@
 
 .contents {
   z-index: 0;
-  place-self: flex-end;
-  margin-bottom: 2vh;
-  position: absolute;
-  left: 5vw;
+  margin: auto;
+  width: 100%;
 
   @media (--viewportMobileLarge) {
     left: unset;
@@ -52,7 +50,6 @@
 }
 
 .root {
-  @apply --backgroundImage;
   display: flex;
   flex-direction: column;
   width: auto;
@@ -77,23 +74,68 @@
 }
 
 .h2text {
-  width: 70vw;
-  height: 151px;
-  margin: 0 0 34px;
+  width: 45vw;
   text-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
-  font-size: 4vw;
+  text-align: left;
+  font-size: 40px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.29;
   letter-spacing: normal;
   color: #ffffff;
+  margin: 0 10vw;
 
   @media (--viewportMobileLarge) {
-    margin: auto;
-    font-size: 6vw;
-    padding-top: 5vh;
+    margin: 0 3vw;
     text-align: center;
+    width: unset;
+  }
+}
+
+.missionStatement {
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  font-size: 60px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  color: #ffffff;
+
+  @media (max-width: 1630px) {
+    font-size: 50px;
+  }
+
+  @media (max-width: 1355px) {
+    font-size: 40px;
+  }
+
+  @media (--viewportMobileLarge), (max-height: 1000px) {
+    font-size: 35px;
+  }
+}
+
+.subMissionStatement{
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  font-size: 30px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+  color: #ffffff;
+
+  @media (max-width: 1630px) {
+    font-size: 25px;
+  }
+
+  @media (max-width: 1355px) {
+    font-size: 20px;
+  }
+
+  @media (--viewportMobileLarge), (max-height: 1000px) {
+    font-size: 18px;
   }
 }
 
@@ -107,10 +149,12 @@ svg {
 
 .searchButtonGroup {
   display: flex;
+  justify-content: left;
+  margin: 30px 10vw 0;
 
   @media (--viewportMobileLarge) {
     width: 100%;
-    margin: 0 auto;
+    margin: 2vh auto 0;
   }
 }
 

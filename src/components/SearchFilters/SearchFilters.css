@@ -54,6 +54,15 @@
   flex-shrink: 0;
 }
 
+.safariNoSearchResults {
+  @apply --marketplaceH4FontStyles;
+
+  /* Reserves 48px of vertical space */
+  line-height: 20px;
+  margin-top: 16px;
+  margin-bottom: 12px;
+}
+
 .loadingResults {
   @apply --marketplaceH4FontStyles;
   line-height: 20px;

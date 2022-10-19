@@ -23,15 +23,17 @@ const LineItemProviderCommissionMaybe = props => {
   if(!isProvider) return null;
 
   bookingTransactions.forEach(tx => {
-    const providerCommissionLineItem = tx.attributes.lineItems.find(
-      item => item.code === LINE_ITEM_PROVIDER_COMMISSION && !item.reversal
-    );
+    if(tx.attributes.lineItems.length > 0) {
+      const providerCommissionLineItem = tx.attributes.lineItems.find(
+        item => item.code === LINE_ITEM_PROVIDER_COMMISSION && !item.reversal
+      );
 
-    if (isValidCommission(providerCommissionLineItem)) {
-      showCommission = true;
-      commission += Number(providerCommissionLineItem.lineTotal.amount);
-    } else {
-      console.error('invalid commission line item:', providerCommissionLineItem);
+      if (isValidCommission(providerCommissionLineItem)) {
+        showCommission = true;
+        commission += Number(providerCommissionLineItem.lineTotal.amount);
+      } else {
+        console.error('invalid commission line item:', providerCommissionLineItem);
+      }
     }
   })
 

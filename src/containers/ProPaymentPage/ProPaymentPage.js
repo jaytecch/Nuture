@@ -50,24 +50,17 @@ export const ProPaymentPageComponent = props => {
   const heroHeader = intl.formatMessage({id: "AccountSettings.heroHeader"});
 
   const [proSubPaymentInProgress, setProSubPaymentInProgress] = useState(false)
-  const [cardState, setCardState] = useState(null);
   const [showDefaultPayment, setShowDefaultPayment] = useState(true);
   const [showNewPaymentMethod, setShowNewPaymentMethod] = useState(false);
   const [authNotChecked, setAuthNotChecked] = useState(true);
-  const [proPaid, setProPaid] = useState(false);
   const [paymentSubmitInProgress, setPaymentSubmitInProgress] = useState(false);
-
 
   const user = ensureCurrentUser(currentUser);
   const attributes = user.attributes || {};
   const profile = attributes.profile || {};
 
-  const {protectedData, publicData, privateData} = profile || {};
-  const {accountType} = publicData || {};
+  const {privateData} = profile || {};
   const {proSubscriptionPaid} = privateData || {};
-
-
-  console.log('USER ATTR = ' + JSON.stringify(user));
   const hasDefaultPaymentMethod =
     currentUser &&
     ensureStripeCustomer(currentUser.stripeCustomer).attributes.stripeCustomerId &&
@@ -76,25 +69,6 @@ export const ProPaymentPageComponent = props => {
   const card = hasDefaultPaymentMethod
     ? ensurePaymentMethodCard(currentUser.stripeCustomer.defaultPaymentMethod).attributes.card
     : null;
-
-  console.log("CARD ======" + JSON.stringify(card));
-
-
-  let uuid = null;
-  console.log('in pro payment + ' +
-    '' + JSON.stringify(hasDefaultPaymentMethod));
-  if (hasDefaultPaymentMethod) {
-    uuid = hasDefaultPaymentMethod.uuid;
-    if (uuid) {
-      console.log('uuid = ' + uuid);
-    }
-  }
-
-
-  // const {stripeId} = stripeAccount.id || {};
-  // const {stripeUUID} = stripeId.uuid || {};
-  const isParent = accountType === "parent";
-
 
   const title = intl.formatMessage({id: 'ProPaymentPage.title'});
 
@@ -131,51 +105,45 @@ export const ProPaymentPageComponent = props => {
     return paymentParams;
   };
   const handleDefaultPaymentSubmit = (params, values) => {
-
     setPaymentSubmitInProgress(true);
-
-    console.log('In handleDefault, paymentSubmitInPRogress = ' + paymentSubmitInProgress);
     fetchStripeCustomer();
     const stripeCustomerId = ensureStripeCustomer(currentUser.stripeCustomer).attributes.stripeCustomerId;
 
-    onChargeProFee(stripeCustomerId);
-
-    const sharetribeParams = {paymentMethodAdded: "true"};
-    sharetribeParams.proSubscriptionPaid = "true";
-    onUpdateUserProfile(sharetribeParams)
+    onChargeProFee(stripeCustomerId)
       .then(() => {
-        onPageReload();
-        console.log('LOAD DATA RAN');
-        setPaymentSubmitInProgress(false);
-        console.log('In handleDefault, paymentSubmitInPRogress = ' + paymentSubmitInProgress);
-        setShowDefaultPayment(false);
-
-      })
-      .catch(error => {
-
-        console.log('ERROR updating profile!!!' + error.message);
-        setPaymentSubmitInProgress(false);
-        console.log('In handleDefault, paymentSubmitInPRogress = ' + paymentSubmitInProgress);
-        setShowDefaultPayment(true);
-
-      });
-
-
+        console.log("in onchargeprofee success");
+        const sharetribeParams = {paymentMethodAdded: "true"};
+        sharetribeParams.proSubscriptionPaid = "true";
+        onUpdateUserProfile(sharetribeParams)
+          .then(() => {
+            onPageReload();
+            setPaymentSubmitInProgress(false);
+            setShowDefaultPayment(false);
+          })
+          .catch(error => {
+            console.log('ERROR updating profile!!!' + error.message);
+            setPaymentSubmitInProgress(false);
+            setShowDefaultPayment(true);
+          });
+      }).catch(e => {
+      console.log("Subscription charge failed");
+      setPaymentSubmitInProgress(false);
+      setShowDefaultPayment(true);
+    });
   };
 
-
   const handlePaymentSubmit = (params, values) => {
-
     const ensuredCurrentUser = ensureCurrentUser(currentUser);
     const stripeCustomer = ensuredCurrentUser.stripeCustomer;
     const {stripe, card, formValues} = params;
 
-    console.log('in handlesubmit stripe =' + stripe);
-    console.log('in handlesubmit card =' + card);
-    console.log('in handlesubmit formValues =' + formValues);
+    // console.log('in handlesubmit stripe =' + stripe);
+    // console.log('in handlesubmit card =' + card);
+    // console.log('in handlesubmit formValues =' + formValues);
 
     // this.setState({proSubPaymentInProgress: true});
     // this.setState({parentSubPaymentInProgress: true});
+    setPaymentSubmitInProgress(true);
 
     onCreateSetupIntent()
       .then(setupIntent => {
@@ -185,55 +153,40 @@ export const ProPaymentPageComponent = props => {
           setupIntentClientSecret: getClientSecret(setupIntent),
           paymentParams: getPaymentParams(currentUser, formValues),
         };
-
-
         return onHandleCardSetup(stripeParams);
       })
       .then(result => {
-
         console.log('RESULT 11111= ' + result);
         const newPaymentMethod = result.setupIntent.payment_method;
-
         return onSavePaymentMethod(stripeCustomer, newPaymentMethod);
       })
       .then(result => {
-
         fetchStripeCustomer();
-
         return result.attributes.stripeCustomerId;
       })
       .then(stripeCustomerId => {
-
         const result = onChargeProFee(stripeCustomerId);
-
         console.log('result of charging pro fee = ' + result);
-
         return result;
       })
       .then(() => {
         const params = {paymentMethodAdded: "true"};
         params.proSubscriptionPaid = "true";
+        setPaymentSubmitInProgress(false);
         onUpdateUserProfile(params)
           .then(() => {
             loadData();
             console.log('LOAD DATA RAN');
-
           })
           .catch(error => {
-
             console.log('ERROR updating profile!!!' + error.message);
-
           });
-
       })
       .catch(error => {
-
         console.log('ERROR updating profile!!!' + error.message);
-
       });
 
     setShowDefaultPayment(false);
-
   };
 
 
@@ -259,13 +212,9 @@ export const ProPaymentPageComponent = props => {
     <ProSubscriptionPaymentForm
       formId="PaymentMethodsForm"
       onSubmit={(params, values) => handlePaymentSubmit(params, values)}
-      proPaymentInProgress={false}
+      proPaymentInProgress={paymentSubmitInProgress}
     />
   ) : null;
-
-  // const savedCardDetailsAndAuth = (
-  //
-  // );
 
   const infoText = intl.formatMessage({
     id: 'PaymentMethodsForm.authorizeSubscription',
@@ -319,8 +268,6 @@ export const ProPaymentPageComponent = props => {
         </div>
       }
       {showNewPaymentMethod ? <div>{proForm}</div> : null}
-
-
     </div>
   );
 

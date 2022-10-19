@@ -44,6 +44,10 @@ export const CardAboutMeComponent = props => {
     id: 'CardAboutMe.addressLabel',
   });
 
+  const formattedPhone = phone ?
+    phone.toString().replace(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/, '($1) $2-$3') :
+    '';
+
   const field = (label, val = '') => {
     return (
       <div className={css.field}>
@@ -63,7 +67,7 @@ export const CardAboutMeComponent = props => {
       <div className={css.form}>
         <div className={css.formRow}>
           {field(addressLabel, address)}
-          {field(phoneLabel, phone)}
+          {field(phoneLabel, formattedPhone)}
         </div>
         <div className={css.formRow}>
           {field(emailLabel, email)}

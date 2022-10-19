@@ -46,6 +46,7 @@
   flex-direction: column;
   flex: 1;
   overflow: auto;
+  margin: 40px 0;
 }
 
 /* Square corners for the last section if it's even */
@@ -130,11 +131,6 @@
   flex: 1;
   width: 100%;
   background: #fff !important;
-
-  @media (--viewportMedium) {
-    width: calc(100%);
-    margin: 5px auto;
-  }
 }
 
 .headerText {
@@ -209,8 +205,8 @@
     width: 333px;
     height: 43px;
     display: inline-flex;
-    margin-right:auto;
-    margin-left:auto;
+    margin-right: auto;
+    margin-left: auto;
   }
 }
 
@@ -319,4 +315,310 @@
 
 .customFormDiv {
   width: 100%;
+}
+
+.subSectionGroup {
+  background-image: url("../../assets/wavy-background/swoosh.png");
+  background-size: contain;
+  z-index: 8;
+}
+
+.firstSectionContainer {
+  margin-top: 100px;
+  background-color: #fffdf5;
+}
+
+.sectionContainer {
+  padding-top: 100px;
+  background-color: #fffdf5;
+}
+
+.sectionHeader {
+  font-size: 40px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: #e36253;
+
+  @media (--viewportMobileLarge) {
+    font-size: 28px;
+  }
+}
+
+.sectionTable {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: auto;
+
+  @media (--viewportMobileLarge) {
+    width: 100%;
+  }
+}
+
+.sectionRowHeader {
+  font-size: 27px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.33;
+  letter-spacing: normal;
+  text-align: center;
+  color: #666666;
+}
+
+.sectionRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+  @media (--viewportMobileLarge) {
+    flex-direction: column;
+  }
+}
+
+.sectionHowBase {
+  width: 425px;
+  height: 181px;
+  border-radius: 12px;
+  background-color: #9c4cbc;
+
+  @media (max-width: 1350px) {
+    width: 350px;
+  }
+
+  @media (max-width: 1100px) {
+    width: 275px
+  }
+
+  @media (max-width: 900px) {
+    width: 200px;
+  }
+
+  @media (--viewportMobileLarge) {
+    margin: 10px auto 0;
+    padding: 20px 30px;
+    width: 80vw;
+  }
+}
+
+.sectionHowCell {
+  display: flex;
+  flex-direction: row;
+  padding: 0 20px 0 20px;
+}
+
+.sectionHowCellNoText {
+  padding: 36px 20px 39px 20px;
+}
+
+.sectionHowTextGroup {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.howTextHeader {
+  font-size: 20px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.09;
+  letter-spacing: normal;
+  color: #ffffff;
+
+  @media (max-width: 1100px) {
+    font-size: 17px;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 12px;
+  }
+
+  @media (--viewportMobileLarge) {
+    font-size: 20px;
+  }
+}
+
+.noTextHeader {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.howText {
+  font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+  color: #ffffff;
+  margin-top: 0;
+
+  @media (max-width: 1100px) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 10px;
+  }
+
+  @media (--viewportMobileLarge) {
+    font-size: 15px;
+  }
+}
+
+.sectionVettingCell {
+  width: 319px;
+  height: 217px;
+  padding: 32px 16px 98px 11px;
+  border-radius: 12px;
+  background-color: #e8e8e8;
+
+  @media (max-width: 1350px) {
+    width: 250px;
+  }
+
+  @media (max-width: 1100px) {
+    width: 200px;
+  }
+
+  @media (max-width: 900px) {
+    width: 180px;
+  }
+
+  @media (--viewportMobileLarge) {
+    margin: 10px auto 0;
+    width: 80vw;
+  }
+}
+
+.vettingTextHeader {
+  font-size: 24px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.08;
+  letter-spacing: normal;
+  text-align: center;
+  color: #666666;
+  margin: 0 auto;
+
+  @media (max-width: 1100px) {
+    font-size: 18px;
+  }
+
+  @media (--viewportMobileLarge) {
+    font-size: 24px;
+  }
+}
+
+.vettingText {
+  font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-align: center;
+  color: #666666;
+
+  @media (max-width: 1350px) {
+    font-size: 13px;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 11px;
+  }
+
+  @media (--viewportMobileLarge) {
+    font-size: 15px;
+  }
+}
+
+.vettingRatingsText {
+  width: 900px;
+  font-size: 16px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000000;
+  margin: 20px auto 0;
+
+  @media (max-width: 900px) {
+    width: unset;
+  }
+}
+
+.checkMarkBackground {
+  display: flex;
+  width: 74px;
+  height: 74px;
+  border-radius: 40px;
+  background-color:  #fffdf5;
+  margin: 0 auto;
+
+  @media (--viewportMobileLarge) {
+    height: 50px;
+    width: 50px;
+  }
+
+}
+
+.checkMark {
+  stroke-width: 3px;
+  stroke: #9c4cbc;
+  margin: auto;
+}
+
+.searchIcon {
+  stroke:  #fffdf5;
+  width: 142px;
+  margin-right: 10px;
+  transform: scaleX(-1);
+}
+
+.userIcon {
+  fill: white;
+}
+
+.userIconRoot {
+  width: 90px;
+  margin-right: 10px;
+
+  @media (--viewportMobileLarge) {
+    margin-right: -10px;
+    margin-left: -23px;
+  }
+}
+
+.userIconRoot2 {
+  width: 90px;
+  margin-right: 20px;
+
+  @media (--viewportMobileLarge) {
+    margin-right: 10px;
+    margin-left: 0;
+  }
+}
+
+.manuscriptText {
+  color: black;
+  font-size: 16px;
+  font-weight: normal;
+  text-align: justify;
+  width: 65vw;
+  margin: 30px auto 52px;
+
+  @media (--viewportMobileLarge) {
+    font-size: 14px;
+    width: 85vw;
+    line-height: 18px;
+  }
 }

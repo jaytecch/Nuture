@@ -3,17 +3,18 @@ const { getSdk, getTrustedSdk, handleError, serialize } = require('../api-util/s
 
 module.exports = (req, res) => {
   const { isSpeculative, bookingData, bodyParams, queryParams } = req.body;
-
   const listingId = bodyParams && bodyParams.params ? bodyParams.params.listingId : null;
-
+  const isFree = bodyParams.params && !bodyParams.params.paymentMethod;
   const sdk = getSdk(req, res);
   let lineItems = null;
+
+  console.log(isFree? "no line items" : "has line items");
 
   sdk.listings
     .show({ id: listingId })
     .then(listingResponse => {
       const listing = listingResponse.data.data;
-      lineItems = transactionLineItems(listing, bookingData);
+      lineItems = isFree ? null : transactionLineItems(listing, bookingData);
 
       return getTrustedSdk(req);
     })
@@ -35,6 +36,7 @@ module.exports = (req, res) => {
     })
     .then(apiResponse => {
       const { status, statusText, data } = apiResponse;
+      console.log("API RESPONSE: " + JSON.stringify(data));
       res
         .status(status)
         .set('Content-Type', 'application/transit+json')

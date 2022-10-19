@@ -1,65 +1,68 @@
 @import '../../marketplace.css';
 
-.root {
+.root{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  width: 100%;
 }
+
 
 .slide {
-  margin-top: 3vh;
-  position: relative;
-  width: 100vw;
-  height: 540px;
-
-  text-align: center;
-  background-size: cover !important;
-  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+  background-color: white;
 
   @media (--viewportMobileLarge)  {
     height: 200px;
-
   }
+}
+
+
+
+.carouselImageContainer {
+  position: relative;
 
   @media (--viewportMobileLarge) {
-    margin-left: 7vw;
+    top:0;
+    right: 0;
   }
 }
 
-.slideContentsBase {
-  position: absolute;
-  height: 90%;
-  right: 0;
-  width: 100%;
-  transition: all 1s ease-out;
-  opacity: 1;
-  background-color: white;
-  z-index: 9;
+.carouselImageParent {
+  position: relative;
+  width: 470px;
 
-  @media (--viewportMobileLarge)  {
-    height: 200px;
-
+  @media (--viewportMobileLarge) {
+    width: 184px;
   }
 }
 
-.hidden {
-  left: 0;
-  width: 75%;
-  opacity: 0;
-  transition: all 1s ease-in;
-  z-index: 8;
-}
+.carouselImageProvider {
+  top: 30px;
+  width: 450px;
+  position: relative;
 
-.nuBackground {
-  background-color: var(--nuBackground);
+  @media (--viewportMobileLarge) {
+    width: 160px;
+  }
 }
 
 .carouselTextAndButtonGroup {
-  width: 40%;
-  margin-left: 25%;
+  margin: 5% 0;
 
   @media (--viewportMobileLarge) {
-    width: 40%;
-    margin-left: 0%;
+    width: 45%;
+    margin: 0;
+  }
+}
+
+.carouselTextLeft {
+  margin-right: -5%;
+
+  @media (--viewportMobileLarge) {
+    margin-right: 0%;
   }
 }
 
@@ -80,12 +83,8 @@
   }
 }
 
-.carouselText {
-
-}
-
 .carouselHeaderSubText {
-  font-size: 47px;
+  font-size: 2.4vw;
   white-space: pre-wrap;
   font-weight: 500;
   font-stretch: normal;
@@ -96,18 +95,14 @@
   color: #666;
   opacity: 1;
   transition: all 1s ease;
+  max-width: 650px;
 
   @media (--viewportMobileLarge) {
-    font-size: 20px;
+    font-size: 3vw;
   }
 }
 
-.hiddenText {
-  opacity: 0;
-  transition: all 1s ease;
-}
-
-.proSignupButton {
+.signupButton {
   @apply --marketplaceButtonStylesPrimary;
   width: 370px;
   height: 82px;
@@ -118,16 +113,18 @@
   padding: 0;
 
   @media (--viewportMobileLarge) {
-    width: 180px;
-    height: 10px !important;
+    width: 40vw;
+    height: 45px;
     margin-top: 10px;
+    min-height: 0;
   }
 }
 
-.proButtonText {
+.buttonText {
   margin: auto !important;
   color: white;
   font-size: 22px;
+  font-weight: bold;
   white-space: nowrap;
 
   @media (--viewportMobileLarge) {
@@ -136,75 +133,229 @@
   }
 }
 
-.hiddenButton {
-  opacity: 0;
-  transition: all 1s ease-out;
+/*----------------------------------------------------------------------------------------*/
+@keyframes toNext {
+  75% {
+    left: 0;
+  }
+  95% {
+    left: 100%;
+  }
+  98% {
+    left: 100%;
+  }
+  99% {
+    left: 0;
+  }
 }
 
-.ellipseGroup {
-  display: flex;
-  flex-direction: row;
+@keyframes toStart {
+  75% {
+    left: 0;
+  }
+  95% {
+    left: -100%;
+  }
+  98% {
+    left: -100%;
+  }
+  99% {
+    left: 0;
+  }
+}
+
+@keyframes snap {
+  96% {
+    scroll-snap-align: center;
+  }
+  97% {
+    scroll-snap-align: none;
+  }
+  99% {
+    scroll-snap-align: none;
+  }
+  100% {
+    scroll-snap-align: center;
+  }
+}
+
+.slideBody {
+  width: 100%;
+  height: 50vh;
+
+  box-sizing: border-box;
+  scrollbar-color: transparent transparent; /* thumb and track color */
+  scrollbar-width: 0px;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border: none;
+  }
+
+  @media (--viewportMobileLarge)  {
+    height: 200px;
+  }
+}
+
+.listBase {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.carousel {
+  position: relative;
+  padding-top: 550px;
+  perspective: 100px;
+}
+
+.carouselViewport {
   position: absolute;
+  top: 0;
+  right: 0;
   bottom: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+  left: 0;
+  display: flex;
+  overflow-x: scroll;
+  counter-reset: item;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
 
-.ellipseBase {
-  height: 1vh;
-  width: 1vh;
-  border-radius: 1vh;
-  margin: 1vh;
-  background-color: white;
-  transition: all 1s ease;
-  border-style: solid;
-  border-width: 1px;
-  border-color: gray;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 
-  &:hover{
-    background-color: var(--nuYellow);
-    transition: all 0.1s ease;
-    border: none
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border: none;
   }
 }
 
-.selectedEllipse {
-  background-color: var(--nuPink);
-  border: none
+.carouselSlide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  counter-increment: item;
 }
 
-.carouselImageContainer {
-  width: 50%;
+.carouselSnapper {
   position: absolute;
-  right: 2vw;
-  z-index: 2;
-  top: -5vh;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: center;
+}
 
+@media (hover: hover) {
+  .carouselSnapper {
+    animation-name: toNext, snap;
+    animation-timing-function: ease;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+  }
 
-  @media (--viewportMobileLarge) {
-     top:0;
-    //top: 10vh;
-    right: 0;
+  .carouselSlide:last-child .carouselSnapper {
+    animation-name: toStart, snap;
+    animation-timing-function: ease;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
   }
 }
 
-.carouselImageParent {
-  width: 545px;
-  height: 590px;
-  content: url('../../assets/homepage/mother_and_baby.png');
-
-  @media (--viewportMobileLarge) {
-    height: 206px;
-    width: 184px;
+@media (prefers-reduced-motion: reduce) {
+  .carouselSnapper {
+    animation-name: none;
   }
 }
-.carouselImageProvider {
-  width: 413px;
-  height: 590px;
-  content: url('../../assets/homepage/servicepro-home.png');
 
-  @media (--viewportMobileLarge) {
-    height: 206px;
-    width: 184px;
-  }
+.carousel:hover .carouselSnapper,
+.carousel:focus-within .carouselSnapper {
+  animation-name: none;
 }
+
+.carouselNavigation {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+}
+
+.carouselNavigationList,
+.carouselNavigationItem {
+  display: inline-block;
+}
+
+.carouselNavigationButton {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #333;
+  background-clip: content-box;
+  border: 0.25rem solid transparent;
+  border-radius: 50%;
+  font-size: 0;
+  transition: transform 0.1s;
+}
+
+.carouselPrev,
+.carouselNext {
+  position: absolute;
+  top: 0;
+  margin-top: 37.5%;
+  width: 4rem;
+  height: 4rem;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  font-size: 0;
+  outline: 0;
+}
+
+.carousel::before,
+.carouselPrev {
+  left: -1rem;
+}
+
+.carousel::after,
+.carouselNext {
+  right: -1rem;
+}
+
+.carousel::before,
+.carousel::after {
+  content: '';
+  z-index: 1;
+  background-color: #333;
+  background-size: 1.5rem 1.5rem;
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: #fff;
+  font-size: 2.5rem;
+  line-height: 4rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.carousel::before {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='0,50 80,100 80,0' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+.carousel::after {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='100,50 20,100 20,0' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+

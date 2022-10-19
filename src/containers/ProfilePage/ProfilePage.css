@@ -306,8 +306,11 @@
   margin-left: auto;
 
   @media (--viewportMobileLarge) {
-    margin: 0 8vw;
+    margin: 0 auto;
     justify-content: space-between;
+  }
+  @media (--viewportMedium) {
+    margin-left: 10px;
   }
 }
 
@@ -436,6 +439,7 @@
 .service {
   overflow-wrap: break-word;
   text-align: center;
+  margin-bottom: 15px;
 }
 
 

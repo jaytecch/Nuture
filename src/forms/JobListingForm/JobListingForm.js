@@ -166,6 +166,7 @@ class JobListingFormComponent extends Component {
 
               <div className={css.belowDescrSection}>
                 <FieldSelect
+                  className={css.visualSpace}
                   name="serviceType"
                   id={formId ? `${formId}.serviceType`: "serviceType"}
                   label={serviceTypeLabel}
@@ -204,6 +205,7 @@ class JobListingFormComponent extends Component {
 
               <div className={css.belowPrefsSection}>
                 <FieldRangeSlider
+                  className={css.visualSpace}
                   id={formId ? `${formId}.experience` : "experience"}
                   name="experience"
                   label={experienceLabel}
@@ -214,6 +216,7 @@ class JobListingFormComponent extends Component {
                 />
 
                 <FieldSelect
+                  className={css.visualSpace}
                   id="educationLevel"
                   name={formId ? `${formId}.educationLevel` : "educationLevel"}
                   label={educationLevelLabel}
@@ -231,10 +234,12 @@ class JobListingFormComponent extends Component {
               </div>
 
               <SetScheduleSection
+                className={css.setSchedule}
                 onSubmit={handleScheduleSubmit}
                 onManageDisableScrolling={onManageDisableScrolling}
                 initialPlan={updatedPlan}
                 maybeDeletes={maybeDeletes}
+                serviceType={currentServiceType}
               />
 
               {hasErrors ? (

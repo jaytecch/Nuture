@@ -61,8 +61,20 @@
   width:100%;
   padding-top: 60px;
   padding-bottom: 60px;
-
 }
+
+.howItWorks {
+  background-color: #fffdf5;
+  width:100%;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.singleColumn {
+  width: 80%;
+  margin: auto
+}
+
 /* Create two equal columns that floats next to each other */
 .columnLeft {
   float: left;
@@ -142,36 +154,6 @@
 
 }
 
-.heroText {
-  color: white;
-  text-align: center;
-
-  padding: 70px 0;
-  margin-top: 160px !important;
-  font-size: 61px;
-}
-.heroContent {
-  background-size: cover !important;
-  background-repeat: no-repeat;
-  background: var(--nuBackgroundGradient), url('../../assets/father-child-floor/father-child-floor.jpeg') 0 0;
-
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-
-
-
-@media (--viewportLarge) {
-  background-position: center center;
-}
-}
-
 .smallfont {
   font-size: 16px;
   font-weight: 500 !important;
@@ -183,9 +165,22 @@
   list-style-position: outside;
 }
 
-.safetyContainer {
-  padding-top:60px;
-  padding-bottom: 60px;
+.liNoBullet {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.statsTitle {
+  margin-bottom: 0;
+}
+
+.statsList {
+  margin-top: 0;
+}
+
+.statsBold {
+  color: #e36253
 }
 
 .wavyContainer{
@@ -215,3 +210,5 @@
 .aboutUl {
   margin-left: 0; padding-left: 40px;
 }
+
+

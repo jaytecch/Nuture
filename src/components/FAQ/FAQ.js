@@ -11,9 +11,9 @@ const FAQ = props => {
   // prettier-ignore
   return (
     <div className={classes}>
-      <h2 className={css.header}>FAQ's</h2>
+      <h2 className={css.header}>FAQ</h2>
 
-      <h3>For Parents:</h3>
+      <h3 className={css.sectionHeader}>For Parents:</h3>
         <ul>
           <li className={css.faqli}>Why do I need NurtureUp?
             <p className={css.answer}>
@@ -39,7 +39,7 @@ const FAQ = props => {
 
         </ul>
 
-      <h3>For Providers</h3>
+      <h3 className={css.sectionHeader}>For Providers</h3>
 
         <ul>
           <li className={css.faqli}>Why do I need NurtureUp?
@@ -54,7 +54,7 @@ const FAQ = props => {
           </li>
         </ul>
 
-      <h3>For Parents and Providers</h3>
+      <h3 className={css.sectionHeader}>For Parents and Providers</h3>
         <ul>
           <li className={css.faqli}>What payment options do you accept?
             <p className={css.answer}>We accept all major credit cards and debit cards.</p>

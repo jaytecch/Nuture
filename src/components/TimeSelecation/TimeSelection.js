@@ -14,6 +14,7 @@ const TimeSelectionComponent = props => {
     isCreateBooking,
     values,
     isMulti,
+    isToFrom,
   } = props;
 
   return (
@@ -32,6 +33,7 @@ const TimeSelectionComponent = props => {
             handleChange={handleChange}
             values={selectedValues}
             isMulti={isMulti}
+            isToFrom={isToFrom}
           />
         )
       })}
@@ -43,6 +45,7 @@ TimeSelectionComponent.defaultProps = {
   selectedDates: [],
   filterDates: true,
   isMulti: true,
+  isToFrom: false,
 };
 
 TimeSelectionComponent.propTypes = {
@@ -51,6 +54,7 @@ TimeSelectionComponent.propTypes = {
   handleChange: func.isRequired,
   isCreate: bool,
   isMulti: bool,
+  isToFrom: bool,
 };
 
 const TimeSelection = compose(

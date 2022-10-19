@@ -1,15 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import css from "./ContactModal.css"
 import {compose} from "redux";
 import {bool, func} from "prop-types";
 import {manageDisableScrolling} from "../../ducks/UI.duck";
 import {connect} from "react-redux";
-import {Modal, Form, FieldTextInput, PrimaryButton} from '../../components';
-import {Form as FinalForm} from 'react-final-form';
+import {Modal} from '../../components';
 import {propTypes} from "../../util/types";
-import {ensureCurrentUser} from "../../util/data";
-import * as validators from "../../util/validators";
 import {FormattedMessage, injectIntl} from "../../util/reactIntl";
+import {ContactForm} from "../../forms";
+import {contactNU} from "../../util/api";
 
 export const ContactModalComponent = props => {
   const {
@@ -17,120 +16,45 @@ export const ContactModalComponent = props => {
     onManageDisableScrolling,
     onClose,
     currentUser,
-    intl,
   } = props;
 
-  const user = ensureCurrentUser(currentUser);
-  const {id, attributes} = user || {};
-  const {profile} = attributes || {};
-  const {firstName, lastName, protectedData} = profile || {}
-  const {email} = protectedData || {};
-  const fullName = id ? firstName + " " + lastName : null;
+  const [error, setError] = useState(null);
 
-  // name
-  const nameLabel = intl.formatMessage({id: 'ContactModal.nameLabel'});
-  const namePlaceholder = intl.formatMessage({id: 'ContactModal.namePlaceholder'});
-  const nameRequiredMessage = intl.formatMessage({id: 'ContactModal.nameRequired'});
-  const nameRequired = validators.required(nameRequiredMessage);
+  const handleSubmit = values => {
+    setError(null);
 
-  // email
-  const emailLabel = intl.formatMessage({id: 'ContactModal.emailLabel'});
-  const emailPlaceholder = intl.formatMessage({id: 'ContactModal.emailPlaceholder'});
-  const emailRequired = validators.required(intl.formatMessage({id: 'ContactModal.emailRequired'}));
-  const emailValid = validators.emailFormatValid(intl.formatMessage({id: 'ContactModal.emailInvalid'}));
+    contactNU({...values, emailType: 'CONTACT-US'})
+      .then(response => {
+        console.log("Email response: " + JSON.stringify(response))
+        onClose();
+      })
+      .catch(e => {
+        console.log("Contact us error: ", e);
+        setError("There was an error sending your message. Please try again");
+      })
+  }
 
-  // subject
-  const subjectLabel = intl.formatMessage({id: 'ContactModal.subjectLabel'});
-  const subjectPlaceholder = intl.formatMessage({id: 'ContactModal.subjectPlaceholder'});
-
-  // message
-  const messageLabel = intl.formatMessage({id: 'ContactModal.messageLabel'});
-  const messagePlaceholder = intl.formatMessage({id: 'ContactModal.messagePlaceholder'});
-  const messageRequired = validators.required(intl.formatMessage({id: 'ContactModal.messageRequired'}));
-
-  const onSubmit = values => {
-    const jsonMessage = {
-      ...values,
-      userId: id,
-    }
-
-    console.log("Sending Contact Message: " + JSON.stringify(jsonMessage));
+  const handleClose = () => {
+    setError(null);
     onClose();
-    // TODO handling of sending a real email.
   }
 
   return (
     <Modal
       id="contactModal"
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       onManageDisableScrolling={onManageDisableScrolling}
     >
       <h1 className={css.title}>
         <FormattedMessage id={'ContactModal.title'} />
       </h1>
 
-      <FinalForm
-        onSubmit={onSubmit}
-        render={fieldRenderProps => {
-          const {
-            handleSubmit,
-            invalid
-          } = fieldRenderProps;
+      {error ? <p className={css.error}>{error}</p> : null}
 
-          return (
-            <Form onSubmit={handleSubmit}>
-              <FieldTextInput
-                className={css.textInput}
-                id="name"
-                name="name"
-                type="text"
-                placeholder={namePlaceholder}
-                validate={nameRequired}
-                initialValue={fullName}
-              />
-
-              <FieldTextInput
-                className={css.textInput}
-                id="email"
-                name="email"
-                type="email"
-                placeholder={emailPlaceholder}
-                validate={validators.composeValidators(emailRequired, emailValid)}
-                initialValue={email}
-              />
-
-              <FieldTextInput
-                className={css.textInput}
-                id="subject"
-                name="subject"
-                type="text"
-                placeholder={subjectPlaceholder}
-              />
-
-              <FieldTextInput
-                className={css.messageArea}
-                inputRootClass={css.messageAreaRoot}
-                id="message"
-                name="message"
-                type="textarea"
-                label={messageLabel}
-                placeholder={messagePlaceholder}
-                validate={messageRequired}
-              />
-
-              <div className={css.buttonGroup}>
-                <PrimaryButton>
-                  Cancel
-                </PrimaryButton>
-
-                <PrimaryButton type="submit" disabled={invalid}>
-                  Send Message
-                </PrimaryButton>
-              </div>
-            </Form>
-          );
-        }}
+      <ContactForm
+        currentUser={currentUser}
+        handleSubmit={handleSubmit}
       />
     </Modal>
   )
@@ -154,8 +78,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const ContactModal = compose(
-  connect(null, mapDispatchToProps),
-  injectIntl
+  connect(null, mapDispatchToProps)
 )(ContactModalComponent);
 
 export default ContactModal;

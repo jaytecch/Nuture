@@ -17,6 +17,5 @@
   /* position: fixed and width are added to prevent iOS from scrolling content */
   position: fixed;
   width: 100vw;
-  height: 100vh;
   overflow: hidden;
 }

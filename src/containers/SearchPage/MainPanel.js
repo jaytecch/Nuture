@@ -10,7 +10,7 @@ import {
   SearchFilters,
   SearchFiltersMobile,
   SearchFiltersPanel, Form, FieldSelect,
-  PrimaryButton, FieldTextInput, InlineTextButton, ModalInMobile
+  PrimaryButton, FieldTextInput, InlineTextButton, ModalInMobile, NamedLink
 } from '../../components';
 import {validFilterParams} from './SearchPage.helpers';
 
@@ -72,6 +72,7 @@ class MainPanelComponent extends Component {
       sendInquiryInProgress,
       onApply,
       getApplicableProListing,
+      getAvailabilityPlan,
       currentUser
     } = this.props;
 
@@ -187,9 +188,9 @@ class MainPanelComponent extends Component {
                   <span className={css.searchBtnText}>Search</span>
                 </PrimaryButton>
 
-                <InlineTextButton className={css.clearButtonRoot}>
+                <NamedLink name="SearchPage" className={css.clearButtonRoot}>
                   Clear
-                </InlineTextButton>
+                </NamedLink>
               </div>
             </Form>
           );

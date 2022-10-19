@@ -126,6 +126,7 @@ const SetScheduleSection = props => {
     onSubmit,
     intl,
     maybeDeletes,
+    serviceType,
   } = props;
 
   const classes = classNames(rootClassName || css.root, className)
@@ -177,32 +178,65 @@ const SetScheduleSection = props => {
     onSubmit(rolledUpTimeslots, scheduleState.timeslotsToDelete);
   }
 
-  const handleTimeSelection = (times) => {
+  const handleTimeSelection = (times, action, date) => {
     // Handle is called by a specific Date row. selectedTimeSlots stores timeslots from all dates.
     // We need to grab all timeslots from the date of the new selection
-    const selectedOnDate = times.length > 0 ?
-      scheduleState.selectedTimeSlots.filter(slot => slot.date.isSame(times[0].date))
-    : scheduleState.selectedTimeSlots;
 
     let newSelected;
     const toDeleteList = scheduleState.timeslotsToDelete;
+    const actionType = action.action;
 
-    // If the selected dates is greater the values passed in then the user removed a selection
-    if (selectedOnDate.length > times.length) {
-      const removedDates = selectedOnDate.filter(slot => !times.includes(slot));
-      newSelected = [...scheduleState.selectedTimeSlots];
-      removedDates.forEach(toDelete => {
-        if(toDelete.id && !toDeleteList.find(entry => entry.id.uuid === toDelete.id.uuid)) {
-          toDeleteList.push(toDelete.id);
-        }
-        newSelected = newSelected.filter(slot => !slot.start.isSame(toDelete.start));
-      });
-    } else {
-      const addedDates = times.filter(slot => !selectedOnDate.includes(slot));
-      newSelected = [...scheduleState.selectedTimeSlots, ...addedDates]
+    if (actionType === 'select-option') {
+      let addedSlot;
+      if (serviceType !== "postpartumDoula") {
+        newSelected = [...scheduleState.selectedTimeSlots, action.option]
+      } else {
+        addedSlot = times;
+        newSelected = [
+          ...scheduleState.selectedTimeSlots.filter(slot => !slot.date.isSame(addedSlot.date)),
+          addedSlot,
+        ]
+      }
+
+    } else if (actionType === 'remove-value') {
+      const removedSlot = action.removedValue;
+      const toDelete = scheduleState.selectedTimeSlots.find(slot => slot.start.isSame(removedSlot.start))
+      if(toDelete.id && !toDeleteList.find(entry => entry.id.uuid === toDelete.id.uuid)) {
+            toDeleteList.push(toDelete.id);
+      }
+      newSelected = scheduleState.selectedTimeSlots.filter(slot => !slot.start.isSame(toDelete.start));
+    } else if (actionType === 'clear') {
+      newSelected = scheduleState.selectedTimeSlots.filter(slot => !slot.date.isSame(date))
     }
 
-    setScheduleState({...scheduleState, selectedTimeSlots: newSelected, timeslotsToDelete: toDeleteList});
+
+    // const selectedOnDate = times.length > 0 ?
+    //   scheduleState.selectedTimeSlots.filter(slot => slot.date.isSame(times[0].date))
+    // : scheduleState.selectedTimeSlots;
+    //
+    // let newSelected;
+    // const toDeleteList = scheduleState.timeslotsToDelete;
+    //
+    // // If the selected dates is greater the values passed in then the user removed a selection
+    // if (selectedOnDate.length > times.length) {
+    //   const removedDates = selectedOnDate.filter(slot => !times.includes(slot));
+    //   newSelected = [...scheduleState.selectedTimeSlots];
+    //   removedDates.forEach(toDelete => {
+    //     if(toDelete.id && !toDeleteList.find(entry => entry.id.uuid === toDelete.id.uuid)) {
+    //       toDeleteList.push(toDelete.id);
+    //     }
+    //     newSelected = newSelected.filter(slot => !slot.start.isSame(toDelete.start));
+    //   });
+    // } else {
+    //   const addedDates = times.filter(slot => !selectedOnDate.includes(slot));
+    //   newSelected = [...scheduleState.selectedTimeSlots, ...addedDates]
+    // }
+
+    setScheduleState({
+      ...scheduleState,
+      selectedTimeSlots: newSelected,
+      timeslotsToDelete: toDeleteList
+    });
   }
 
   const selectedTimeList = (
@@ -253,6 +287,8 @@ const SetScheduleSection = props => {
         handleChange={handleTimeSelection}
         isCreateBooking={false}
         values={scheduleState.selectedTimeSlots}
+        isMulti={serviceType === "postpartumDoula"}
+        isToFrom={serviceType === "postpartumDoula"}
       />
 
       <div className={css.buttonGroup}>
@@ -279,7 +315,7 @@ const SetScheduleSection = props => {
     <div className={classes}>
       <h2 className={css.h2Title}>{title}</h2>
       <PrimaryButton className={css.actionButton} onClick={handleSelectSchedule}>
-        Select Schedule
+        {scheduleState.selectedTimeSlots.length > 0 ? "Edit Schedule" : "Select Schedule"}
       </PrimaryButton>
 
       {scheduleState.selectedTimeSlots.length > 0 ? selectedTimeList : <p className={css.selectedTimes} >No Schedule selected</p>}

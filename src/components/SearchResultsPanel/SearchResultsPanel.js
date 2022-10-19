@@ -6,6 +6,8 @@ import {ListingCard, Modal, ModalInMobile, PaginationLinks} from '../../componen
 import css from './SearchResultsPanel.css';
 import {array, func, object, string, node, bool} from 'prop-types';
 import {EnquiryForm} from "../../forms";
+import {getServiceType} from "../../nurtureUpLists";
+import {FormattedMessage} from "react-intl";
 
 const SearchResultsPanel = props => {
   const {
@@ -40,6 +42,16 @@ const SearchResultsPanel = props => {
     title: null,
   });
 
+  const [applyFailedModalState, setApplyFailedModalState] = useState({
+    isOpen: false,
+    message: null,
+  });
+
+  const [noServiceModalState, setNoServiceModalState] = useState({
+    isOpen: false,
+    serviceType: null,
+  })
+
   const paginationLinks =
     pagination && pagination.totalPages > 1 ? (
       <PaginationLinks
@@ -50,17 +62,10 @@ const SearchResultsPanel = props => {
       />
     ) : null;
 
-  // <tr>
-  //   <ListingCard
-  //     className={css.listingCard}
-  //     key={l.id.uuid}
-  //     listing={l}
-  //     authorId={l.author.id}
-  //     isMobile={isMobile}
-  //   />
-  // </tr>
-
   const listingToItem = l => {
+    if(!l.attributes.publicData.isActive) {
+      return null;
+    }
 
     return (
       <tr>
@@ -89,6 +94,14 @@ const SearchResultsPanel = props => {
 
     getApplicableProListing(id, values.serviceType)
       .then(listing => {
+        if (listing == null) {
+          setNoServiceModalState({
+            isOpen: true,
+            serviceType: getServiceType(values.serviceType).label
+          });
+          return;
+        }
+
         const applicant = {
           id: id.uuid,
           listingId: listing.id.uuid,
@@ -102,6 +115,19 @@ const SearchResultsPanel = props => {
               isOpen: true,
               title: values.title,
             });
+          })
+          .catch(e => {
+            if(e.error === "exists") {
+              setApplyFailedModalState({
+                isOpen: true,
+                message: "You have already applied for this job listing"
+              });
+            } else {
+              setApplyFailedModalState({
+                isOpen: true,
+                message: "Server error, please try again"
+              });
+            }
           });
       })
   }
@@ -149,7 +175,10 @@ const SearchResultsPanel = props => {
       {paginationLinks}
       <div className={css.listingCards}>
 
-        {listings.map(l => listingToItem(l))}
+        {listings.length > 0 ?
+          listings.map(l => listingToItem(l))
+          : <h3 className={css.noResults}><FormattedMessage id="SearchPage.noResults"/></h3>
+        }
 
         {props.children}
 
@@ -164,7 +193,35 @@ const SearchResultsPanel = props => {
         onClose={() => setApplySuccessModalState({isOpen: false, title: null})}
         onManageDisableScrolling={onManageDisableScrolling}
       >
-        <h2 className={css.successMessage}>You have successfully applied for {applySuccessModalState.title}</h2>
+        <p className={css.successMessage}>
+          You have successfully applied for {applySuccessModalState.title}
+        </p>
+      </Modal>
+
+      <Modal
+        id="ApplyFailed"
+        isOpen={applyFailedModalState.isOpen}
+        onClose={() => setApplyFailedModalState({isOpen: false, message: null})}
+        onManageDisableScrolling={onManageDisableScrolling}
+      >
+        <p className={css.successMessage}>
+          {applyFailedModalState.message}
+        </p>
+      </Modal>
+
+      <Modal
+        id="ServiceMissing"
+        isOpen={noServiceModalState.isOpen}
+        onClose={() => setNoServiceModalState({isOpen: false, serviceType: null})}
+        onManageDisableScrolling={onManageDisableScrolling}
+      >
+        <div className={css.noServiceContent}>
+          <h2>Cannot Apply</h2>
+          <p className={css.noServiceSubtext}>
+            You do not have {noServiceModalState.serviceType} as one of your
+            listed services. You can create this service in account settings
+          </p>
+        </div>
       </Modal>
     </div>
   );

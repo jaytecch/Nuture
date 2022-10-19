@@ -14,6 +14,7 @@ import {
   FieldSelect,
   FieldTimeZoneSelect,
 } from '../../components';
+import * as moment from 'moment';
 
 import css from './EditListingAvailabilityPlanForm.css';
 
@@ -159,7 +160,7 @@ const DailyPlan = props => {
                           {filterStartHours(availableStartHours, values, dayOfWeek, index).map(
                             s => (
                               <option value={s} key={s}>
-                                {s}
+                                {moment(s, "HH:mm").format("h:mm A")}
                               </option>
                             )
                           )}
@@ -177,7 +178,7 @@ const DailyPlan = props => {
                           </option>
                           {filterEndHours(availableEndHours, values, dayOfWeek, index).map(s => (
                             <option value={s} key={s}>
-                              {s}
+                              {moment(s, "HH:mm").format("h:mm A")}
                             </option>
                           ))}
                         </FieldSelect>

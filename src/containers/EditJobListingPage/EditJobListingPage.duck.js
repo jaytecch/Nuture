@@ -344,6 +344,7 @@ export const createJobListing = params => (dispatch, getState, sdk) => {
         educationLevel: educationLevel,
         listingType: "job",
         applicants: [],
+        isActive: true,
       },
     }, {expand: true})
     .then(response => {

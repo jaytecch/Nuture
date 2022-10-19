@@ -18,9 +18,9 @@
   z-index: var(--zIndexTopbar);
   position: absolute;
   margin-left: 5%;
-  margin-top: 52px;
+  margin-top: 1vh;
 
-  @media(--viewportMobileMedium){
+  @media(--viewportMobileLarge){
     width:100%;
     margin: auto;
   }
@@ -41,7 +41,7 @@
   /* fill */
   background-color: var(--matterColorTransparent);
 
-  @media (--viewportMedium) {
+  @media (--viewportLarge) {
     display: none;
   }
 }
@@ -49,8 +49,10 @@
 .home {
   display: flex;
   padding: calc((var(--topbarHeight) - var(--Topbar_logoHeight)) / 2) 24px;
+}
 
-
+.logoLink {
+  margin: auto 0;
 }
 
 .logoutButton {
@@ -68,7 +70,7 @@
   display: flex;
   width: 66px;
   margin: 0;
-  border-width: 0px;
+  border-width: 0;
   background-color: transparent;
 
   /* Hovers */
@@ -138,15 +140,14 @@
 .desktop {
   display: none;
 
-  @media (--viewportMedium) {
-    display: block;
+  @media (--viewportLarge) {
     height: 72px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
     background-color: rgba(255, 255, 255, 0);
-    width: 80vw;
+    width: 90vw;
   }
 }
 
@@ -156,6 +157,22 @@
 }
 .rootSearchIcon {
   stroke: var(--matterColor);
+}
+
+.menuArrowRoot {
+  margin-left: 5px;
+  width: 15px;
+}
+
+.menuArrow {
+  fill: white;
+}
+
+.menuAvatarRoot {
+  height: 35px;
+  margin: auto;
+  border-radius: 20px;
+  box-shadow: 4px 4px 6px 0 rgba(0, 0, 0, 0.16);
 }
 
 .searchContainer {
@@ -180,7 +197,7 @@
   @apply --marketplaceModalInMobileBaseStyles;
   padding: 0;
 
-  @media (--viewportMedium) {
+  @media (--viewportLarge) {
     flex-basis: 576px;
   }
 }
@@ -255,7 +272,7 @@
   /* Place on top of everything */
   z-index: var(--zIndexGenericError);
 
-  @media (--viewportMedium) {
+  @media (--viewportLarge) {
     top: calc(var(--topbarHeightDesktop) + 15px);
   }
 }
@@ -278,7 +295,7 @@
   margin: 0;
   color: var(--matterColorLight);
 
-  @media (--viewportMedium) {
+  @media (--viewportLarge) {
     margin: 0;
   }
 }

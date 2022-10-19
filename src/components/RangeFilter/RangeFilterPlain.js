@@ -45,7 +45,8 @@ class RangeFilterPlainComponent extends Component {
       step,
       intl,
       valueConfig,
-      label
+      label,
+      isCurrency,
     } = this.props;
     const classes = classNames(rootClassName || css.root, className);
     const { minValue, maxValue } = initialValues || {};
@@ -54,18 +55,12 @@ class RangeFilterPlainComponent extends Component {
     const hasInitialValues = initialValues && hasValue(minValue) && hasValue(maxValue);
 
     const labelClass = hasInitialValues ? css.filterLabelSelected : css.filterLabel;
-    const labelText = hasInitialValues
-      ? intl.formatMessage(
-          { id: 'RangeFilter.labelSelectedPlain' },
-          { minValue, maxValue }
-        )
-      : label;
 
     return (
       <div className={classes}>
         <div className={labelClass}>
           <button type="button" className={css.labelButton} onClick={this.toggleIsOpen}>
-            <span className={labelClass}>{labelText}</span>
+            <span className={labelClass}>{label}</span>
           </button>
           <button type="button" className={css.clearButton} onClick={this.handleClear}>
             <FormattedMessage id={'RangeFilter.clear'} />
@@ -85,6 +80,7 @@ class RangeFilterPlainComponent extends Component {
             step={step}
             liveEdit
             isOpen={this.state.isOpen}
+            isCurrency={isCurrency}
           />
         </div>
       </div>

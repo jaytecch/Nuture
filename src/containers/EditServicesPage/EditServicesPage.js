@@ -12,7 +12,7 @@ import {
   LayoutWrapperTopbar,
   LayoutWrapperFooter,
   Footer,
-  PrimaryButton, Hero,
+  PrimaryButton, Hero, NamedLink,
 } from '../../components';
 import {TopbarContainer} from "../../containers";
 import css from "./EditServicesPage.css";
@@ -83,12 +83,13 @@ export const EditServicesPageComponent = props => {
   const {protectedData, publicData, privateData} = profile || {};
   const {zip} = protectedData || {};
   const {preferences, experience, educationLevel, travelRadius} = publicData || {};
-  const {proSubscriptionPaid}= privateData || {};
+  const {proSubscriptionPaid, backgroundPassed, paymentMethodAdded} = privateData || {};
+  const canCreateService = proSubscriptionPaid === 'true' && backgroundPassed === 'true' && paymentMethodAdded === 'true';
 
   const isNewListing = Object.keys(selectedServiceListing).length === 0;
   const listingId = isNewListing ? new UUID(uuid()) : selectedServiceListing.id;
   const {attributes} = selectedServiceListing || {}
-  const {price, publicData:listingPublicData, availabilityPlan} = attributes || {};
+  const {price, publicData: listingPublicData, availabilityPlan} = attributes || {};
   const {expirationDate, serviceType} = listingPublicData || {}
 
   const timezone = availabilityPlan ? availabilityPlan.timezone : zipToTZ.lookup(zip);
@@ -128,7 +129,7 @@ export const EditServicesPageComponent = props => {
         educationLevel: educationLevel, travelRadius: travelRadius, listingId: listingId,
         expirationDate: exprDate
       }).then(res => {
-        onReloadListings().then(() =>{
+        onReloadListings().then(() => {
           setShowForm(false);
           setSelectedServiceListing({});
           clearForm();
@@ -147,30 +148,49 @@ export const EditServicesPageComponent = props => {
     setShowForm(true);
   };
 
-  const listSection = (
+  const listSection = services => (
     <div className={css.listSection}>
       <div className={css.list}>
         {services.map(service => (
           <div id={service.id.uuid} key={service.id.uuid} className={css.service}
                onClick={() => onServiceClick(service)}>
-            <div className={css.icon}>{getServiceType(service.attributes.publicData.serviceType).icon()} </div>
+            <div
+              className={css.icon}>{getServiceType(service.attributes.publicData.serviceType).icon()} </div>
             <div className={css.serviceName}> {service.attributes.title} </div>
             <div>
-              {service.attributes.availabilityPlan.entries.map((entry, i) => (
-                <div key={i} className={css.serviceTimes}>
-                  {entry.dayOfWeek}: {entry.startTime}-{entry.endTime}
-                </div>
-              ))}
+              {service.attributes.availabilityPlan.entries.map((entry, i) => {
+                const day = entry.dayOfWeek.charAt(0).toUpperCase() + entry.dayOfWeek.slice(1);
+                const start = moment(entry.startTime, "HH").format('h A');
+                const end = moment(entry.endTime, "HH").format('h A');
+
+                return (
+                  <div key={i} className={css.serviceTimes}>
+                    {day}: {start}-{end}
+                  </div>
+                )
+              })}
             </div>
-            <div className={css.price}> {service.attributes.price ? `${formatMoney(intl, service.attributes.price)}` : ''} </div>
+            <div
+              className={css.price}> {service.attributes.price ? `${formatMoney(intl, service.attributes.price)}` : ''} </div>
           </div>
         ))}
       </div>
-      {!proSubscriptionPaid ?
-      <div className={css.errorText}>Your Pro Subscription is not currently active.</div> : null
+      {!canCreateService ?
+        <p className={css.errorText}>
+          Your Pro Subscription is not currently active. Please make sure that you have added a&nbsp;
+          <NamedLink name="PaymentMethodsPage" className={css.links}>
+            payment method
+          </NamedLink>, added&nbsp;<NamedLink name="StripePayoutPage" className={css.links}>
+          payout details
+        </NamedLink>, and submitted your&nbsp;
+          <NamedLink name="BackgroundDisclosuresPage" className={css.links}>
+            background check
+          </NamedLink>. If you have
+          done all of this your background check may still be pending.
+        </p> : null
       }
 
-      <PrimaryButton disabled={!proSubscriptionPaid} onClick={() => setShowForm(true)}>
+      <PrimaryButton disabled={!canCreateService} onClick={() => setShowForm(true)}>
         <FormattedMessage id="EditServicesPage.addService"/>
       </PrimaryButton>
     </div>
@@ -203,7 +223,7 @@ export const EditServicesPageComponent = props => {
     <Page title={title} scrollingDisabled={scrollingDisabled}>
       <LayoutSideNavigation>
         <LayoutWrapperTopbar>
-          <TopbarContainer currentPage="EditServicesPage" />
+          <TopbarContainer currentPage="EditServicesPage"/>
           <Hero url={heroUrl} header={heroHeader}/>
         </LayoutWrapperTopbar>
 
@@ -212,7 +232,7 @@ export const EditServicesPageComponent = props => {
         <LayoutWrapperMain>
           <div className={css.content}>
             <h1 className={css.pageTitle}>{title}</h1>
-            {showForm ? formSection : listSection}
+            {showForm ? formSection : listSection(services)}
           </div>
         </LayoutWrapperMain>
 
@@ -240,7 +260,7 @@ const mapStateToProps = state => {
   const {
     currentUser,
   } = state.user;
-  console.log('In EditServices , currentUser = ' + JSON.stringify(currentUser));
+  //console.log('In EditServices , currentUser = ' + JSON.stringify(currentUser));
 
   const {
     updatedPlan,

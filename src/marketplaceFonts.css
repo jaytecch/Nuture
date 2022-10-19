@@ -31,14 +31,14 @@
       font-size: 20px;
       line-height: 24px;
     }
-  }
+  };
 
   --marketplaceSmallFontStyles: {
     font-family: var(--fontFamily);
     font-weight: var(--fontWeightMedium);
     font-size: 15px;
     line-height: 24px;
-  }
+  };
 
   /* ================ Body font ================ */
 
@@ -59,7 +59,7 @@
       margin-top: 16px;
       margin-bottom: 16px;
     }
-  }
+  };
 
   /* ================ Hero title ================ */
 
@@ -86,17 +86,16 @@
       line-height: 96px;
       letter-spacing: -2px;
     }
-  }
+  };
 
   /* ================ Modal title ================ */
 
-  --marketplaceModalTitleStyles {
+  --marketplaceModalTitleStyles: {
     font-weight: var(--fontWeightSemiBold);
     font-size: 30px;
     line-height: 36px;
     letter-spacing: -0.5px;
     margin: 0;
-    font-weight: var(--fontWeightBold);
 
     @media (--viewportMedium) {
       font-weight: var(--fontWeightSemiBold);
@@ -104,7 +103,7 @@
       letter-spacing: -0.9px;
       margin: 0;
     }
-  }
+  };
 
   /* ================ H1, H2, H3, H4, H5 & H6 ================ */
 
@@ -127,7 +126,7 @@
       margin-top: 24px;
       margin-bottom: 24px;
     }
-  }
+  };
 
   --marketplaceH2FontStyles: {
     font-family: var(--fontFamily);
@@ -145,7 +144,7 @@
       margin-top: 21px;
       margin-bottom: 19px;
     }
-  }
+  };
 
   --marketplaceH3FontStyles: {
     font-family: var(--fontFamily);
@@ -162,7 +161,7 @@
       margin-top: 16px;
       margin-bottom: 16px;
     }
-  }
+  };
 
   --marketplaceH4FontStyles: {
     font-family: var(--fontFamily);
@@ -180,7 +179,7 @@
       margin-top: 17px;
       margin-bottom: 15px;
     }
-  }
+  };
 
   --marketplaceH5FontStyles: {
     font-family: var(--fontFamily);
@@ -198,7 +197,7 @@
       margin-top: 10px;
       margin-bottom: 14px;
     }
-  }
+  };
 
   --marketplaceH6FontStyles: {
     font-family: var(--fontFamily);
@@ -217,7 +216,7 @@
       margin-top: 10px;
       margin-bottom: 6px;
     }
-  }
+  };
 
   /* ================ Other fonts ================ */
 
@@ -237,16 +236,16 @@
       margin-top: 10.5px;
       margin-bottom: 13.5px;
     }
-  }
+  };
 
-  --marketplaceMessageFontStyles {
+  --marketplaceMessageFontStyles: {
     font-family: var(--fontFamily);
     font-weight: var(--fontWeightRegular);
     font-size: 16px;
     line-height: 24px;
-  }
+  };
 
-  --marketplaceMessageDateFontStyles {
+  --marketplaceMessageDateFontStyles: {
     font-family: var(--fontFamily);
     font-weight: var(--fontWeightRegular);
     font-size: 13px;
@@ -258,9 +257,9 @@
       font-size: 13px;
       line-height: 24px;
     }
-  }
+  };
 
-  --marketplaceTxTransitionFontStyles {
+  --marketplaceTxTransitionFontStyles: {
     font-family: var(--fontFamily);
     font-weight: var(--fontWeightMedium);
     font-size: 16px;
@@ -270,9 +269,9 @@
       font-size: 20px;
       line-height: 32px;
     }
-  }
+  };
 
-  --marketplaceSearchFilterLabelFontStyles {
+  --marketplaceSearchFilterLabelFontStyles: {
     font-family: var(--fontFamily);
     font-weight: var(--fontWeightSemiBold);
     font-size: 13px;
@@ -283,25 +282,25 @@
       font-size: 16px;
       line-height: 20px;
     }
-  }
+  };
 
-  --marketplaceSearchFilterSublabelFontStyles {
+  --marketplaceSearchFilterSublabelFontStyles: {
     font-family: var(--fontFamily);
     font-weight: var(--fontWeightMedium);
     font-size: 18px;
     line-height: 18px;
-  }
+  };
 
-  --marketplaceListingAttributeFontStyles {
+  --marketplaceListingAttributeFontStyles: {
     font-family: var(--fontFamily);
     font-weight: var(--fontWeightMedium);
     font-size: 18px;
     line-height: 32px;
-  }
+  };
 
   /* ================ Tabbed navigation font styles ================ */
 
-  --marketplaceTabNavFontStyles {
+  --marketplaceTabNavFontStyles: {
     font-weight: var(--fontWeightMedium);
     font-size: 16px;
     line-height: 24px;
@@ -312,9 +311,9 @@
       font-size: 24px;
       line-height: 32px;
     }
-  }
+  };
 
-  --marketplaceTabNavHorizontalFontStyles {
+  --marketplaceTabNavHorizontalFontStyles: {
     font-weight: var(--fontWeightMedium);
     font-size: 16px;
     line-height: 24px;

@@ -51,6 +51,8 @@ export { default as IconNewbornCare } from './Icons/IconNewbornCare/IconNewbornC
 export { default as IconNursery } from './Icons/IconNursery/IconNursery';
 export { default as IconPhotographer } from './Icons/IconPhotographer/IconPhotographer';
 export { default as IconPostDoula } from './Icons/IconPostDoula/IconPostDoula';
+export { default as IconDownTriangle } from './Icons/IconDownTriangle/IconDownTriangle';
+export { default as IconUser } from './Icons/IconUser/IconUser';
 
 
 // Other independent components

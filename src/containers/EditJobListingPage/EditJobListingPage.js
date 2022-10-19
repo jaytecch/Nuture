@@ -33,9 +33,11 @@ import {
 import moment from "moment";
 import {getServiceType} from "../../nurtureUpLists";
 import heroUrl from "../../assets/hero-img-account-settings/hero-img-account-settings.png";
+import {ensureCurrentUser} from "../../util/data";
 
 export const EditJobListingPageComponent = props => {
   const {
+    currentUser,
     onManageDisableScrolling,
     scrollingDisabled,
     intl,
@@ -56,6 +58,13 @@ export const EditJobListingPageComponent = props => {
 
   const [showForm, setShowForm] = useState(false);
   const [selectedJobListing, setSelectedJobListing] = useState({});
+
+  const user = ensureCurrentUser(currentUser);
+  const {attributes: userAttr} = user
+  const {profile} = userAttr || {};
+  const {privateData: userPrivData} = profile || {};
+  const {paymentMethodAdded} = userPrivData || {};
+  const canCreateListings = paymentMethodAdded === 'true'
 
   const pageTitle = intl.formatMessage({id: 'EditJobListingPage.title'});
   const isNewListing = Object.keys(selectedJobListing).length === 0;
@@ -149,7 +158,7 @@ export const EditJobListingPageComponent = props => {
   );
 
   const createButtonTitle = intl.formatMessage({id: 'EditJobListingPage.createNewButton'});
-  const listSection = (
+  const listSection = jobListings => (
     <div className={css.listSection}>
       <div className={css.list}>
         {jobListings.length > 0 ? jobListings.map(listing => {
@@ -169,10 +178,17 @@ export const EditJobListingPageComponent = props => {
 
             </div>
           );
-        }) : (<h2>You have no job listings.</h2>)}
+        }) : (<p className={css.noListingMessage}>You have no job listings.</p>)}
       </div>
 
-      <PrimaryButton onClick={handleNewJobClick}>
+      {!canCreateListings ?
+        <div className={css.errorText}>
+          You cannot create a 'Job Listing' until you have added a payment method.
+        </div>
+        : null
+      }
+
+      <PrimaryButton onClick={handleNewJobClick} disabled={!canCreateListings}>
         {createButtonTitle}
       </PrimaryButton>
     </div>
@@ -190,8 +206,9 @@ export const EditJobListingPageComponent = props => {
 
         <LayoutWrapperMain>
           <div className={css.content}>
-            <h1 className={css.pageTitle}>{pageTitle}</h1>
-            {showForm ? jobListingForm : listSection}
+            {jobListings.length > 0 ?
+            <h1 className={css.pageTitle}>{pageTitle}</h1> : null}
+            {showForm ? jobListingForm : listSection(jobListings)}
           </div>
         </LayoutWrapperMain>
 

@@ -46,6 +46,14 @@
 
 }
 
+.links {
+  text-decoration: underline;
+
+  &:hover {
+    color: #00a699;
+  }
+}
+
 .serviceTimes {
   padding-right: 20px;
   font-size: 14px;
